@@ -1,0 +1,24 @@
+<div class="appbar">
+  <nav>
+    <a routerLink="/jobs" routerLinkActive="active-link" [replaceUrl]="true" class="nav-link">
+      Jobs
+    </a>
+    <a routerLink="/dataMarts" routerLinkActive="active-link" [replaceUrl]="true" class="nav-link">
+      DataMarts
+    </a>
+    <a routerLink="/users" routerLinkActive="active-link" [replaceUrl]="true" class="nav-link">
+      Users
+    </a>
+  </nav>
+  <span class="active-user">
+    <span class="user-name">
+      {{ (activeUser$ | async)?.firstname }} {{ (activeUser$ | async)?.lastname }}
+    </span>
+    <button
+      pButton
+      icon="pi pi-sign-out"
+      class="p-button-rounded p-button-text"
+      (click)="logout()"
+    ></button>
+  </span>
+</div>

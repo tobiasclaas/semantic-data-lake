@@ -1,0 +1,70 @@
+.ingestion-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(#000000, 0.8);
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  .poll-switch {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+
+    p-inputswitch {
+      margin: 0 12px;
+    }
+  }
+
+  .last-updated {
+    margin-left: 12px;
+  }
+}
+
+.row:hover {
+  td {
+    background-color: #f0f0f0;
+  }
+}
+
+.app-table {
+  grid-template-columns:
+    minmax(200px, 1.67fr)
+    minmax(150px, 1.3fr)
+    minmax(200px, 1.3fr)
+    minmax(200px, 1.3fr)
+    max-content
+    max-content;
+
+  .state-header {
+    justify-content: center;
+  }
+
+  .state-cell {
+    justify-content: center;
+
+    &.succeeded {
+      color: #2fbb69;
+    }
+
+    &.failed {
+      color: #e42f4d;
+    }
+
+    &.running {
+      color: #ffab4b;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+.app-table {
+  grid-template-columns:
+    minmax(150px, 1.3fr)
+    minmax(200px, 1.3fr)
+    minmax(200px, 1.3fr)
+    max-content
+}
+
+.user-actions {
+  padding: 5px;
+
+  button:not(:last-child) {
+    margin-right: 12px;
+  }
+}
+
+.edit-view {
+  position: fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  z-index: 100;
+  background-color: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    padding: 10px;
+    width: 50%;
+  
+    form {
+      .p-inputgroup {
+        margin-top: 30px;
+      }
+    }
+
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      .p-button-secondary {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: felx-start;
+  padding: 10px;
+}
+
+.row:hover {
+  td {
+    background-color: #f0f0f0;
+  }
+}

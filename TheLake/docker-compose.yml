@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  backend:
+    image: backend
+    #command: python -u server.py
+    container_name: backend
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    networks:
+      - frontend
+      - backend
+    environment: 
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - MONGO_DB_NAME=testDB
+    ports:
+      - "5000:5000"
+
+  mongodb:
+      image: mongo:4.2-bionic
+      container_name: mongodb
+      restart: unless-stopped
+      command: mongod
+      networks:
+        - backend
+      ports:
+        - "27017:27017"
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    networks: 
+      - backend
+    ports: 
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

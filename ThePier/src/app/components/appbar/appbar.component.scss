@@ -1,0 +1,32 @@
+.appbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  nav {
+    padding: 10px;
+
+    .nav-link {
+      text-decoration: none;
+      font-size: 1.1em;
+      color: black;
+      padding: 0.4em;
+      
+      &.active-link {
+        font-size: 1.2em;
+        font-weight: bold;
+        padding: 0.3em;
+      }
+    }
+  }
+
+  .active-user {
+    display: flex;
+    align-items: center;
+
+    .user-name {
+      margin-right: 10px;
+      color: var(--text-color-secondary);
+    }
+  }
+}

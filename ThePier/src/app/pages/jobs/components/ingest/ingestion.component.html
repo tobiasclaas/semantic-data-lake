@@ -1,0 +1,199 @@
+<div class="panel">
+  <div class="title">Ingest new datasource</div>
+  <!--=============================================================================================
+  = common form
+  ==============================================================================================-->
+  <p-divider align="center">
+    <h4>Common information</h4>
+  </p-divider>
+  <form [formGroup]="commonForm" class="common-form p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-6">
+      <label for="sourceStorages">Source storage</label>
+      <p-dropdown 
+        inputId="sourceStorages"
+        formControlName="sourceStorage"
+        [options]="sourceStorages" 
+        optionLabel="label"
+        optionValue="value"
+      ></p-dropdown>
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="targetStorages">Target storage</label>
+      <p-dropdown 
+        inputId="targetStorages"
+        [options]="targetStorages" 
+        formControlName="targetStorage"
+      ></p-dropdown>
+    </div>
+
+    <div class="p-field p-col-6">
+      <label for="humanReadableName">Human Readable Name</label>
+      <input pInputText id="humanReadableName" formControlName="humanReadableName" />
+    </div>
+
+    <div class="p-field p-col-6">
+        <label for="comment">Comment</label>
+        <textarea pInputTextarea id="comment" [rows]="5" [cols]="50"></textarea>
+    </div>
+  </form>
+
+  <!--=============================================================================================
+  = mongodb form
+  ==============================================================================================-->
+  <ng-container *ngIf="commonForm.get('sourceStorage').value === 'MongoDB'">
+    <p-divider align="center">
+      <h4>MongoDB information</h4>
+    </p-divider>
+    <form [formGroup]="mongodbForm" class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-6">
+        <label for="m-host">Host</label>
+        <input pInputText id="m-host" formControlName="host" />
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="m-port">Port</label>
+        <p-inputNumber
+          id="m-port"
+          formControlName="port"
+          mode="decimal"
+          prefix=":"
+          [useGrouping]="false"
+        ></p-inputNumber>
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="m-databse">Database</label>
+        <input pInputText id="m-databse" formControlName="database" />
+      </div>
+        
+      <div class="p-field p-col-6">
+        <label for="m-collection">Collection</label>
+        <input pInputText id="m-collection" formControlName="collection" />
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="m-user">User</label>
+        <input pInputText id="m-user" formControlName="user" />
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="m-password">Password</label>
+        <input pInputText type="password" id="m-password" formControlName="password" />
+      </div>
+    </form>
+  </ng-container>
+
+  <!--=============================================================================================
+  = postgres form
+  ==============================================================================================-->
+  <ng-container *ngIf="commonForm.get('sourceStorage').value === 'PostgreSQL'">
+    <p-divider align="center">
+      <h4>PostgreSQL information</h4>
+    </p-divider>
+    <form [formGroup]="postgresForm"  class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-6">
+        <label for="p-host">Host</label>
+        <input pInputText id="p-host" formControlName="host" />
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="p-port">Port</label>
+        <p-inputNumber
+          id="p-port"
+          formControlName="port"
+          mode="decimal"
+          prefix=":"
+          [useGrouping]="false"
+        ></p-inputNumber>
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="p-database">Database</label>
+        <input pInputText id="p-database" formControlName="database" />
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="p-table">Table</label>
+        <input pInputText id="p-table" formControlName="table" />
+      </div>
+
+      <div class="p-field p-col-6">
+        <label for="p-user">User</label>
+        <input pInputText id="p-user" formControlName="user" />
+      </div>
+  
+      <div class="p-field p-col-6">
+        <label for="p-password">Password</label>
+        <input pInputText type="password" id="p-password" formControlName="password" />
+      </div>
+    </form>
+  </ng-container>
+
+  
+  <!--=============================================================================================
+  = file form
+  ==============================================================================================-->
+  <ng-container *ngIf="commonForm.get('sourceStorage').value === 'File'">
+    <p-divider align="center">
+      <h4>File information</h4>
+    </p-divider>
+    <form [formGroup]="fileForm" id="file-form" class="specific-form p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 file-selection">
+        <input #fileSelect id="f-file" 
+          type="file"
+          accept="application/json, application/xml, .csv"
+          style="display: none"
+          (input)="handleUpload($event)"
+        />
+        <button pButton label="Select file" (click)="fileSelect.click()"></button>
+        <div style="flex: 1">{{selectedFile?.name}}</div>
+      </div>
+  
+      <ng-container *ngIf="fileType === 'text/csv'">
+        <p-divider align="center" class="p-col-12">
+          <h5>CSV options</h5>
+        </p-divider>
+
+        <div class="p-field p-col-3">
+          <label for="f-delimter">Delimiter</label>
+          <input pInputText id="f-delimiter" formControlName="delimiter" />
+        </div>
+    
+        <div class="p-field p-col-3">
+          <label for="f-hasHeader">Has Header</label>
+          <div class="p-field-checkbox">
+            <p-checkbox
+              name="hasHeader"
+              formControlName="hasHeader"
+              [binary]="true"
+              inputId="f-hasHeader"
+            ></p-checkbox>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="fileType === 'application/xml'">
+        <p-divider align="center" class="p-col-12">
+          <h5>XML options</h5>
+        </p-divider>
+        
+        <div class="p-field p-col-3">
+          <label for="f-rowTag">Row tag</label>
+          <input pInputText id="f-rowTag" formControlName="rowTag" />
+        </div>
+      </ng-container>
+    </form>
+
+  </ng-container>
+
+  <!--=============================================================================================
+  = actions
+  ==============================================================================================-->
+  <div class="actions">
+      <button pButton label="close" class="p-button-secondary" (click)="closeIngestion.emit()">
+      </button>
+      <button pButton label="ingest" (click)="ingest()"></button>
+  </div>
+</div>
+

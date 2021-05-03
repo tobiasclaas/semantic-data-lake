@@ -1,0 +1,68 @@
+.layout {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 8px;
+
+  .main-line {
+    display: flex;
+    align-items: center;
+  }
+
+  .chevron {
+    width: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    cursor: pointer;
+  }
+
+  .indent-line {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+
+    div {
+      width: 1px;
+      background-color: black;
+    }
+  }
+}
+
+.name {
+  color: #1d6849;
+  font-weight: bold;
+}
+
+.type {
+  margin-left: 4px;
+}
+
+.metadata {
+  padding: 8px;
+
+  .metadata-field {
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    row-gap: 8px;
+
+    .value-input {
+      margin-left: 12px;
+    }
+
+    .metadata-field-remove {
+      margin-left: 12px;
+      cursor: pointer;
+    }
+  }
+
+  .metadata-add {
+    display: flex;
+    margin-top: 12px;
+
+    button {
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+  }
+}
