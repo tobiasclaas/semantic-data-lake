@@ -4,6 +4,7 @@ build-job:
   script:
     - sudo -i
     - cd ./TheLake/
+    - chmod +x ./build-tag-push-docker.sh
     - ./build-tag-push-docker.sh
     - cd ..
     - cd ./ThePier/
