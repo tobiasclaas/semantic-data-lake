@@ -2,6 +2,7 @@ build-job:
   tags:
     -  build 
   script:
+    - chmod -R a+rxw /home/gitlab-runner/build
     - cd ./TheLake/
     - ./build-tag-push-docker.sh
     - cd ..
