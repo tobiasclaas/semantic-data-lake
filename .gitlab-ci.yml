@@ -3,7 +3,6 @@ build-job:
     -  build 
   script:
     - sudo -i
-    - chmod -R a+rxw /home/gitlab-runner/builds
     - cd ./TheLake/
     - ./build-tag-push-docker.sh
     - cd ..
