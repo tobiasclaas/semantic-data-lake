@@ -2,6 +2,7 @@ build-job:
   tags:
     -  build 
   script:
+    - docker-login
     - cd ./TheLake/
     - ./build-tag-push-docker.sh
     - cd ..
