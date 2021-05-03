@@ -2,12 +2,12 @@ build-job:
   tags:
     -  build 
   script:
-    - sudo -i
     - cd ./TheLake/
     - chmod +x ./build-tag-push-docker.sh
     - ./build-tag-push-docker.sh
     - cd ..
     - cd ./ThePier/
+    - chmod +x ./build-tag-push-docker.sh
     - ./build-tag-push-docker.sh
     - cd ..
     - cd ./docker-setup/full
