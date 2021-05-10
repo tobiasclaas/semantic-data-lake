@@ -214,22 +214,25 @@ services:
   pier:
     image: semanticdatalake21/pier:latest
     container_name: pier
-    depends_on:
-      - backend
     ports:
       - 80:80
-
-  #------------------------------------------------------------------------------------------------
-  # misc
-  #------------------------------------------------------------------------------------------------
-  #zeppelin:
-  #  image: apache/zeppelin:0.9.0
-  #  container_name: zeppelin
-  #  networks:
-  #    - backend
-  #  ports:
-  #    - 8070:8080
-
+    networks:
+        - frontend
+    links: 
+        - "zeppelin"
+#------------------------------------------------------------------------------------------------
+# misc
+#------------------------------------------------------------------------------------------------
+  zeppelin:
+    image: apache/zeppelin:0.9.0
+    container_name: zeppelin
+    ports:
+      - 8080:8080
+    networks:
+      - frontend
+networks:
+  frontend:
+    external: false
 networks:
   backend:
     external: false
