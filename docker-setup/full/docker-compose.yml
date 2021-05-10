@@ -233,6 +233,5 @@ services:
 networks:
   frontend:
     external: false
-networks:
   backend:
     external: false
