@@ -33,7 +33,7 @@ build-job:
     - docker-compose logs nodemanager1    
     - docker-compose logs pier 
     - docker-compose down
-    - rm -rf /home/gitlab-runner/builds/*
+    - sudo rm -rf /home/gitlab-runner/builds/*
 
 #test-job1:
 #  tags:
