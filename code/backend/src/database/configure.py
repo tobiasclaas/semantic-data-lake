@@ -4,12 +4,16 @@ from werkzeug.exceptions import NotFound
 
 from settings import Settings
 from database import FlaskDocument
-from database.data_access import user_data_access
+from database.data_access import user_data_access, workspace_data_access
 from database.models import User
 
 
 def initialize():
     settings = Settings()
+
+    # ===== create default workspace if not exists ==============================================================
+    if len(workspace_data_access.get_all()) == 0:
+        workspace_data_access.create("Default Workspace")
 
     # ===== create user if not exists ==============================================================
     try:

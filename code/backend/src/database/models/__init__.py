@@ -3,5 +3,6 @@ from .storage import (
     JsonStorage, XmlStorage
 )
 from .user import User
+from .workspace import Workspace
 from .metadata import Metadata
 from .datamart import DatamartStatus, Datamart, DatamartState
