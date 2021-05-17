@@ -1,0 +1,26 @@
+<div id="home-container">
+    <div id="sidebar">
+        <div class="option" routerLinkActive="active" routerLink="/datamarts" >
+            <div class="option-icon">
+                <fa-icon class="fa fa-hdd"></fa-icon>
+            </div>
+            <span class="option-label">Datamarts</span>
+        </div>
+        <div class="option" routerLinkActive="active" routerLink="/users">
+            <div class="option-icon">
+                <fa-icon class="fa fa-user"></fa-icon>
+            </div>
+            <span class="option-label">Users</span>
+        </div>
+        <div style="flex: 1"></div>
+        <div class="option logout" (click)="logout()">
+            <div class="option-icon">
+                <fa-icon class="fa fa-sign-out-alt"></fa-icon>
+            </div>
+            <span class="option-label">Logout</span>
+        </div>
+    </div>
+    <div id="home-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

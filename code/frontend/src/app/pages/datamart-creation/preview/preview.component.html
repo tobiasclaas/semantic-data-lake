@@ -1,0 +1,31 @@
+<div id="preview-settings">
+    <app-input
+        label="Preview Rows:"
+        [(ngModel)]="previewRowCount"
+        [disabled]="isPollingPreview"
+        [disabled]="isGeneratingPreview || disabled"
+        ></app-input>
+        <app-button
+        text="Preview"
+        [disabled]="isGeneratingPreview || disabled"
+        (click)="generatePreview()"
+        style="margin-left: 10px;"
+    ></app-button>
+</div>
+
+<div id="preview-wrapper" *ngIf="previewSchema != null">
+    <table class="app-table" [style]="{'grid-template-columns': 'repeat(' + previewSchema.fields.length + ', auto)'}">
+        <thead>
+            <tr>
+                <th *ngFor="let col of previewSchema.fields">{{ col.name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of previewRows">
+                <td *ngFor="let cell of row">{{ cell }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="previewError != null">{{ previewError }}</div>

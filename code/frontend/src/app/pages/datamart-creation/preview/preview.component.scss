@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+#preview-settings{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+#preview-wrapper {
+    margin-top: 20px;
+    padding: 10px;
+    overflow: auto;
+}

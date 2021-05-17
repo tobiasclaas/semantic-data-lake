@@ -1,0 +1,206 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nyt/global//global/global}
+  \entry{dice1945measures}{article}{}
+    \name{author}{1}{}{%
+      {{hash=DLR}{%
+         family={Dice},
+         familyi={D\bibinitperiod},
+         given={Lee\bibnamedelima R.},
+         giveni={L\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Ecological Society of America}%
+    }
+    \strng{namehash}{DLR1}
+    \strng{fullhash}{DLR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \verb{doi}
+    \verb 10.2307/1932409
+    \endverb
+    \field{issn}{1939-9170}
+    \field{number}{3}
+    \field{pages}{297\bibrangedash 302}
+    \field{title}{Measures of the Amount of Ecologic Association Between
+  Species}
+    \verb{url}
+    \verb http://dx.doi.org/10.2307/1932409
+    \endverb
+    \field{volume}{26}
+    \field{journaltitle}{Ecology}
+    \field{year}{1945}
+  \endentry
+
+  \entry{frangi1998multiscale}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=FAF}{%
+         family={Frangi},
+         familyi={F\bibinitperiod},
+         given={Alejandro\bibnamedelima F},
+         giveni={A\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+      {{hash=NWJ}{%
+         family={Niessen},
+         familyi={N\bibinitperiod},
+         given={Wiro\bibnamedelima J},
+         giveni={W\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=VKL}{%
+         family={Vincken},
+         familyi={V\bibinitperiod},
+         given={Koen\bibnamedelima L},
+         giveni={K\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=VMA}{%
+         family={Viergever},
+         familyi={V\bibinitperiod},
+         given={Max\bibnamedelima A},
+         giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {Springer}%
+    }
+    \strng{namehash}{FAF+1}
+    \strng{fullhash}{FAFNWJVKLVMA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{booktitle}{International Conference on Medical Image Computing and
+  Computer-Assisted Intervention}
+    \field{pages}{130\bibrangedash 137}
+    \field{title}{Multiscale vessel enhancement filtering}
+    \field{year}{1998}
+  \endentry
+
+  \entry{test}{article}{}
+    \name{author}{1}{}{%
+      {{hash=QC}{%
+         family={Quix},
+         familyi={Q\bibinitperiod},
+         given={Christoph},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {XYZ}%
+    }
+    \strng{namehash}{QC1}
+    \strng{fullhash}{QC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{Q}
+    \field{sortinithash}{Q}
+    \verb{doi}
+    \verb 10.2307/1932409
+    \endverb
+    \field{issn}{1939-9170}
+    \field{number}{3}
+    \field{pages}{297\bibrangedash 302}
+    \field{title}{Data Lake}
+    \verb{url}
+    \verb http://dx.doi.org/10.2307/1932409
+    \endverb
+    \field{volume}{26}
+    \field{journaltitle}{Ecology}
+    \field{year}{1945}
+  \endentry
+
+  \entry{Wibowo2017}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=WM}{%
+         family={Wibowo},
+         familyi={W\bibinitperiod},
+         given={Merlinda},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SS}{%
+         family={Sulaiman},
+         familyi={S\bibinitperiod},
+         given={Sarina},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SSM}{%
+         family={Shamsuddin},
+         familyi={S\bibinitperiod},
+         given={Siti\bibnamedelima Mariyam},
+         giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \name{editor}{3}{}{%
+      {{hash=TY}{%
+         family={Tan},
+         familyi={T\bibinitperiod},
+         given={Ying},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=TH}{%
+         family={Takagi},
+         familyi={T\bibinitperiod},
+         given={Hideyuki},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=SY}{%
+         family={Shi},
+         familyi={S\bibinitperiod},
+         given={Yuhui},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer International Publishing}%
+    }
+    \strng{namehash}{WMSSSSM1}
+    \strng{fullhash}{WMSSSSM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{W}
+    \field{sortinithash}{W}
+    \field{abstract}{%
+    Data silo can grow to be a large-scale data for years, overlapping and has
+  an indefinite quality. It allows an organization to develop their own
+  analytical capabilities. Data lake has the ability to solve this problem
+  efficiently with the data analysis by using statistical and predictive
+  modeling techniques which can be applied to enhance and support an
+  organization's business strategy. This study provides an overview of the
+  process of decision-making, operational efficiency, and creating the solution
+  for an organization. Machine Learning can distribute the architecture of data
+  model and integrate the data silo with other organizations data to optimize
+  the operational business processes within an organization in order to improve
+  data quality and efficiency. Testing is done by utilizing the data from the
+  Malaysia's and Singapore's Government Open Data on the Air Pollutant Index to
+  determine the condition of air pollution levels for the health and safety of
+  the population.%
+    }
+    \field{booktitle}{Data Mining and Big Data}
+    \field{isbn}{978-3-319-61845-6}
+    \field{pages}{294\bibrangedash 306}
+    \field{title}{Machine Learning in Data Lake for Combining Data Silos}
+    \list{location}{1}{%
+      {Cham}%
+    }
+    \field{year}{2017}
+  \endentry
+\enddatalist
+\endinput

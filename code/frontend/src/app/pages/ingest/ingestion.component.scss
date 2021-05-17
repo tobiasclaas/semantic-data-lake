@@ -1,0 +1,64 @@
+#page-root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+}
+
+#header {
+    display: flex;
+
+    #title {
+        margin-left: 40px;
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+}
+
+#content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 24px;
+
+    app-button:not(:last-child) {
+        margin-right: 24px;
+    }
+}
+
+.file-selection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .p-button {
+        width: auto;
+    }
+
+    div {
+        flex: 1;
+        margin-left: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.info-input {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.invisible {
+    display: none;
+}

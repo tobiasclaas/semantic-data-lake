@@ -1,0 +1,72 @@
+:host {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.field {
+    display: flex;
+
+    height: 2.2em;
+
+    font-family: 'Open Sans';
+    font-size: 1em;
+
+    border: 1px solid #cacbcc;
+    border-radius: 2px;
+    
+    .prefix {
+        display: flex;
+        align-items: center;
+        color: #878787;
+    }
+
+    input {
+        flex: 1;
+        outline: none;
+        border: none;
+        font-family: 'Open Sans';
+        font-size: 1em;
+        color: #272727;
+    }
+
+    &:hover {
+        border-color: #ffbc40;
+    }
+
+    &:focus, &:focus-within {
+        border-color: #ffbc40;
+        box-shadow: 0 0 2px #ffbc40;
+    }
+
+}
+
+:host.ng-invalid.ng-touched {
+    .field {
+        border-color: #fd323c;
+
+        &:hover {
+            border-color: #fd323c;
+        }
+    
+        &:focus, &:focus-within {
+            border-color: #fd323c;
+            box-shadow: 0 0 2px #fd323c;
+        }
+    
+    }
+}
+
+.icon {
+    width: 2.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #575757;
+
+    &:empty {
+        width: 6px;
+    }
+}

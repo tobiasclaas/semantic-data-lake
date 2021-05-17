@@ -1,0 +1,69 @@
+<div class="layout">
+  <ng-container *ngIf="Object.keys(field.metadata).length > 0 || editable; else notExpandable">
+    <div class="chevron" (click)="expanded = !expanded">
+      <fa-icon [icon]="expanded ? expandedIcon : collapsedIcon"></fa-icon>
+    </div>
+  </ng-container>
+  <ng-template #notExpandable>
+    <div class="chevron"></div>
+  </ng-template>
+
+  <div class="main-line">
+    <span class="name">{{ field.name }}:</span>
+    <span class="type">{{ type }} ({{ field.nullable ? "nullable" : "non-nullable" }})</span>
+  </div>
+
+  <div class="indent-line">
+    <div></div>
+  </div>
+
+  <div *ngIf="expanded" class="expandable">
+    <ng-container *ngIf="field.type.elementType">
+      <ng-container *ngIf="type == 'object'">
+        <div class="inner-object" *ngFor="let f of field.type.elementType.fields">
+          <metadata-schema-view
+            [field]="f"
+            [flattenName]="flattenName + '$' + f.name"
+          ></metadata-schema-view>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!field.type.elementType">
+      <ng-container *ngIf="type == 'object'">
+        <div class="inner-object" *ngFor="let f of field.type.fields">
+          <metadata-schema-view
+            [field]="f"
+            [flattenName]="flattenName + '$' + f.name"
+          ></metadata-schema-view>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="metadata">
+      <div class="metadata-field">
+        <ng-container *ngFor="let key of Object.keys(field.metadata)">
+          <ng-container *ngIf="editable; else notEditable">
+            <label [for]="flattenName + '.' + key">{{ key }}:</label>
+            <input
+            [id]="flattenName + '$' + key"
+            [(ngModel)]="field.metadata[key]"
+            (input)="editMetadata(key, $event.target.value)"
+            class="value-input"
+            />
+            <span class="metadata-field-remove" (click)="removeMetadataField(key)">
+              <fa-icon [icon]="removeIcon"></fa-icon>
+            </span>
+          </ng-container>
+          <ng-template #notEditable>
+            <label [for]="flattenName + '.' + key">{{ key }}:</label>
+            <span>{{field.metadata[key]}}</span>
+          </ng-template>
+        </ng-container>
+      </div>
+      <div class="metadata-add" *ngIf="editable">
+        <input #addInput />
+        <button (click)="addMetadata()">add metadata</button>
+      </div>
+    </div>
+  </div>
+</div>

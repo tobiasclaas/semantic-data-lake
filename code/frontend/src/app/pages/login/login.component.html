@@ -1,0 +1,23 @@
+<div id="page-root">
+    <div id="login">
+        <div id="login-title">Login</div>
+        <form [formGroup]="loginForm" (submit)="sbumit()">
+            <app-input
+                id="login-user"
+                formControlName="email"
+                [(ngModel)]="name"
+                label="Email"
+            ></app-input>
+            <app-input
+                id="login-password"
+                formControlName="password"
+                type="password"
+                label="Password"
+            ></app-input>
+
+            <div id="actions">
+                <app-button type="submit" text="Login" [disabled]="loginForm.invalid"></app-button>
+            </div>
+        </form>
+    </div>
+</div>

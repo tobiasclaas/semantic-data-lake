@@ -1,0 +1,116 @@
+<div *ngIf="editVisible" class="edit-view">
+    <div class="content">
+        <h3 class="title">{{ editMode === "update" ? "Update" : "Create" }} User</h3>
+
+        <form
+            [formGroup]="editForm"
+            (submit)="submit()"
+            id="user-form"
+            class="p-fluid p-formgrid p-grid"
+        >
+            <div class="p-field p-col-6">
+                <label for="email">Email</label>
+                <input
+                    pInputText
+                    type="email"
+                    [readOnly]="editMode === 'update'"
+                    id="email"
+                    formControlName="email"
+                />
+            </div>
+
+            <div class="p-field-checkbox p-col-6">
+                <p-checkbox
+                    formControlName="isAdmin"
+                    [binary]="true"
+                    inputId="isAdmin"
+                    name="isAdmin"
+                ></p-checkbox>
+                <label for="isAdmin">Is Admin</label>
+            </div>
+
+            <div class="p-field p-col-6">
+                <label for="firstname">Firstname</label>
+                <input pInputText type="text" id="firstname" formControlName="firstname" />
+            </div>
+
+            <div class="p-field p-col-6">
+                <label for="lastname">Lastname</label>
+                <input pInputText type="text" id="lastname" formControlName="lastname" />
+            </div>
+
+            <div class="p-field p-col-6" *ngIf="editMode === 'create'">
+                <label for="password">Password</label>
+                <input pInputText type="password" id="password" formControlName="password" />
+            </div>
+
+            <div class="p-field p-col-6" *ngIf="editMode === 'create'">
+                <label for="passwordRepeat">Repeat password</label>
+                <input
+                    pInputText
+                    type="password"
+                    id="passwordRepeat"
+                    formControlName="passwordRepeat"
+                />
+            </div>
+        </form>
+        <div class="actions">
+            <button
+                pButton
+                label="close"
+                class="p-button-secondary"
+                (click)="editVisible = false"
+            ></button>
+            <button
+                pButton
+                type="submit"
+                form="user-form"
+                label="submit"
+                [disabled]="editForm?.invalid"
+            ></button>
+        </div>
+    </div>
+</div>
+
+<div class="page-wrapper">
+    <div id="header">
+        <app-button (click)="create()" text="Add"></app-button>
+    </div>
+    <div class="content-wrapper">
+        <div id="table-wrapper">
+            <table class="app-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users" class="row">
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>
+                            <div class="user-actions">
+                                <button
+                                    pButton
+                                    icon="fa fa-edit"
+                                    class="p-button-rounded p-button-text"
+                                    (click)="update(user)"
+                                ></button>
+                                <button
+                                    pButton
+                                    icon="fa fa-trash"
+                                    class="p-button-danger p-button-rounded p-button-text"
+                                    (click)="delete(user.email)"
+                                ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

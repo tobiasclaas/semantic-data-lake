@@ -1,0 +1,31 @@
+:host {
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+
+    #file-select {
+        display: flex;
+        align-items: center;
+
+        #file-name {
+            flex: 1;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-left: 10px;
+        }
+    }
+
+    app-checkbox {
+        margin-top: 20px;
+    }
+}
+
+#file-content {
+    overflow: auto;
+}

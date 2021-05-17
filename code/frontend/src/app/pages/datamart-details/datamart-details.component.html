@@ -1,0 +1,217 @@
+<div id="panel">
+    <div id="loading" *ngIf="isFetching">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+
+    <div id="info">
+        <div id="header">
+            <app-button id="close-btn" icon="fa fa-arrow-left" routerLink=".." ></app-button>
+            <div id="id">{{ (datamart$ | async)?.uid }}</div>
+            <div style="flex: 1"></div>
+            <div id="actions">
+                <ng-container *ngIf="!editable; else editableActions">
+                    <app-button
+                        text="Dashboard"
+                        (click)="
+                            openDashboard(datamart$.value.uid, datamart$.value.humanReadableName)
+                        "
+                    ></app-button>
+                    <app-button text="Edit" (click)="editable = true"></app-button>
+                </ng-container>
+                <ng-template #editableActions>
+                    <app-button text="Cancel" (click)="cancel()"></app-button>
+                    <app-button text="Save" (click)="saveChanges(datamart$.value)"></app-button>
+                </ng-template>
+            </div>
+        </div>
+
+        <ng-container *ngIf="!editable; else nameEditable">
+            <div class="info-block">
+                <span class="label">Name:</span>
+                <span class="value">{{ (datamart$ | async)?.humanReadableName }}</span>
+            </div>
+        </ng-container>
+
+        <ng-template #nameEditable>
+            <div class="info-block">
+                <span class="label">Name:</span>
+                <input
+                    class="value"
+                    [(ngModel)]="datamart$.value.humanReadableName"
+                    (input)="editedHnr = $event.target.value"
+                />
+            </div>
+        </ng-template>
+
+        <ng-container *ngIf="!editable; else commentEditable">
+            <div id="comment" class="info-block">
+                <span class="label">Comment:</span>
+                <span class="value">{{ (datamart$ | async)?.comment }}</span>
+            </div>
+        </ng-container>
+        <ng-template #commentEditable>
+            <div id="comment" class="info-block">
+                <span class="label">Comment:</span>
+                <textarea
+                    class="value"
+                    [(ngModel)]="datamart$.value.comment"
+                    (input)="editedComment = $event.target.value"
+                ></textarea>
+            </div>
+        </ng-template>
+
+        <div class="info-block">
+            <span class="label">Created By:</span>
+            <span class="value">
+                {{ (datamart$ | async)?.metadata.createdBy.firstname }}
+                {{ (datamart$ | async)?.metadata.createdBy.firstname }}
+            </span>
+        </div>
+        <div class="info-block">
+            <span class="label">Created At:</span>
+            <span class="value">
+                {{ (datamart$ | async)?.metadata.createdAt?.format("YYYY-MM-DD HH:mm:ss") }}
+            </span>
+        </div>
+        <div class="info-block">
+            <span class="label">Heritage:</span>
+            <ng-container
+                [ngTemplateOutlet]="heritage"
+                [ngTemplateOutletContext]="(datamart$ | async)?.metadata.heritage"
+            ></ng-container>
+        </div>
+        <div class="info-block">
+            <span class="label">Construction Code:</span>
+            <span class="value">
+                {{ (datamart$ | async)?.metadata.constructionCode }}
+            </span>
+        </div>
+        <div class="info-block">
+            <span class="label">Construction Query:</span>
+            <span class="value">
+                {{ (datamart$ | async)?.metadata.constructionQuery }}
+            </span>
+        </div>
+        <div class="info-block">
+            <span class="label">Source:</span>
+            <ng-container
+                [ngTemplateOutlet]="
+                    (datamart$ | async)?.metadata.source['datatype'] == 'mongodb'
+                        ? mongoStorage
+                        : (datamart$ | async)?.metadata.source['datatype'] == 'postgresql'
+                        ? postgresStorage
+                        : (datamart$ | async)?.metadata.source['datatype'] == 'csv'
+                        ? csvStorage
+                        : (datamart$ | async)?.metadata.source['datatype'] == 'json'
+                        ? jsonStorage
+                        : (datamart$ | async)?.metadata.source['datatype'] == 'xml'
+                        ? xmlStorage
+                        : null
+                "
+                [ngTemplateOutletContext]="{ storage: (datamart$ | async)?.metadata.source }"
+            ></ng-container>
+        </div>
+        <div class="info-block">
+            <span class="label">Target:</span>
+            <ng-container
+                [ngTemplateOutlet]="
+                    (datamart$ | async)?.metadata.target['datatype'] == 'mongodb'
+                        ? mongoStorage
+                        : (datamart$ | async)?.metadata.target['datatype'] == 'postgresql'
+                        ? postgresStorage
+                        : (datamart$ | async)?.metadata.target['datatype'] == 'csv'
+                        ? csvStorage
+                        : (datamart$ | async)?.metadata.target['datatype'] == 'json'
+                        ? jsonStorage
+                        : (datamart$ | async)?.metadata.target['datatype'] == 'xml'
+                        ? xmlStorage
+                        : null
+                "
+                [ngTemplateOutletContext]="{ storage: (datamart$ | async)?.metadata.target }"
+            ></ng-container>
+        </div>
+    </div>
+    <div id="schema">
+        <metadata-schema-view
+            *ngFor="let field of (datamart$ | async)?.metadata.schema?.fields; trackBy: trackEntry"
+            [field]="field"
+            [flattenName]="field.name"
+            [editable]="editable"
+        ></metadata-schema-view>
+    </div>
+</div>
+
+<ng-template #heritage let-ancestors="ancestors">
+    <div *ngFor="let ancestor of ancestors" class="ancestor">
+        <div><b>UID</b>: {{ ancestor.uid }}</div>
+        <div class="heritage-wrapper">
+            <ng-container
+                [ngTemplateOutlet]="heritage"
+                [ngTemplateOutletContext]="{ ancestors: ancestor.heritage }"
+            ></ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mongoStorage let-storage="storage">
+    <div class="storage-info">
+        <span class="storage-info-label">Type</span>
+        <span>Mongodb</span>
+        <span class="storage-info-label">Host</span>
+        <span>{{ storage["host"] }}:{{ storage["port"] }}</span>
+        <span class="storage-info-label">Database</span>
+        <span>{{ storage["database"] }}</span>
+        <span class="storage-info-label">Collection</span>
+        <span>{{ storage["collection"] }}</span>
+    </div>
+</ng-template>
+
+<ng-template #postgresStorage let-storage="storage">
+    <div class="storage-info">
+        <span class="storage-info-label">Type</span>
+        <span>Postgresql</span>
+        <span class="storage-info-label">Host</span>
+        <span>{{ storage["host"] }}:{{ storage["port"] }}</span>
+        <span class="storage-info-label">Database</span>
+        <span>{{ storage["database"] }}</span>
+        <span class="storage-info-label">Table</span>
+        <span>{{ storage["table"] }}</span>
+    </div>
+</ng-template>
+
+<ng-template #csvStorage let-storage="storage">
+    <div class="storage-info">
+        <span class="storage-info-label">Type</span>
+        <span>Csv</span>
+        <span class="storage-info-label">File</span>
+        <span>{{ storage["file"] }}</span>
+        <span class="storage-info-label">Mimetype</span>
+        <span>{{ storage["mimetype"] }}</span>
+        <span class="storage-info-label">Has Header</span>
+        <span>{{ storage["hasHeader"] }}</span>
+        <span class="storage-info-label">Delimiter</span>
+        <span>{{ storage["delimiter"] }}</span>
+    </div>
+</ng-template>
+
+<ng-template #jsonStorage let-storage="storage">
+    <div class="storage-info">
+        <span class="storage-info-label">Type</span>
+        <span>Json</span>
+        <span class="storage-info-label">File</span>
+        <span>{{ storage["file"] }}</span>
+        <span class="storage-info-label">Mimetype</span>
+        <span>{{ storage["mimetype"] }}</span>
+    </div>
+</ng-template>
+
+<ng-template #xmlStorage let-storage="storage">
+    <div class="storage-info">
+        <span class="storage-info-label">Type</span>
+        <span>Xml</span>
+        <span class="storage-info-label">File</span>
+        <span>{{ storage["file"] }}</span>
+        <span class="storage-info-label">Row Tag</span>
+        <span>{{ storage["rowTag"] }}</span>
+    </div>
+</ng-template>

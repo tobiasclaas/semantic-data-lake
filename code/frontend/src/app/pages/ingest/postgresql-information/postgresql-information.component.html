@@ -1,0 +1,8 @@
+<form [formGroup]="form" class="p-fluid p-formgrid p-grid">
+    <app-input formControlName="host" label="host" prefix="jdbc:postgresql://"></app-input>
+    <app-input formControlName="port" label="Port" prefix=":" type="number"></app-input>
+    <app-input formControlName="database" label="Database"></app-input>
+    <app-input formControlName="table" label="Table"></app-input>
+    <app-input formControlName="user" label="User"></app-input>
+    <app-input label="Password" type="password" formControlName="password"></app-input>
+</form>

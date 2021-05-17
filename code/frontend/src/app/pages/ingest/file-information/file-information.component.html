@@ -1,0 +1,27 @@
+<form [formGroup]="form">
+    <div id="file-select">
+        <input
+            #fileSelect
+            id="f-file"
+            type="file"
+            accept="application/json, application/xml, .csv"
+            style="display: none"
+            (input)="handleUpload($event)"
+        />
+        <app-button text="Select file" (click)="fileSelect.click()"></app-button>
+        <div id="file-name">{{ selectedFile?.name }}</div>
+    </div>
+
+    <ng-container *ngIf="fileType === 'text/csv'">
+        <app-divider title="CSV options"></app-divider>
+        <app-input formControlName="delimiter" label="Delimiter"></app-input>
+        <app-checkbox formControlName="hasHeader" label="Has header"></app-checkbox>
+    </ng-container>
+    
+    <ng-container *ngIf="fileType === 'application/xml'">
+        <app-divider title="XML options"></app-divider>
+        <app-input formControlName="rowTag" label="RowTag"></app-input>
+    </ng-container>
+</form>
+
+<div id="file-content">{{ fileContent }}</div>

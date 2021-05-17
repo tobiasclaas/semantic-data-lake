@@ -1,0 +1,20 @@
+<label class="app-label">{{ label }}</label>
+
+<div class="field">
+    <div class="selected" (click)="onClick()">
+        <span>{{ selectedLabel }}</span>
+    </div>
+    <div class="icon" (click)="onClick()">
+        <fa-icon class="fa fa-chevron-down"></fa-icon>
+    </div>
+
+    <div class="selection" *ngIf="dropDownOpen">
+        <ng-content></ng-content>
+    </div>
+</div>
+
+<div
+    class="backdrop"
+    *ngIf="dropDownOpen"
+    (click)="dropDownOpen = false"
+></div>

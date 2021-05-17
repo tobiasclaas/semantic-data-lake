@@ -1,0 +1,74 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: poster.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: biblatex.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+Reallocating 'name_of_file' (item size: 1) to 21 items.
+Reallocating 'name_of_file' (item size: 1) to 25 items.
+Reallocating 'name_of_file' (item size: 1) to 15 items.
+Reallocating 'glb_str_end' (item size: 4) to 20 items.
+Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
+Reallocating 'global_strs' (item size: 1) to 4000000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Database file #1: poster-blx.bib
+Database file #2: bib/quix.bib
+Database file #3: bib/dice1945measures.bib
+Database file #4: bib/frangi1998multiscale.bib
+Database file #5: bib/Wibowo2017.bib
+Biblatex version: 3.16
+Reallocating 'wiz_functions' (item size: 4) to 9000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+You've used 5 entries,
+            6393 wiz_defined-function locations,
+            1238 strings with 10745 characters,
+and the built_in function-call counts, 33456 in all, are:
+= -- 2566
+> -- 554
+< -- 184
++ -- 772
+- -- 188
+* -- 2430
+:= -- 3674
+add.period$ -- 0
+call.type$ -- 5
+change.case$ -- 120
+chr.to.int$ -- 42
+cite$ -- 8
+duplicate$ -- 3139
+empty$ -- 3012
+format.name$ -- 288
+if$ -- 6932
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 0
+newline$ -- 191
+num.names$ -- 258
+pop$ -- 1462
+preamble$ -- 1
+purify$ -- 143
+quote$ -- 0
+skip$ -- 991
+stack$ -- 0
+substring$ -- 4742
+swap$ -- 774
+text.length$ -- 134
+text.prefix$ -- 4
+top$ -- 1
+type$ -- 158
+warning$ -- 0
+while$ -- 482
+width$ -- 0
+write$ -- 187
