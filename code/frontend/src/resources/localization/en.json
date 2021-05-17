@@ -1,0 +1,18 @@
+{
+    "languages.de": "German",
+    "languages.en": "English",
+    "dashboard.welcome_message": "Welcome",
+    "header.dashboard": "Dashboard",
+    "header.data": "Data Management",
+    "header.ontology": "Ontology Management",
+    "header.workflow": "Workflow",
+    "workspaceChanger.title": "Add a New Workspace",
+    "workspaceChanger.description": "Please provide the new Workspace name.",
+    "generic.cancel": "Cancel",
+    "generic.add": "Create",
+    "generic.add_new": "Add New",
+    "generic.back": "Back",
+    "settings.primary": "Primary",
+    "settings.workspaces": "Workspaces",
+    "settings.current_workspace": "Current workspace"
+}
