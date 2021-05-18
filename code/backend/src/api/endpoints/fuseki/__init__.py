@@ -55,7 +55,6 @@ class Fuseki(Resource):
         """
         if search:   
             p = post('http://localhost:3030/'+ databasename, auth=('admin', 'pw123'), data={'query': string}) # replace admin and pw by environment variable defined in docker-compose.yaml
-            print(databasename, querystring, search )
             data = json.loads(p.content)
             
             return data['results']['bindings']
@@ -68,7 +67,6 @@ class Fuseki(Resource):
             #except Exception as ex:
             #    traceback.print_exception(type(ex), ex, ex.__traceback__)
         else:
-            print("query")
             p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'), data={'query': querystring})
             data = json.loads(p.content)
           
