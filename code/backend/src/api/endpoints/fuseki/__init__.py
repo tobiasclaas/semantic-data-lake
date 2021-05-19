@@ -3,8 +3,9 @@ from flask_restful.reqparse import Argument
 from flask import request
 from api.services.decorators import parse_params
 from werkzeug.datastructures import FileStorage
-from requests import put, post
+from requests import put, post, delete
 import json
+from SPARQLWrapper import SPARQLWrapper, JSON
 import pandas as pd
 import os
 import traceback
@@ -67,10 +68,21 @@ class Fuseki(Resource):
             #except Exception as ex:
             #    traceback.print_exception(type(ex), ex, ex.__traceback__)
         else:
-            p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'), data={'query': querystring})
-            data = json.loads(p.content)
+            #p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'), data={'query': querystring})
+            #data = json.loads(p.content)
           
-            return data['results']['bindings']
+            #return data['results']['bindings']
+
+            try:
+                sparql = SPARQLWrapper("http://localhost:3030/{}/sparql".format(databasename))
+                sparql.setQuery(querystring)
+                sparql.setReturnFormat(JSON)
+                response = sparql.query().convert()
+                df = pd.json_normalize(response["results"]["bindings"]) # weiß net warum das nich funzt
+                if response:
+                    return response["results"]["bindings"]
+            except Exception as err:
+                print(err)
             #if not p.ok:
             #    return None
 #
@@ -92,9 +104,6 @@ class Fuseki(Resource):
         :param overwrite: If parameter is passed, the existing triples will be deleted and replaced with incoming file
         :return: Boolean if post was successful or not
         """
-        data = file
-        #print(data)
-        
         extension = os.path.splitext(file.filename)[1].lower()
 
         # other formats need to be tested
@@ -116,8 +125,22 @@ class Fuseki(Resource):
             raise TypeError(extension.lower() + " is not supported")
 
         if not overwrite:
-            p = post('http://localhost:3030/{}/data?default'.format(databasename), data=data, headers=headers)
+            p = post('http://localhost:3030/{}/data?default'.format(databasename), data=file, headers=headers)
         else:
-            p = put('http://localhost:3030/{}/data?default'.format(databasename), data=data, headers=headers)
+            p = put('http://localhost:3030/{}/data?default'.format(databasename), data=file, headers=headers)
 
         return p.ok
+
+    @parse_params(
+        Argument("databasename", type=str),
+    )
+    def delete(self, databasename: str):
+        """
+        Delete a specified database.
+        :param databasename: The name of the database
+        :return: Boolean if post was successful or not
+        """
+        p = delete('http://localhost:3030/$/datasets/{}'.format(databasename), auth=('admin', 'pw123'))
+
+        return p.ok
+        

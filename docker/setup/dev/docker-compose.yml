@@ -204,6 +204,8 @@ services:
       - backend
     environment:
       - ADMIN_PASSWORD=pw123
+    #volumes: 
+    #  - ../config.ttl:/fuseki/config.ttl # if you uncomment this, data upload does not work no more
 
 networks:
   backend:
