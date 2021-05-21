@@ -1,11 +1,9 @@
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
-from flask import request
 from api.services.decorators import parse_params
 from werkzeug.datastructures import FileStorage
 from requests import put, post, delete
 import json
-from SPARQLWrapper import SPARQLWrapper, JSON
 import pandas as pd
 import os
 import traceback
@@ -19,7 +17,7 @@ class Fuseki(Resource):
         """
         This method sends a request to the fuseki flask and creates a new workspace if no error occurs.
         :param databasename: is a string and name of the to be created workspace
-        :returns whether the creation of a new workspace succeeded or not in bool value
+        :returns Statuscode of the request
         """
         
         if databasename:
@@ -28,10 +26,7 @@ class Fuseki(Resource):
         else:
             print("No databasename given")
         
-        if p.ok:
-            return p.ok
-        else:
-            return p.text
+        return p.status_code
 
 
     @parse_params(
@@ -40,69 +35,57 @@ class Fuseki(Resource):
         Argument("search", type=bool)
         )
     def get(self, databasename: str, querystring: str, search: bool):
-
-        partone = 'SELECT ?s ?p ?o WHERE {{?s ?p ?o . FILTER (contains(?s, "%s") )}' % querystring
-        parttwo = ' UNION {?s ?p ?o . FILTER (contains(?p, "%s") )}' % querystring
-        partthree = ' UNION {?s ?p ?o . FILTER (contains(?o, "%s") )}}' % querystring
-        string = partone+parttwo+partthree 
         """
         This method queries fuseki for terms associated with the query string. If the parameter search is given,
         this method queries fuseki for any triple containing the query string.
         :param querystring: keywords to search for
         :param database: name of the database
         :param search: bool whether to return all triples containing a given string 
-        :return: #TODO, what is returned?
-        # TODO, Are the "databases" databases or workspaces?
+        :return: pandas dataframe, currently buggy
         """
+        partone = 'SELECT ?s ?p ?o WHERE {{?s ?p ?o . FILTER (contains(?s, "%s") )}' % querystring
+        parttwo = ' UNION {?s ?p ?o . FILTER (contains(?p, "%s") )}' % querystring
+        partthree = ' UNION {?s ?p ?o . FILTER (contains(?o, "%s") )}}' % querystring
+        string = partone+parttwo+partthree 
+
+
         if search:   
             p = post('http://localhost:3030/'+ databasename, auth=('admin', 'pw123'), data={'query': string}) # replace admin and pw by environment variable defined in docker-compose.yaml
             data = json.loads(p.content)
-            
-            return data['results']['bindings']
-#
-            #if not p.ok:
-            #    return None
-#
-            #try:
-            #    return pd.json_normalize(data, ['results', 'bindings']) # @Tobias: Dieser Teil schmeißt mir Error: Dataframe Object not JSON Serializable. Würde gerne einen PD-Dataframe ausgeben. 
-            #except Exception as ex:
-            #    traceback.print_exception(type(ex), ex, ex.__traceback__)
-        else:
-            #p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'), data={'query': querystring})
-            #data = json.loads(p.content)
-          
-            #return data['results']['bindings']
+            df = pd.json_normalize(data, ['results', 'bindings'])
 
             try:
-                sparql = SPARQLWrapper("http://localhost:3030/{}/sparql".format(databasename))
-                sparql.setQuery(querystring)
-                sparql.setReturnFormat(JSON)
-                response = sparql.query().convert()
-                df = pd.json_normalize(response["results"]["bindings"]) # weiß net warum das nich funzt
-                if response:
-                    return response["results"]["bindings"]
+                return df # @Tobias: Dieser Teil schmeißt mir Error: Dataframe Object not JSON Serializable. Würde gerne einen PD-Dataframe ausgeben. 
+            except Exception as ex:
+                traceback.print_exception(type(ex), ex, ex.__traceback__)
+        else:
+            p = post('http://localhost:3030/'+ databasename, auth=('admin', 'pw123'), data={'query': querystring}) # replace admin and pw by environment variable defined in docker-compose.yaml
+            data = json.loads(p.content)
+            array = json.dumps(data)
+            array2 = json.loads(array)
+            pd.json_normalize(array2, ['results', 'bindings'])
+            df = pd.json_normalize(array['results']['bindings']) # weiß net warum das nich funzt
+
+            try:               
+                return df
             except Exception as err:
-                print(err)
-            #if not p.ok:
-            #    return None
-#
-            #try:
-            #    return pd.json_normalize(data, ['results', 'bindings']) # @Tobias: Dieser Teil schmeißt mir Error: Dataframe Object not JSON Serializable. Würde gerne einen PD-Dataframe ausgeben.
-            #except Exception as ex:
-            #    traceback.print_exception(type(ex), ex, ex.__traceback__)
+                traceback.print_exception(type(ex), ex, ex.__traceback__)
 
     @parse_params(
         Argument("databasename", type=str),
         Argument("file", type=FileStorage, location='files'),
+        Argument("graphname", type=str, required=True), 
         Argument("overwrite", type=bool)
     )
-    def put(self, file: FileStorage, databasename: str, overwrite: bool):
+    def put(self, file: FileStorage, databasename: str, graphname: str, overwrite: bool):
         """
         Upload a given file to a specified database.
         :param file: A file to be uploaded
         :param databasename: The name of the database
+        :param graphname: The name of the graph were the file is inserted to. Fuseki is configured to take the default graph |
+        as the Union over all subgraphs. Fail upload fails if no graphname is specified, thus this parameter is required.
         :param overwrite: If parameter is passed, the existing triples will be deleted and replaced with incoming file
-        :return: Boolean if post was successful or not
+        :return: Statuscode of the request
         """
         extension = os.path.splitext(file.filename)[1].lower()
 
@@ -125,22 +108,27 @@ class Fuseki(Resource):
             raise TypeError(extension.lower() + " is not supported")
 
         if not overwrite:
-            p = post('http://localhost:3030/{}/data?default'.format(databasename), data=file, headers=headers)
+            p = post('http://localhost:3030/{}?graph={}'.format(databasename,graphname), data=file, headers=headers)
         else:
-            p = put('http://localhost:3030/{}/data?default'.format(databasename), data=file, headers=headers)
+            p = put('http://localhost:3030/{}?graph={}'.format(databasename,graphname), data=file, headers=headers)
 
-        return p.ok
+        return p.status_code
 
     @parse_params(
         Argument("databasename", type=str),
+        Argument("graphname", type=str)
     )
-    def delete(self, databasename: str):
+    def delete(self, databasename: str, graphname:str):
         """
         Delete a specified database.
-        :param databasename: The name of the database
-        :return: Boolean if post was successful or not
+        :param databasename: The name of the database to be deleted
+        :param graphname: The graph to be deleted
+        :return: Statuscode of the request
         """
-        p = delete('http://localhost:3030/$/datasets/{}'.format(databasename), auth=('admin', 'pw123'))
+        if graphname:
+            p = delete('http://localhost:3030/{}?graph={}'.format(databasename,graphname), auth=('admin', 'pw123'))
+        else:
+            p = delete('http://localhost:3030/$/datasets/{}'.format(databasename), auth=('admin', 'pw123'))
 
-        return p.ok
+        return p.status_code
         
