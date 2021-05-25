@@ -7,6 +7,3 @@ FUSEKI_BLUEPRINT = Blueprint("fuseki.py", __name__)
 
 fuseki_routes = ["/fuseki"]
 Api(FUSEKI_BLUEPRINT).add_resource(Fuseki, *fuseki_routes)
-
-
-

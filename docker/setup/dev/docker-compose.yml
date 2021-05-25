@@ -203,7 +203,7 @@ services:
     networks:
       - backend
     env_file: ../variables.env
-    volumes: 
+    volumes:
       - ../config.ttl:/fuseki/config.ttl
 
 networks:
