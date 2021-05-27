@@ -1,17 +1,12 @@
 import traceback
 import json
 import os
-import re
 
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
-from flask import request
 from werkzeug.datastructures import FileStorage
-from requests import put, post, delete, get
-from http import HTTPStatus
-# from SPARQLWrapper import SPARQLWrapper, JSON
+from requests import put, post, delete
 import pandas as pd
-import pprint
 
 from api.services.decorators import parse_params
 
@@ -29,25 +24,14 @@ def create_query_string(databasename: str, graph_name: str, querystring: str):
         query = "SELECT ?s ?p ?o " \
                 "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
                                                                                                         "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                               "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } } "
+                                                                                                                                                                                               "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
     else:
         graph_name = 'http://localhost:3030/' + databasename + '/' + graph_name
         query = "SELECT ?s ?p ?o " \
                 "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
                                                                                                           "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                                   "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } } "
+                                                                                                                                                                                                   "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
 
-    return query
-
-
-def replace_graphname(graphname: str, query: str):
-    """
-    Replaces the name of Graph with actual reference, e.g. "http://local..."
-    :param graphname:
-    :param query:
-    :return:
-    """
-    # TODO, do we want to implement this? Not that easy
     return query
 
 
@@ -59,10 +43,6 @@ class Fuseki(Resource):
         :param databasename: is a string and name of the to be created workspace
         :returns statuscode of the request
         """
-        if databasename == "" or databasename is None:
-            print("No databasename given")
-            return HTTPStatus.BAD_REQUEST
-
         p = post('http://localhost:3030/$/datasets', auth=('admin', 'pw123'),
                  data={'dbName': databasename, 'dbType': 'tdb'})
 
@@ -81,46 +61,37 @@ class Fuseki(Resource):
         :param querystring: keywords to search for or when search-bool is false the query itself
         :param graphname: graph to be queried, default is "default graph"
         :param search: is a boolean whether to return all triples containing a given string or complete sparql query is
-            given. True -> search for keywords(querystring), False -> query string is given
-        :return: pandas dataframe, TODO currently buggy
+            given. True -> search for keywords(querystring), False -> query string is given.
+        :return: json file or html status-code.
+            JSON: dictionary with 3 keys, "s" for subject, "p" for predicate, "o" for object with values are
+                again dicts with indices. s[0], p[0], o[0] belong together and is one triple of the result.
+            Status Code: If error occurs.
         """
         if search:
             # TODO replace admin and pw by environment variable defined in docker-compose.yaml,
             #  better solution required. lets ask maher
+            # replace admin and pw by environment variable defined in docker-compose.yaml
             p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'),
                      data={'query': create_query_string(databasename, graphname, querystring)})
 
-            data = json.loads(p.content)
-            # pprint.pprint(data['results']['bindings'][0])  # TODO delete, for debugging
-            df = pd.DataFrame(data['results']['bindings'], columns=['s', 'p', 'o'])
-
-            return df.to_json()  # TODO looks good to me @Sayed
+            try:
+                data = json.loads(p.content)
+                df = pd.DataFrame(data['results']['bindings'], columns=['s', 'p', 'o'])
+                return df.to_json()
+            except Exception:
+                traceback.print_exc()
+                return p.status_code
         else:
-            # replace admin and pw by environment variable defined in docker-compose.yaml
-            querystring = replace_graphname(graphname, querystring)
-
             p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'), data={'query': querystring})
 
-            if not p.ok:  # if request was bad, return None
-                return None
+            try:
+                data = json.loads(p.content)
+                df = pd.DataFrame(data['results']['bindings'], columns=['s', 'p', 'o'])
 
-            pprint.pprint(p.content)
-            data = json.loads(p.content)
-
-            # TODO delete if satisfied @sayed
-            # pprint.pprint(data)
-            # array = json.dumps(data)
-            # array2 = json.loads(array)
-            # pd.json_normalize(array2, ['results', 'bindings'])
-            # df = pd.json_normalize(array['results']['bindings'])  # weiß net warum das nich funzt
-
-            # try:
-            #    return df
-            # except Exception as ex:
-            #    traceback.print_exception(type(ex), ex, ex.__traceback__)
-            df = pd.DataFrame(data['results']['bindings'], columns=['s', 'p', 'o'])
-
-            return df.to_json()  # TODO looks good to me @Sayed
+                return df.to_json()
+            except Exception:
+                traceback.print_exc()
+                return p.status_code
 
     @parse_params(
         Argument("databasename", type=str),
@@ -171,12 +142,11 @@ class Fuseki(Resource):
     def delete(self, databasename: str, graphname: str):
         """
         Delete a specified database.
-        :param databasename: The name of the database to be deleted
-        :param graphname: The graph to be deleted
-        :return: Statuscode of the request
+        :param databasename: The name of the database to be deleted.
+        :param graphname: The graph to be deleted.
+        :return: Statuscode of the request.
         """
-        # TODO delete specific graphs?
-        if graphname:
+        if graphname != "" and graphname is not None:
             p = delete('http://localhost:3030/{}?graph={}'.format(databasename, graphname), auth=('admin', 'pw123'))
         else:
             p = delete('http://localhost:3030/$/datasets/{}'.format(databasename), auth=('admin', 'pw123'))
