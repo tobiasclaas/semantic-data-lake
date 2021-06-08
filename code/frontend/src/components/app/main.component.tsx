@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import Header from "./header";
 import Container from "@material-ui/core/Container";

@@ -8,7 +8,7 @@ import theme from "./theme";
 import App from "./components/app";
 import { LanguageHelper } from "./utils/helpers/languageHelper";
 import { configure } from "mobx";
-import { Router } from "react-router";
+import { Router } from "react-router-dom";
 import { createHashHistory } from "history";
 import { syncHistoryWithStore } from "mobx-react-router";
 
