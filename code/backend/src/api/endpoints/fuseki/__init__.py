@@ -5,7 +5,7 @@ import os
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from werkzeug.datastructures import FileStorage
-from requests import put, post, delete
+from requests import put, post, delete, patch
 import pandas as pd
 
 from api.services.decorators import parse_params
@@ -22,22 +22,22 @@ def create_query_string(databasename: str, graph_name: str, querystring: str):
     if graph_name == '' or graph_name is None:
         graph_name = '?g'
         query = "SELECT ?s ?p ?o " \
-                "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                                                                                                        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                               "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+        "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
+        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
+        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
     else:
-        graph_name = 'http://localhost:3030/' + databasename + '/' + graph_name
+        graph_name = 'http://localhost:3030/' + databasename + '#' + graph_name
         query = "SELECT ?s ?p ?o " \
                 "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                                                                                                          "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                                   "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+                "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
+                "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
 
     return query
 
 
 class Fuseki(Resource):
     @parse_params(Argument("databasename", type=str))
-    def post(self, databasename: str):
+    def patch(self, databasename: str):
         """
         This method sends a request to the fuseki flask and creates a new workspace if no error occurs.
         :param databasename: is a string and name of the to be created workspace
@@ -53,7 +53,7 @@ class Fuseki(Resource):
         Argument("querystring", type=str),
         Argument("graphname", type=str),
         Argument("search", type=bool))
-    def get(self, databasename: str, querystring: str, graphname: str, search: bool):
+    def post(self, databasename: str, querystring: str, graphname: str, search: bool):
         """
         This method queries fuseki for terms associated with the query string. If the parameter search is given,
         this method queries fuseki for any triple containing the query string.
@@ -76,8 +76,8 @@ class Fuseki(Resource):
 
             try:
                 data = json.loads(p.content)
-                df = pd.DataFrame(data['results']['bindings'], columns=['s', 'p', 'o'])
-                return df.to_json()
+                return data
+
             except Exception:
                 traceback.print_exc()
                 return p.status_code
@@ -86,9 +86,8 @@ class Fuseki(Resource):
 
             try:
                 data = json.loads(p.content)
-                df = pd.DataFrame(data['results']['bindings'], columns=['s', 'p', 'o'])
-
-                return df.to_json()
+            
+                return data
             except Exception:
                 traceback.print_exc()
                 return p.status_code

@@ -5,10 +5,6 @@ abstract class CommonStore {
     @observable status: StoreStatus = StoreStatus.uninitialized
     @observable errorMessage: string = ''
 
-    constructor() {
-        makeObservable(this)
-    }
-
     @action setStatus(newValue: StoreStatus) {
         this.status = newValue
     }

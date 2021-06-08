@@ -1,6 +1,7 @@
 import os
 import yaml
 
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 class PostgresqlStorage:
     def __init__(self, host, port, database, user, password):
@@ -27,11 +28,6 @@ class HdfsStorage:
         self.ingestion_directory = ingestion_directory
         self.storage_directory = storage_directory
 
-class FusekiStorage:
-    def __init__(self, user=None, password=None):
-        self.user = user
-        self.password = password
-
 
 class Settings(object):
 
@@ -50,14 +46,12 @@ class Settings(object):
 
 
 def load(server):
-    __location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    config_file = open(os.path.join(__location__, 'datalake_config.yml'))
+    #config_path = os.environ.get('/home/mapro2020/refactor/team-2-data-lake/datalake_config.yml')
+    config_file = open(os.path.join(__location__, '../../../datalake_config.yml'))
     config_data = yaml.load(config_file, yaml.FullLoader)
 
     jwt = config_data.get("jwt")
     server_mongodb = config_data.get("serverMongodb")
-    static_path = "../../frontend/public"
     host = server_mongodb.get("host")
     port = server_mongodb.get("port")
     mongo_db = server_mongodb.get("database")
@@ -106,10 +100,4 @@ def load(server):
         hdfs_data.get("port"),
         hdfs_data.get("ingestionDirectory"),
         hdfs_data.get("storageDirectory")
-    )
-
-    fuseki_data = config_data.get("storages").get("fuseki")
-    settings.fuseki_storage = FusekiStorage(
-        fuseki_data.get("user"),
-        fuseki_data.get("password"),
     )
