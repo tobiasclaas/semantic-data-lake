@@ -8,10 +8,14 @@ import theme from "./theme";
 import App from "./components/app";
 import { LanguageHelper } from "./utils/helpers/languageHelper";
 import { configure } from "mobx";
+import { Router } from "react-router";
+import { createHashHistory } from "history";
+import { syncHistoryWithStore } from "mobx-react-router";
 
 // i18n
 import de from "./resources/localization/de.json";
 import en from "./resources/localization/en.json";
+import routingStore from "./stores/routing.store";
 
 const bootstrap = async () => {
   await i18n.use(initReactI18next).init({
@@ -29,12 +33,16 @@ const bootstrap = async () => {
   });
 
   configure({ enforceActions: "observed" });
+  const browserHistory = createHashHistory() as any;
+  const history = syncHistoryWithStore(browserHistory, routingStore);
 
   ReactDOM.render(
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <Router history={history}>
+          <App />
+        </Router>
       </ThemeProvider>
     </StylesProvider>,
     document.getElementById("root")

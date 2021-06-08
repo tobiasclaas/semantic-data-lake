@@ -1,5 +1,6 @@
 import React from "react";
-import { Switch, Route, useLocation, Router } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
+
 import Header from "./header";
 import Container from "@material-ui/core/Container";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -11,17 +12,18 @@ import appStore from "../../stores/app.store";
 import StoreStatus from "../../models/storeStatus.enum";
 import Footer from "./footer";
 import { observer } from "mobx-react";
-import { createHashHistory } from "history";
-import { syncHistoryWithStore } from "mobx-react-router";
-import routingStore from "../../stores/routing.store";
 import workspacesStore from "../../stores/workspaces.store";
+import routingStore from "../../stores/routing.store";
+import { toJS } from "mobx";
 
 const RoutingComponent: React.FC = observer(() => {
-  const location = useLocation();
+  const location = routingStore.history.location;
+  const state = toJS(routingStore.history.location.state) ?? null;
+
   const theme = useTheme();
   useEffect(() => {
     assignViewModel(location.pathname);
-  }, [location.pathname, workspacesStore.currentWorkspace]);
+  }, [location.pathname, workspacesStore.currentWorkspace, state]);
 
   const assignViewModel = async (path: string) => {
     await import("../modules" + path).then((res) =>
@@ -110,25 +112,20 @@ const RoutingComponent: React.FC = observer(() => {
 });
 
 const App: React.FC = () => {
-  const browserHistory = createHashHistory() as any;
-  const history = syncHistoryWithStore(browserHistory, routingStore);
-
   return (
-    <Router history={history}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          position: "absolute",
-          inset: 0,
-        }}
-      >
-        <Header />
-        <Switch>
-          <Route component={RoutingComponent} />
-        </Switch>
-      </div>
-    </Router>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        position: "absolute",
+        inset: 0,
+      }}
+    >
+      <Header />
+      <Switch>
+        <Route component={RoutingComponent} />
+      </Switch>
+    </div>
   );
 };
 
