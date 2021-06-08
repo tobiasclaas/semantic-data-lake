@@ -14,6 +14,13 @@ class AppStore {
             return null
         return this.contentViewModel.getView()
     }
+    
+    @computed get isFullscreen() {
+        if (!this.contentViewModel)
+            return false
+        return this.contentViewModel.isFullscreen
+    }
+
     @action setContentViewModel(newValue: ContentStore | null) {
         this.contentViewModel = newValue
     }

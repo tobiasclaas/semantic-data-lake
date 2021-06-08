@@ -7,12 +7,21 @@
     "header.ontology": "Ontology Management",
     "header.workflow": "Workflow",
     "workspaceChanger.title": "Add a New Workspace",
-    "workspaceChanger.description": "Please provide the new Workspace name.",
+    "workspaceChanger.description": "Please provide the new workspace name.",
     "generic.cancel": "Cancel",
-    "generic.add": "Create",
+    "generic.create": "Create",
+    "generic.upload": "Upload",
+    "generic.file": "File",
     "generic.add_new": "Add New",
+    "generic.name": "Name",
+    "generic.browse": "Browse...",
     "generic.back": "Back",
     "settings.primary": "Primary",
     "settings.workspaces": "Workspaces",
-    "settings.current_workspace": "Current workspace"
+    "settings.current_workspace": "Current workspace",
+    "ontology_management.upload.title" : "Add a New Ontology",
+    "ontology_management.upload.description": "Please provide the new ontology details.",
+    "ontology_management.title" : "Ontology Management",
+    "ontology_management.description" : "Here you can view, add and edit your onotlogies."
+
 }

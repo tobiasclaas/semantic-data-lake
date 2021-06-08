@@ -29,10 +29,10 @@ const Header: React.FC = () => {
                     <Button color='inherit' onClick={goto('/dashboard')}>
                         {t('header.dashboard')}
                     </Button>
-                    <Button color='inherit' onClick={goto('/data')}>
+                    <Button color='inherit' onClick={goto('/data-management')}>
                         {t('header.data')}
                     </Button>
-                    <Button color='inherit' onClick={goto('/ontology')}>
+                    <Button color='inherit' onClick={goto('/ontology-management')}>
                         {t('header.ontology')}
                     </Button>
                     <Button color='inherit' onClick={goto('/workflow')}>
