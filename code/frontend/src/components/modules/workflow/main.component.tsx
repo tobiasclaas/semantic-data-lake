@@ -42,7 +42,6 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       data: { label: `${type} node` },
     };
 
-    if (indexOf)
     return node;
   };
 
