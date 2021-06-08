@@ -66,7 +66,6 @@ class Datamarts(Resource):
         datamart.save()
         return jsonify(mapper(datamart))
 
-    @jwt_required
     @parse_params(
         Argument("op", type=str, required=True),
         Argument("mart1", type=str, required=True),

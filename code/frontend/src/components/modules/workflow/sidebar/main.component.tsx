@@ -43,6 +43,13 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         >
           <ListItemText primary={t("workflow.items.join")} />
         </ListItem>
+        <ListItem
+          button
+          onDragStart={(event) => onDragStart(event, "export")}
+          draggable
+        >
+          <ListItemText primary={t("workflow.items.export")} />
+        </ListItem>
       </List>
     </Container>
   );

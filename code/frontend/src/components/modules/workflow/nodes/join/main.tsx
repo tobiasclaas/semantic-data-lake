@@ -1,9 +1,9 @@
-import Typography from "@material-ui/core/Typography";
 import React, { memo } from "react";
 
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
-import StorageIcon from "@material-ui/icons/Storage";
+import MergeTypeIcon from "@material-ui/icons/MergeType";
+import { Typography } from "@material-ui/core";
 
 export default memo(({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -18,11 +18,23 @@ export default memo(({ data }: { data: any }) => {
           padding: 10,
         }}
       >
-        <StorageIcon />
+        <MergeTypeIcon />
         <Typography style={{ margin: "0 0.5rem" }}>
-          {t("workflow.items.data_source")}
+          {t("workflow.items.join")}
         </Typography>
       </div>
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="input_1"
+        style={{ background: "#555", top: "33%" }}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="input_2"
+        style={{ background: "#555", top: "66%" }}
+      />
       <Handle
         type="source"
         position={Position.Right}

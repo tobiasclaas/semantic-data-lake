@@ -111,7 +111,6 @@ class PostgresqlIngestion(Resource):
 
 
 class CsvIngestion(Resource):
-    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("delimiter", default=';', type=str, required=False),
@@ -124,7 +123,6 @@ class CsvIngestion(Resource):
             self, file: FileStorage, delimiter, has_header, target_storage, comment,
             human_readable_name
     ):
-        api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = CsvStorage(
@@ -137,7 +135,7 @@ class CsvIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
+            mapper(__start__(None, source, target_storage, human_readable_name, comment))
         )
 
 

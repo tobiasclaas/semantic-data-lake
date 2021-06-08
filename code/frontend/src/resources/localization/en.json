@@ -24,6 +24,6 @@
     "ontology_management.title" : "Ontology Management",
     "ontology_management.description" : "Here you can view, add and edit your onotlogies.",
     "workflow.items.data_source":"Data Source",
-    "workflow.items.join":"Join"
-
+    "workflow.items.join":"Join",
+    "workflow.items.export":"Export"
 }

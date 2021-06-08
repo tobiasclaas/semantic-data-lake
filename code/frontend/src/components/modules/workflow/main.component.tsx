@@ -18,16 +18,20 @@ import ReactFlow, {
   Node as FlowNode,
   Elements,
   XYPosition,
+  ArrowHeadType,
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
+import nodes from "./nodes";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [elements, setElements] = useState<Elements<any>>([]);
 
-  const onConnect = (params: Edge<any> | Connection) =>
-    setElements((els) => addEdge(params, els));
+  const onConnect = (e: Edge<any> | Connection) => {
+    (e as any).arrowHeadType = ArrowHeadType.Arrow;
+    setElements((els) => addEdge(e, els));
+  };
 
   const onElementsRemove = (elementsToRemove: Elements<any>) =>
     setElements((els) => removeElements(elementsToRemove, els));
@@ -40,6 +44,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       id: uuidv4(),
       position,
       data: { label: `${type} node` },
+      type,
     };
 
     return node;
@@ -70,6 +75,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         <div style={{ flex: 1 }} ref={reactFlowWrapper}>
           <ReactFlow
             elements={elements}
+            nodeTypes={nodes}
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}

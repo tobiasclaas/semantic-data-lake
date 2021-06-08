@@ -65,7 +65,7 @@ def create_datamart(user: User, source, target_storage, human_readable_name, com
         comment=comment,
         metadata=Metadata(
             created_at=datetime.now(),
-            created_by=user,
+            created_by=None,
             heritage=[],
             construction_code="",
             construction_query="",
