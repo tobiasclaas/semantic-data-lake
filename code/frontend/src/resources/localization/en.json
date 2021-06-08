@@ -22,6 +22,8 @@
     "ontology_management.upload.title" : "Add a New Ontology",
     "ontology_management.upload.description": "Please provide the new ontology details.",
     "ontology_management.title" : "Ontology Management",
-    "ontology_management.description" : "Here you can view, add and edit your onotlogies."
+    "ontology_management.description" : "Here you can view, add and edit your onotlogies.",
+    "workflow.items.data_source":"Data Source",
+    "workflow.items.join":"Join"
 
 }
