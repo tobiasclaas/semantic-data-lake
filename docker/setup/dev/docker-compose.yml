@@ -202,8 +202,9 @@ services:
       - 3030:3030
     networks:
       - backend
-    environment:
-      - ADMIN_PASSWORD=pw123
+    env_file: ../variables.env
+    volumes:
+      - ../config.ttl:/fuseki/config.ttl
 
 networks:
   backend:
