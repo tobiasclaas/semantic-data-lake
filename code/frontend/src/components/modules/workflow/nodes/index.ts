@@ -1,6 +1,6 @@
 import DataSourceNode from "./data_source";
 import JoinNode from "./join";
-import ExportNode from "./join";
+import ExportNode from "./export";
 
 const nodes = {
   data_source: DataSourceNode,

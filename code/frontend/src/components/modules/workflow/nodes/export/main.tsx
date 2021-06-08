@@ -3,7 +3,6 @@ import React, { memo } from "react";
 
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
-import StorageIcon from "@material-ui/icons/Storage";
 import SaveIcon from "@material-ui/icons/Save";
 
 export default memo(({ data }: { data: any }) => {
@@ -26,7 +25,7 @@ export default memo(({ data }: { data: any }) => {
       </div>
       <Handle
         type="target"
-        position={Position.Right}
+        position={Position.Left}
         id="input"
         style={{ background: "#555" }}
       />
