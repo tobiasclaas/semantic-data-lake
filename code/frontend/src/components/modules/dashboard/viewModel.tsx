@@ -7,6 +7,7 @@ import View from './main.component'
 class ViewModel extends ContentStore {
     constructor() {
         super()
+        makeObservable(this)
     }
 
     getView = () => <View viewModel={this} />

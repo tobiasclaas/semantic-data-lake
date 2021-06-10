@@ -10,8 +10,9 @@ from api.services.decorators import parse_params
 from database.data_access import workspace_data_access
 
 
+
 def mapper(item):
-    return{
+    return {
         "id": str(item.id),
         "name": item.name,
     }

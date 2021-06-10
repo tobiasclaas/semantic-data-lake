@@ -1,6 +1,7 @@
 import os
 import yaml
 
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 class PostgresqlStorage:
     def __init__(self, host, port, database, user, password):
@@ -46,12 +47,11 @@ class Settings(object):
 
 def load(server):
     #config_path = os.environ.get('/home/mapro2020/refactor/team-2-data-lake/datalake_config.yml')
-    config_file = open('../../../datalake_config.yml')
+    config_file = open(os.path.join(__location__, '../../../datalake_config.yml'))
     config_data = yaml.load(config_file, yaml.FullLoader)
 
     jwt = config_data.get("jwt")
     server_mongodb = config_data.get("serverMongodb")
-    static_path = "../../frontend/public"
     host = server_mongodb.get("host")
     port = server_mongodb.get("port")
     mongo_db = server_mongodb.get("database")

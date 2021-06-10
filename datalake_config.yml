@@ -35,3 +35,7 @@ storages:
     port: 9000
     ingestionDirectory: "datalake_ingestion"
     storageDirectory: "datalake_storage"
+
+  fuseki:
+    user: admin
+    password: pw123

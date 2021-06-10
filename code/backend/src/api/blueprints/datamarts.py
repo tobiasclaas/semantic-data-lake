@@ -3,7 +3,6 @@ from flask_restful import Api
 
 from api.endpoints.datamarts import Datamarts
 from api.endpoints.datamarts.ingestion import *
-
 from api.endpoints.datamarts.creation import *
 
 DATAMARTS_BLUEPRINT = Blueprint("datamarts.py", __name__)
