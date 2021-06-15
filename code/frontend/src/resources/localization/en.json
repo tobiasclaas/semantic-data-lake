@@ -25,5 +25,11 @@
     "ontology_management.description" : "Here you can view, add and edit your onotlogies.",
     "workflow.items.data_source":"Data Source",
     "workflow.items.join":"Join",
-    "workflow.items.export":"Export"
+    "workflow.items.export":"Export",
+    "dataset_management.upload.title" : "Add a New Dataset",
+    "dataset_management.upload.type" : "Type",
+    "dataset_management.upload.description": "Please provide the new dataset details.",
+    "dataset_management.title" : "Dataset Management",
+    "dataset_management.description" : "Here you can view, add and edit your datasets."
+
 }

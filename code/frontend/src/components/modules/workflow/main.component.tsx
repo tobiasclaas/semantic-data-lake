@@ -22,6 +22,7 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import nodes from "./nodes";
+import Button from "@material-ui/core/Button";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
@@ -86,6 +87,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           </ReactFlow>
         </div>
       </ReactFlowProvider>
+      <Button onClick={() => console.log(elements)}>Show Code</Button>
     </div>
   );
 });

@@ -26,7 +26,7 @@ const Header: React.FC = () => {
           <Button color="inherit" onClick={goto("/dashboard")}>
             {t("header.dashboard")}
           </Button>
-          <Button color="inherit" onClick={goto("/data-management")}>
+          <Button color="inherit" onClick={goto("/dataset-management")}>
             {t("header.data")}
           </Button>
           <Button color="inherit" onClick={goto("/ontology-management")}>
