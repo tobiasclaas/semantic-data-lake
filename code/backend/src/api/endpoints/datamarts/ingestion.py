@@ -21,8 +21,8 @@ from database.models import (
 )
 
 
-def __start__(api_user, source, target_storage, workspace, hnr, comment):
-    datamart = create_datamart(api_user, source, target_storage, workspace, hnr, comment)
+def __start__(api_user, source, target_storage, hnr, comment):
+    datamart = create_datamart(api_user, source, target_storage, hnr, comment)
 
     try:
         scheduler = BackgroundScheduler()
@@ -106,7 +106,7 @@ class PostgresqlIngestion(Resource):
         )
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
         )
 
 
@@ -114,7 +114,6 @@ class CsvIngestion(Resource):
     @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
-        Argument("workspace", type=str, required=True),
         Argument("delimiter", default=';', type=str, required=False),
         Argument("has_header", default=False, type=bool, required=False),
         Argument("target_storage", default='HDFS', type=str, required=False),
@@ -122,14 +121,14 @@ class CsvIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(
-            self, file: FileStorage, workspace, delimiter, has_header, target_storage, comment,
+            self, file: FileStorage, delimiter, has_header, target_storage, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = CsvStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}",
             has_header=has_header,
             delimiter=delimiter
         )
@@ -138,7 +137,7 @@ class CsvIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
         )
 
 
@@ -146,27 +145,26 @@ class JsonIngestion(Resource):
     @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
-        Argument("workspace", type=str, required=True),
         Argument("target_storage", default='HDFS', type=str, required=False),
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(
-            self, file: FileStorage, workspace, target_storage, comment,
+            self, file: FileStorage, target_storage, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = JsonStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}"
         )
 
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
         )
 
 
@@ -174,21 +172,20 @@ class XmlIngestion(Resource):
     @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
-        Argument("workspace", type=str, required=True),
         Argument("row_tag", default=';', type=str, required=False),
         Argument("target_storage", default='HDFS', type=str, required=False),
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(
-            self, file: FileStorage, workspace, row_tag, target_storage, comment,
+            self, file: FileStorage, row_tag, target_storage, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = XmlStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}",
             row_tag=row_tag,
         )
 
@@ -196,5 +193,5 @@ class XmlIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
         )

@@ -10,7 +10,7 @@ from settings import Settings
 settings = Settings()
 
 
-def __get_target__(source, target_storage, workspace, uid):
+def __get_target__(source, target_storage, uid):
     if target_storage == "MongoDB":
         return MongodbStorage(
             host=settings.mongodb_storage.host,
@@ -36,20 +36,20 @@ def __get_target__(source, target_storage, workspace, uid):
 
         if source and isinstance(source, CsvStorage):
             return CsvStorage(
-                file=f"{folder}/{workspace}/{uid}.csv",
+                file=f"{folder}/{uid}.csv",
                 has_header=source.has_header,
                 delimiter=source.delimiter
             )
 
         elif source and isinstance(source, XmlStorage):
             return XmlStorage(
-                file=f"{folder}/{workspace}/{uid}.xml",
+                file=f"{folder}/{uid}.xml",
                 row_tag=source.row_tag
             )
 
         else:
             return JsonStorage(
-                file=f"{folder}/{workspace}/{uid}.json"
+                file=f"{folder}/{uid}.json"
             )
     else:
         raise NotAcceptable(
@@ -57,7 +57,7 @@ def __get_target__(source, target_storage, workspace, uid):
         )
 
 
-def create_datamart(user: User, source, target_storage, workspace, human_readable_name, comment):
+def create_datamart(user: User, source, target_storage, human_readable_name, comment):
     uid = str(uuid.uuid4())
     datamart = Datamart(
         uid=uid,
@@ -70,7 +70,7 @@ def create_datamart(user: User, source, target_storage, workspace, human_readabl
             construction_code="",
             construction_query="",
             source=source,
-            target=__get_target__(source, target_storage, workspace, uid)
+            target=__get_target__(source, target_storage, uid)
         ),
         status=DatamartStatus()
     )
