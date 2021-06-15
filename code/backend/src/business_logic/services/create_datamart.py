@@ -57,8 +57,7 @@ def __get_target__(source, target_storage, workspace, uid):
         )
 
 
-def create_datamart(user: User, source, target_storage, workspace, human_readable_name, comment):
-    uid = str(uuid.uuid4())
+def create_datamart(user: User, source, target_storage, workspace, human_readable_name, comment, uid):
     datamart = Datamart(
         uid=uid,
         human_readable_name=human_readable_name,

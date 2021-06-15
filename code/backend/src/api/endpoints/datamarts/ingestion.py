@@ -21,8 +21,8 @@ from database.models import (
 )
 
 
-def __start__(api_user, source, target_storage, workspace, hnr, comment):
-    datamart = create_datamart(api_user, source, target_storage, workspace, hnr, comment)
+def __start__(api_user, source, target_storage, workspace, hnr, comment, uid):
+    datamart = create_datamart(api_user, source, target_storage, workspace, hnr, comment, uid)
 
     try:
         scheduler = BackgroundScheduler()
@@ -128,8 +128,10 @@ class CsvIngestion(Resource):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
+        uid = uuid.uuid4()
+
         source = CsvStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace}/{uid}",
             has_header=has_header,
             delimiter=delimiter
         )
@@ -138,7 +140,7 @@ class CsvIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment, uid))
         )
 
 
@@ -158,15 +160,17 @@ class JsonIngestion(Resource):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
+        uid = uuid.uuid4()
+
         source = JsonStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace}/{uid}",
         )
 
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment, uid))
         )
 
 
@@ -187,8 +191,10 @@ class XmlIngestion(Resource):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
+        uid = uuid.uuid4()
+
         source = XmlStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace}/{uid}",
             row_tag=row_tag,
         )
 
@@ -196,5 +202,5 @@ class XmlIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace, human_readable_name, comment, uid))
         )
