@@ -157,8 +157,8 @@ services:
           - "SPARK_MASTER=spark://master:7077"
       networks:
           - backend
-      extra_hosts:
-       - "datalake6:192.168.220.6" # change to your hostname and ip address
+      #extra_hosts:
+      # - "datalake6:192.168.220.6" # change to your hostname and ip address
   worker-2:
       image: bde2020/spark-worker:3.1.1-hadoop3.2
       container_name: worker-2
@@ -170,8 +170,8 @@ services:
           - "SPARK_MASTER=spark://master:7077"
       networks:
           - backend
-      extra_hosts:
-       - "datalake6:192.168.220.6" # change to your hostname and ip address
+      #extra_hosts:
+      # - "datalake6:192.168.220.6" # change to your hostname and ip address
 
 
   #------------------------------------------------------------------------------------------------
