@@ -1,9 +1,33 @@
 import React from 'react';
 
+import workspacesStore from "../../../stores/workspaces.store";
+import StoreStatus from "../../../models/storeStatus.enum";
+
 class Query extends React.Component {
 
+  constructor() {
+    super();
+
+
+    this.initialize();
+  }
+
+  private async initialize() {
+
+    try {
+      if (!workspacesStore.currentWorkspace)
+        throw new Error("Current workspace must be set.");
+      else{
+        this.state.databasename = workspacesStore.currentWorkspace.id;
+        console.log("YEAH",this.state.databasename)
+      }
+    } catch (ex) {
+      this.setStatus(StoreStatus.failed);
+    }
+  }
+
     state = {
-        databasename: "test",
+        databasename: "bla",
         querystring: "select * where {?s ?p ?o .} LIMIT 25",
         graphname: "pizza",
         results: {
