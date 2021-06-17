@@ -121,14 +121,14 @@ class CsvIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(
-            self, file: FileStorage, delimiter, has_header, target_storage, comment,
+            self, workspace_id, file: FileStorage, delimiter, has_header, target_storage, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = CsvStorage(
-            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}",
             has_header=has_header,
             delimiter=delimiter
         )
@@ -150,14 +150,14 @@ class JsonIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(
-            self, file: FileStorage, target_storage, comment,
+            self, workspace_id, file: FileStorage, target_storage, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = JsonStorage(
-            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}"
+            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}"
         )
 
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
@@ -178,14 +178,14 @@ class XmlIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(
-            self, file: FileStorage, row_tag, target_storage, comment,
+            self, workspace_id, file: FileStorage, row_tag, target_storage, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = XmlStorage(
-            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}",
             row_tag=row_tag,
         )
 
