@@ -14,7 +14,6 @@ from database.data_access import ontology_data_access
 from requests import put, post, delete
 
 
-
 def mapper(item):
     return{
         "id": str(item.id),
@@ -39,4 +38,3 @@ class Ontologies(Resource):
             return Response(status=200)
         except HTTPException as inst:
             return Response(status=inst.code)
-   

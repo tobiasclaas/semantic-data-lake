@@ -6,7 +6,6 @@ from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from werkzeug.datastructures import FileStorage
 from requests import put, post, delete, patch
-import pandas as pd
 
 from api.services.decorators import parse_params
 
@@ -22,15 +21,15 @@ def create_query_string(databasename: str, graph_name: str, querystring: str):
     if graph_name == '' or graph_name is None:
         graph_name = '?g'
         query = "SELECT ?s ?p ?o " \
-        "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+            "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
+            "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
+            "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
     else:
         graph_name = 'http://localhost:3030/' + databasename + '#' + graph_name
         query = "SELECT ?s ?p ?o " \
-                "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+            "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
+            "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
+            "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
 
     return query
 
@@ -68,8 +67,6 @@ class Fuseki(Resource):
             Status Code: If error occurs.
         """
         if search:
-            # TODO replace admin and pw by environment variable defined in docker-compose.yaml,
-            #  better solution required. lets ask maher
             # replace admin and pw by environment variable defined in docker-compose.yaml
             p = post('http://localhost:3030/' + databasename, auth=('admin', 'pw123'),
                      data={'query': create_query_string(databasename, graphname, querystring)})
@@ -86,7 +83,7 @@ class Fuseki(Resource):
 
             try:
                 data = json.loads(p.content)
-            
+
                 return data
             except Exception:
                 traceback.print_exc()

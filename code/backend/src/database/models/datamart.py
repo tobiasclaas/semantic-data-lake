@@ -1,10 +1,8 @@
 from enum import Enum
 
-from database import FlaskDocument
+from database import FlaskDocument, database as db
 from mongoengine.document import EmbeddedDocument
 from database.models.metadata import Metadata
-
-from database import database as db
 
 
 class DatamartState(Enum):

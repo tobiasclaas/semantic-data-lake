@@ -10,25 +10,24 @@ from api.services.decorators import parse_params
 from database.data_access import workspace_data_access
 
 
-
 def mapper(item):
     return {
         "id": str(item.id),
         "name": item.name,
     }
-        
+
 
 class Workspaces(Resource):
     def get(self):
         return jsonify([mapper(item) for item in workspace_data_access.get_all()])
 
-    @parse_params( 
+    @parse_params(
         Argument("name", default=None, type=str, required=True),
     )
     def post(self, name):
         return jsonify(mapper(workspace_data_access.create(name)))
 
-    @parse_params( 
+    @parse_params(
         Argument("id", default=None, type=str, required=True),
     )
     def delete(self, id):
@@ -37,7 +36,3 @@ class Workspaces(Resource):
             return Response(status=200)
         except HTTPException as inst:
             return Response(status=inst.code)
-
-
-
-
