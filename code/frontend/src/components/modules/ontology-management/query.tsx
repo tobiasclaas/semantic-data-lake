@@ -60,8 +60,8 @@ class Query extends React.Component {
           body: JSON.stringify(props),
           redirect: 'follow'
         };
-        console.log("CONFIGS",configs)
-        fetch("/fuseki", configs)
+
+        fetch(`/workspaces/${workspacesStore.currentWorkspace.id}/ontologies`, configs)
           .then(response => response.text())
           .then(result => {
             if (result.status >= 400) {
