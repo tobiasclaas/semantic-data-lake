@@ -36,6 +36,16 @@ def mapper(model):
             "isAdmin": model.is_admin
         }
 
+    # ===== annotation =============================================================================
+    if isinstance(model, Annotation):
+        return {
+            "workspace_id": model.workspace_id,
+            "file_name": model.file_name,
+            "data_attribute": model.data_attribute,
+            "ontology_attribute": model.ontology_attribute,
+            "comment": model.comment
+        }
+
     # ===== datamart status ========================================================================
     if isinstance(model, DatamartStatus):
         return {

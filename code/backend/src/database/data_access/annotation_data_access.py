@@ -1,17 +1,20 @@
-from database.models.workspace import Workspace
-from werkzeug.exceptions import NotFound, BadRequest
+from http import HTTPStatus
+
 from database.models import Annotation
 
 
-def get(workspace_id, file_name, data_attribute):
+def get(workspace_id, file_name, data_attribute) -> [Annotation]:
     """
     Get all annotations for data_attribute.
-    :param workspace_id:
-    :param file_name:
-    :param data_attribute:
-    :return:
     """
-    pass
+    annotation: Annotation = Annotation.objects(workspace_id=workspace_id,
+                                                file_name=file_name,
+                                                data_attribute=data_attribute)
+
+    if not annotation:
+        raise HTTPStatus.NOT_FOUND
+
+    return annotation.get()
 
 
 def add(workspace_id, file_name, data_attribute, ontology_attribute, comment=''):
@@ -19,20 +22,17 @@ def add(workspace_id, file_name, data_attribute, ontology_attribute, comment='')
     Stores an annotation in MongoDB.
     :return:
     """
-
-    # TODO check if workspace exists or get current workspace
-    # TODO check if file exists
-    # TODO check if file has attribute: data_attribute
-    # TODO check if ontology_attribute exists in workspace
-    print("Test")
+    # TODO check if annotation already exists
+    # a = Annotation.objects(workspace_id=workspace_id, file_name=file_name,
+    #                       data_attribute=data_attribute, ontology_attribute=ontology_attribute).get()
+    # print(a)
 
     entity = Annotation(workspace_id=workspace_id, file_name=file_name, data_attribute=data_attribute,
                         ontology_attribute=ontology_attribute, comment=comment)
-    Annotation.objects.insert(entity)
+    a = Annotation.objects.insert(entity)
+    print(type(a))
 
-    # is it stored?
-
-    return entity
+    return HTTPStatus.CREATED
 
 
 def delete(workspace_id, file_name, data_attribute, ontology_attribute):
@@ -44,14 +44,16 @@ def delete(workspace_id, file_name, data_attribute, ontology_attribute):
     :param ontology_attribute:
     :return:
     """
-    pass
+    Annotation.objects(workspace_id=workspace_id, file_name=file_name,
+                       data_attribute=data_attribute, ontology_attribute=ontology_attribute).delete()
 
 
-def delete_all(workspace_id, file_name):
+def delete_all(workspace_id, file_name, data_attribute):
     """
     Delete all annotations for a file.
     :param workspace_id:
     :param file_name:
+    :param data_attribute:
     :return:
     """
     pass
