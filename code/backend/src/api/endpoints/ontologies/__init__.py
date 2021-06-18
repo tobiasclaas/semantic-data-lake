@@ -60,7 +60,7 @@ class Ontologies(Resource):
         Argument("name", default=None, type=str, required=False),
         Argument("querystring", type=str, required=False),
         Argument("graphname", type=str, required=False),
-        Argument("search", type=bool, required=False))
+        Argument("search", type=str, required=False))
     def post(self, name, file, workspace_id, querystring, graphname, search):
 
         if search:
@@ -68,7 +68,7 @@ class Ontologies(Resource):
             #  better solution required. lets ask maher
             # replace admin and pw by environment variable defined in docker-compose.yaml
             p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
-                     data={'query': create_query_string(workspace_id, graphname, querystring)})
+                     data={'query': create_query_string(workspace_id, graphname, search)})
 
             try:
                 data = json.loads(p.content)
