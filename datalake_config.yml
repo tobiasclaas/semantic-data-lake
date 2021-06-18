@@ -26,7 +26,6 @@ storages:
   postgresql:
     host: "localhost"
     port: 5432
-    database: "datalake_storage"
     user: "mapro2020"
     password: "mapro2020"
 

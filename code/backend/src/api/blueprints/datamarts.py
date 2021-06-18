@@ -11,10 +11,10 @@ datamarts_routes = ["/datamarts", "/datamarts/<uid>"]
 Api(DATAMARTS_BLUEPRINT).add_resource(Datamarts, *datamarts_routes)
 
 # ===== ingestion ==================================================================================
-mongodb_ingestion_routes = ["/datamarts/ingestion/mongodb"]
+mongodb_ingestion_routes = ["/workspaces/<workspace_id>/datamarts/ingestion/mongodb"]
 Api(DATAMARTS_BLUEPRINT).add_resource(MongodbIngestion, *mongodb_ingestion_routes)
 
-postgresql_ingestion_routes = ["/datamarts/ingestion/postgresql"]
+postgresql_ingestion_routes = ["/workspaces/<workspace_id>/datamarts/ingestion/postgresql"]
 Api(DATAMARTS_BLUEPRINT).add_resource(PostgresqlIngestion, *postgresql_ingestion_routes)
 
 csv_ingestion_routes = ["/workspaces/<workspace_id>/datamarts/ingestion/csv"]

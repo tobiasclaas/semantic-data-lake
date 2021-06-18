@@ -17,12 +17,12 @@ from business_logic.ingestion import ingest
 
 from database.data_access import user_data_access
 from database.models import (
-    MongodbStorage, DatamartState, CsvStorage, JsonStorage, XmlStorage
+    MongodbStorage, PostgresqlStorage, DatamartState, CsvStorage, JsonStorage, XmlStorage
 )
 
 
-def __start__(api_user, source, target_storage, hnr, comment):
-    datamart = create_datamart(api_user, source, target_storage, hnr, comment)
+def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
+    datamart = create_datamart(api_user, source, target_storage, workspace_id, hnr, comment)
 
     try:
         scheduler = BackgroundScheduler()
@@ -58,7 +58,7 @@ class MongodbIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False)
     )
     def post(
-            self, host, port, database, collection, target_storage, user, password, comment,
+            self, host, port, database, collection, workspace_id, target_storage, user, password, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
@@ -73,7 +73,7 @@ class MongodbIngestion(Resource):
         )
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment))
         )
 
 
@@ -91,22 +91,22 @@ class PostgresqlIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False)
     )
     def post(
-            self, host, port, database, collection, target_storage, user, password, comment,
+            self, host, port, database, table, workspace_id, target_storage, user, password, comment,
             human_readable_name
     ):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
 
-        source = PostgresqlIngestion(
+        source = PostgresqlStorage(
             host=host,
             port=port,
             user=user,
             password=password,
             database=database,
-            table=collection
+            table=table
         )
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment))
         )
 
 
@@ -128,7 +128,7 @@ class CsvIngestion(Resource):
         hdfs = settings.Settings().hdfs_storage
 
         source = CsvStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.csv",
             has_header=has_header,
             delimiter=delimiter
         )
@@ -137,7 +137,7 @@ class CsvIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment))
         )
 
 
@@ -157,14 +157,14 @@ class JsonIngestion(Resource):
         hdfs = settings.Settings().hdfs_storage
 
         source = JsonStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}"
+            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.json"
         )
 
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment))
         )
 
 
@@ -185,7 +185,7 @@ class XmlIngestion(Resource):
         hdfs = settings.Settings().hdfs_storage
 
         source = XmlStorage(
-            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}",
+            file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.xml",
             row_tag=row_tag,
         )
 
@@ -193,5 +193,5 @@ class XmlIngestion(Resource):
         client.create_file(source.file, file)
 
         return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
+            mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment))
         )
