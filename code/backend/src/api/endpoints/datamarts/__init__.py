@@ -23,16 +23,17 @@ class Datamarts(Resource):
         Argument("search", default=None, type=str, required=False),
         Argument("uid", default=None, type=str, required=False),
     )
-    def get(self, page, limit, field_to_order, asc, search, uid=None):
+    def get(self, workspace_id, page, limit, field_to_order, asc, search, uid=None):
         if uid is None:
             result = []
             datamarts = data_access.get_list(page, limit, field_to_order, asc, search)
-
+            
             for datamart in datamarts.items:
-                result.append(mapper(datamart))
+                if mapper(datamart)['workspace_id'] == workspace_id:
+                    result.append(mapper(datamart))
 
             return jsonify({
-                "total": datamarts.total,
+                "total": len(result),
                 "datamarts": result
             })
         else:

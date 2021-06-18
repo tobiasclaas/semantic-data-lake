@@ -22,6 +22,7 @@ def __get_target__(source, target_storage, workspace_id, uid):
         )
 
     elif target_storage == "PostgreSQL":
+        print(workspace_id)
         return PostgresqlStorage(
             host=settings.postgresql_storage.host,
             port=settings.postgresql_storage.port,
@@ -61,6 +62,7 @@ def create_datamart(user: User, source, target_storage, workspace_id, human_read
     uid = str(uuid.uuid4())
     datamart = Datamart(
         uid=uid,
+        workspace_id = workspace_id,
         human_readable_name=human_readable_name,
         comment=comment,
         metadata=Metadata(

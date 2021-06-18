@@ -22,6 +22,7 @@ class DatamartStatus(EmbeddedDocument):
 
 class Datamart(FlaskDocument):
     uid = db.UUIDField(binary=False, required=True, unique=True)
+    workspace_id = db.StringField(max_length=255)
     human_readable_name = db.StringField(max_length=255)
     comment = db.StringField(max_length=255)
     metadata = db.EmbeddedDocumentField(Metadata)

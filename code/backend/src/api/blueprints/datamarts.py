@@ -7,7 +7,7 @@ from api.endpoints.datamarts.creation import *
 
 DATAMARTS_BLUEPRINT = Blueprint("datamarts.py", __name__)
 
-datamarts_routes = ["/datamarts", "/datamarts/<uid>"]
+datamarts_routes = ["/workspaces/<workspace_id>/datamarts", "/datamarts/<uid>"]
 Api(DATAMARTS_BLUEPRINT).add_resource(Datamarts, *datamarts_routes)
 
 # ===== ingestion ==================================================================================
