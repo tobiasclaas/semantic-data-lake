@@ -12,22 +12,22 @@ serverMongodb:
   host: "192.168.220.6"
   port: 27017
   database: "datalake"
-  user: "admin"
-  password: "admin"
+  user: "mapro2020"
+  password: "mapro2020"
 
 storages:
   mongodb: 
     host: "192.168.220.6"
     port: 27017
-    user: "admin"
-    password: "admin"
+    user: "mapro2020"
+    password: "mapro2020"
 
   postgresql:
     host: "192.168.220.6"
     port: 5432
     database: "datalake_storage"
-    user: "admin"
-    password: "admin"
+    user: "mapro2020"
+    password: "mapro2020"
 
   hdfs:
     namenode: "namenode"
