@@ -37,7 +37,7 @@ class Annotation(Resource):
 
     @parse_params(
         Argument('workspace_id', required=True, type=str),
-        Argument('file_name', required=True, type=str),
+        Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', required=True, type=str)
     )
     def get(self, workspace_id, datamart_id, data_attribute=''):
@@ -46,7 +46,7 @@ class Annotation(Resource):
 
     @parse_params(
         Argument('workspace_id', required=True, type=str),
-        Argument('file_name', required=True, type=str),
+        Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', required=True, type=str),
         Argument('ontology_attribute', required=True, type=str),
         Argument('comment', required=True, type=str)
@@ -59,7 +59,7 @@ class Annotation(Resource):
 
     @parse_params(
         Argument('workspace_id', type=str, required=True),
-        Argument('file_name', type=str, required=True),
+        Argument('datamart_id', type=str, required=True),
         Argument('data_attribute', type=str, required=True),
         Argument('ontology_attribute', type=str)
     )

@@ -1,6 +1,6 @@
 from database.models import Workspace
 from werkzeug.exceptions import NotFound, BadRequest
-from requests import put, post, delete as DeleteRequest
+from requests import put, post, delete
 
 
 def get_all() -> [Workspace]:
@@ -8,11 +8,10 @@ def get_all() -> [Workspace]:
 
 
 def create(name):
-    entity = Workspace(
-        name=name
-    )
+    entity = Workspace(name=name)
     Workspace.objects.insert(entity)
     post('http://localhost:3030/$/datasets', auth=('admin', 'pw123'), data={'dbName': str(entity.id), 'dbType': 'tdb'})
+    # TODO add default ontology 'PoA'
     return entity
 
 
@@ -22,5 +21,5 @@ def delete(id):
         raise NotFound()
     if len(get_all()) == 1:
         raise BadRequest()
-    DeleteRequest('http://localhost:3030/$/datasets/{}'.format(id), auth=('admin', 'pw123'))
+    delete('http://localhost:3030/$/datasets/{}'.format(id), auth=('admin', 'pw123'))
     Workspace.objects(id__exact=id).delete()

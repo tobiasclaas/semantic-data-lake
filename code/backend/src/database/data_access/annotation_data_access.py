@@ -3,12 +3,21 @@ from http import HTTPStatus
 from database.models import Annotation
 
 
+def create():
+    """
+    Creates a Annotation collection by adding a dummy entry and then removing it.
+    """
+    entity = Annotation(workspace_id='', datamart_id='', data_attribute='', ontology_attribute='')
+    Annotation.objects().insert(entity)
+    Annotation.objects(workspace_id='', datamart_id='', data_attribute='', ontology_attribute='').delete()
+
+
 def get(workspace_id, datamart_id, data_attribute):
     """
     Get all annotations for data_attribute.
     """
     annotation: Annotation = Annotation.objects(workspace_id=workspace_id,
-                                                file_name=datamart_id,
+                                                datamart_id=datamart_id,
                                                 data_attribute=data_attribute)
     if not annotation:
         return HTTPStatus.NOT_FOUND
@@ -27,9 +36,10 @@ def add(workspace_id, datamart_id, data_attribute, ontology_attribute, comment='
 
     # TODO assure that the ontology attributes are in fuseki
 
+
     if search_res is HTTPStatus.NOT_FOUND:  # there are no annotations for data_attribute
         ontology_attribute = [ontology_attribute]
-        entity = Annotation(workspace_id=workspace_id, file_name=datamart_id, data_attribute=data_attribute,
+        entity = Annotation(workspace_id=workspace_id, datamart_id=datamart_id, data_attribute=data_attribute,
                             ontology_attribute=ontology_attribute, comment=comment)
         try:
             Annotation.objects.insert(entity)
@@ -45,7 +55,7 @@ def add(workspace_id, datamart_id, data_attribute, ontology_attribute, comment='
         # update document in collection
         try:
             Annotation.objects(workspace_id=workspace_id,
-                               file_name=datamart_id,
+                               datamart_id=datamart_id,
                                data_attribute=data_attribute).update(ontology_attribute=attribute_annotation)
         except:
             return HTTPStatus.INTERNAL_SERVER_ERROR
