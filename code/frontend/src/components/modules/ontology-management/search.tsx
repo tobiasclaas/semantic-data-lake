@@ -1,6 +1,29 @@
 import React from 'react';
+import workspacesStore from "../../../stores/workspaces.store";
+import StoreStatus from "../../../models/storeStatus.enum";
 
 class Search extends React.Component {
+
+  constructor() {
+    super();
+
+
+    this.initialize();
+  }
+
+  private async initialize() {
+
+    try {
+      if (!workspacesStore.currentWorkspace)
+        throw new Error("Current workspace must be set.");
+      else{
+        this.state.databasename = workspacesStore.currentWorkspace.id;
+        console.log("YEAH",this.state.databasename)
+      }
+    } catch (ex) {
+      this.setStatus(StoreStatus.failed);
+    }
+  }
 
   Ok :boolean= false;
 
@@ -23,7 +46,7 @@ class Search extends React.Component {
       redirect: 'follow'
     };
     
-    fetch("/fuseki", configs)
+    fetch(`/workspaces/${workspacesStore.currentWorkspace.id}/ontologies`, configs)
       .then(response => response.text())
       .then(result => {
         if (result.status >= 400) {

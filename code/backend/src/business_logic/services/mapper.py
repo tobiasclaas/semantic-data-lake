@@ -116,6 +116,7 @@ def mapper(model):
         return {
             "uid": model.uid,
             "humanReadableName": model.human_readable_name,
+            "workspace_id": model.workspace_id,
             "comment": model.comment,
             "metadata": mapper(model.metadata),
             "status": mapper(model.status)
