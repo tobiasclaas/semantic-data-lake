@@ -90,10 +90,7 @@ class PostgresqlIngestion(Resource):
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False)
     )
-    def post(
-            self, host, port, database, collection, target_storage, user, password, comment,
-            human_readable_name
-    ):
+    def post(self, host, port, database, collection, target_storage, user, password, comment, human_readable_name):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
 
         source = PostgresqlIngestion(
@@ -105,9 +102,7 @@ class PostgresqlIngestion(Resource):
             table=collection
         )
 
-        return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
-        )
+        return jsonify(mapper(__start__(api_user, source, target_storage, human_readable_name, comment)))
 
 
 class CsvIngestion(Resource):
@@ -120,10 +115,7 @@ class CsvIngestion(Resource):
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False),
     )
-    def post(
-            self, file: FileStorage, delimiter, has_header, target_storage, comment,
-            human_readable_name
-    ):
+    def post(self, file: FileStorage, delimiter, has_header, target_storage, comment, human_readable_name):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
@@ -136,9 +128,7 @@ class CsvIngestion(Resource):
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
-        return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
-        )
+        return jsonify(mapper(__start__(api_user, source, target_storage, human_readable_name, comment)))
 
 
 class JsonIngestion(Resource):
@@ -149,23 +139,16 @@ class JsonIngestion(Resource):
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False),
     )
-    def post(
-            self, file: FileStorage, target_storage, comment,
-            human_readable_name
-    ):
+    def post(self, file: FileStorage, target_storage, comment, human_readable_name):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
-        source = JsonStorage(
-            file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}"
-        )
+        source = JsonStorage(file=f"{hdfs.ingestion_directory}/{uuid.uuid4()}")
 
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
-        return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
-        )
+        return jsonify(mapper(__start__(api_user, source, target_storage, human_readable_name, comment)))
 
 
 class XmlIngestion(Resource):
@@ -177,10 +160,7 @@ class XmlIngestion(Resource):
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False),
     )
-    def post(
-            self, file: FileStorage, row_tag, target_storage, comment,
-            human_readable_name
-    ):
+    def post(self, file: FileStorage, row_tag, target_storage, comment, human_readable_name):
         api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
@@ -192,6 +172,4 @@ class XmlIngestion(Resource):
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
-        return jsonify(
-            mapper(__start__(api_user, source, target_storage, human_readable_name, comment))
-        )
+        return jsonify(mapper(__start__(api_user, source, target_storage, human_readable_name, comment)))

@@ -1,5 +1,3 @@
-from array import *
-
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 

@@ -12,7 +12,6 @@ from business_logic.spark import SparkHelper
 import pyspark.sql.functions as f
 
 
-
 class Datamarts(Resource):
     @jwt_required
     @parse_params(
@@ -103,4 +102,4 @@ class Datamarts(Resource):
             if (spark_helper):
                 spark_helper.spark_session.stop()
 
-            print (e)
+            print(e)

@@ -24,6 +24,7 @@ def add(workspace_id, datamart_id, data_attribute, ontology_attribute, comment='
     search_res = get(workspace_id, datamart_id, data_attribute)
 
     # TODO assure that datamart and data_attribute is a thing
+
     # TODO assure that the ontology attributes are in fuseki
 
     if search_res is HTTPStatus.NOT_FOUND:  # there are no annotations for data_attribute
