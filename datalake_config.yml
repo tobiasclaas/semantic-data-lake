@@ -12,8 +12,8 @@ serverMongodb:
   host: "localhost"
   port: 27017
   database: "datalake"
-  user: "mapro2020"
-  password: "mapro2020"
+  user: "admin"
+  password: "admin"
 
 storages:
   mongodb: 
