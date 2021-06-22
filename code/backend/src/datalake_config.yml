@@ -9,7 +9,7 @@ jwt:
   refreshTokenExpires: 90000000000
 
 serverMongodb:
-  host: "192.168.220.6"
+  host: "localhost"
   port: 27017
   database: "datalake"
   user: "mapro2020"
@@ -17,17 +17,17 @@ serverMongodb:
 
 storages:
   mongodb: 
-    host: "192.168.220.6"
+    host: "localhost"
     port: 27017
-    user: "mapro2020"
-    password: "mapro2020"
+    user: "admin"
+    password: "admin"
 
   postgresql:
-    host: "192.168.220.6"
+    host: "localhost"
     port: 5432
     database: "datalake_storage"
-    user: "mapro2020"
-    password: "mapro2020"
+    user: "admin"
+    password: "admin"
 
   hdfs:
     namenode: "namenode"
