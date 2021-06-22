@@ -22,6 +22,9 @@ import { DataSetType } from "../../../models/dataset";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import ItemButton from "../../common/item/button";
+import { blue } from "@material-ui/core/colors";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
@@ -46,7 +49,14 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             key={item.id}
             title={item.name}
             onDelete={() => viewModel.delete(item)}
-          />
+          >
+            <ItemButton
+              htmlColor={blue[500]}
+              onClick={() => viewModel.beginAnnotation(item)}
+            >
+              <LocalOfferIcon fontSize="small" />
+            </ItemButton>
+          </Item>
         ))}
       </ContainerGrid>
       <Dialog
@@ -85,6 +95,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
                     }
                   >
                     <MenuItem value="csv">CSV</MenuItem>
+                    <MenuItem value="json">JSON</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -102,6 +113,21 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             onClick={() => viewModel.upload()}
           >
             {t("generic.upload")}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        maxWidth="sm"
+        fullWidth
+        open={viewModel.isAnnotationModalOpen}
+        disableAutoFocus
+      >
+        <DialogTitle>{t("dataset_management.annotation.title")}</DialogTitle>
+        <DialogContent>{viewModel.annotationView}</DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={() => viewModel.endAnnotation()}>
+            {t("generic.close")}
           </Button>
         </DialogActions>
       </Dialog>

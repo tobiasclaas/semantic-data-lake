@@ -13,6 +13,8 @@ import StoreStatus from "../../../models/storeStatus.enum";
 import routingStore from "../../../stores/routing.store";
 import workspacesStore from "../../../stores/workspaces.store";
 import BodyViewModel from "./body/bodyViewModel";
+import AnnotationViewModel from "./annotation";
+
 import View from "./main.component";
 
 class ViewModel extends ContentStore {
@@ -77,19 +79,16 @@ class ViewModel extends ContentStore {
   @observable uploadType: DataSetType = DataSetType.csv;
   @action async setUploadType(value: DataSetType) {
     this.uploadType = value;
-    await import("./body/" + this.uploadType).then(
-      (res) => (this.bodyContentViewModel = new res.default() as BodyViewModel)
-    );
+    await import("./body/" + this.uploadType).then((res) => {
+      runInAction(() => {
+        this.bodyContentViewModel = new res.default() as BodyViewModel;
+      });
+    });
   }
 
   @computed get bodyView() {
     if (!this.bodyContentViewModel) return null;
     return this.bodyContentViewModel.getView();
-  }
-
-  @observable uploadFile: File | null = null;
-  @action setUploadFile(value: File | null) {
-    this.uploadFile = value;
   }
 
   @computed get canUpload(): boolean {
@@ -107,7 +106,8 @@ class ViewModel extends ContentStore {
         throw new Error("Current workspace must be set.");
       const formData = new FormData();
       formData.append("name", this.uploadName);
-      formData.append("file", this.uploadFile as Blob);
+      formData.append("type", this.uploadType);
+      if (this.bodyContentViewModel) this.bodyContentViewModel.fill(formData);
 
       const configs = {
         method: "POST",
@@ -129,6 +129,22 @@ class ViewModel extends ContentStore {
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }
+  }
+
+  @observable annotationViewModel: ContentStore | null = null;
+  @action beginAnnotation(item: IDataSet) {
+    this.annotationViewModel = new AnnotationViewModel(item);
+  }
+  @action endAnnotation() {
+    this.annotationViewModel = null;
+  }
+  @computed get isAnnotationModalOpen() {
+    return Boolean(this.annotationViewModel);
+  }
+
+  @computed get annotationView() {
+    if (!this.annotationViewModel) return null;
+    return this.annotationViewModel.getView();
   }
 
   async delete(item: IDataSet) {

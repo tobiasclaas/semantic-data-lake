@@ -40,3 +40,10 @@ class Ontologies(Resource):
         except HTTPException as inst:
             return Response(status=inst.code)
    
+
+class OntologiesSearch(Resource):
+    @parse_params( 
+        Argument("q", default=None, type=str, required=True),
+    )
+    def get(self, workspace_id, q):
+        return jsonify([{"uri":"http://demo", "text":"demo"}, {"uri":"http://test", "text":"test"}])

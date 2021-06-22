@@ -5,6 +5,9 @@ import IViewProps from "../../../../../models/iViewProps";
 import { useTranslation } from "react-i18next";
 import FileInput from "../../../../common/FileInput";
 import Grid from "@material-ui/core/Grid";
+import { TextField } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
@@ -17,6 +20,30 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           accept=".csv"
           onChange={(v) => viewModel.setFile(v)}
         />
+      </Grid>
+      <Grid container spacing={2} item style={{ alignItems: "center" }}>
+        <Grid item sm>
+          <TextField
+            fullWidth
+            autoFocus
+            onChange={(e) => viewModel.setDelimiter(e.target.value)}
+            value={viewModel.delimiter}
+            margin="dense"
+            label={t("dataset_management.upload.csv.delimiter")}
+          />
+        </Grid>
+        <Grid item sm>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={viewModel.hasHeader}
+                color="primary"
+                onChange={(e) => viewModel.setHasHeader(e.target.checked)}
+              />
+            }
+            label={t("dataset_management.upload.csv.has_header")}
+          />
+        </Grid>
       </Grid>
     </React.Fragment>
   );
