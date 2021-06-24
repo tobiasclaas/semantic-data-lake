@@ -112,7 +112,7 @@ class CsvIngestion(Resource):
         Argument("has_header", default=False, type=bool, required=False),
         Argument("target_storage", default='HDFS', type=str, required=False),
         Argument("comment", default='', type=str, required=False),
-        Argument("human_readable_name", default='', type=str, required=False),
+        Argument("human_readable_name", default='', type=str, required=False)
     )
     def post(self, workspace_id, file: FileStorage, delimiter, has_header, target_storage, comment,
              human_readable_name):

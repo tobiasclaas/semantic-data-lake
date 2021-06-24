@@ -1,10 +1,10 @@
-from mongoengine.fields import StringField
+import os
+
 from database.models import Ontology
 from werkzeug.exceptions import NotFound, BadRequest
 
 from database.models.workspace import Workspace
 from requests import put, post, delete as DeleteRequest
-import os
 
 
 def get_all(workspace_id) -> [Ontology]:

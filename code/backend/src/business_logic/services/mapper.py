@@ -1,5 +1,7 @@
 import json
 
+from http import HTTPStatus
+
 from database.models import *
 
 
@@ -27,6 +29,9 @@ def mapper(model):
     if model is None:
         return None
 
+    if type(model) is HTTPStatus:
+        return model
+
     # ===== user ===================================================================================
     if isinstance(model, User):
         return {
@@ -40,7 +45,7 @@ def mapper(model):
     if isinstance(model, Annotation):
         return {
             "workspace_id": model.workspace_id,
-            "file_name": model.file_name,
+            "datamart_id": model.datamart_id,
             "data_attribute": model.data_attribute,
             "ontology_attribute": model.ontology_attribute,
             "comment": model.comment

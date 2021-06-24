@@ -24,7 +24,7 @@
 				 ja:cxtName "tdb:unionDefaultGraph" ; ja:cxtValue true
 
 	] ;
-
+    # TODO add base ontology here
    # Add any custom classes you want to load.
    # Must have a "public static void init()" method.
    # ja:loadClass "your.code.Class" ;   

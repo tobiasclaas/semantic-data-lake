@@ -1,11 +1,6 @@
-from os import abort
-import os
-
 from flask import json, jsonify, Response
-from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
-from passlib.hash import pbkdf2_sha256 as sha256
 from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
 from werkzeug.datastructures import FileStorage
 
@@ -15,7 +10,6 @@ from database.data_access import ontology_data_access
 import traceback
 import json
 from requests import put, post, delete, patch
-import pandas as pd
 from api.services.decorators import parse_params
 
 
@@ -30,49 +24,68 @@ def create_query_string(databasename: str, graph_name: str, querystring: str):
     if graph_name == '' or graph_name is None:
         graph_name = '?g'
         query = "SELECT ?s ?p ?o " \
-        "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+                "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
+                                                                                                        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
+                                                                                                                                                                                               "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
     else:
         graph_name = 'http://localhost:3030/' + databasename + '/' + graph_name
         query = "SELECT ?s ?p ?o " \
                 "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+                                                                                                          "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
+                                                                                                                                                                                                   "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
 
     return query
 
 
+def select_query_fuseki(workspace_id, graph_name, search):
+    # replace admin and pw by environment variable defined in docker-compose.yaml
+    return post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+                data={'query': create_query_string(workspace_id, graph_name, search)})
+
+
+def ask_query_fuseki(workspace_id, subject_name):
+    """
+    Performs ask query on Fuseki Default-Graph.
+    :param workspace_id: to identify dataset in fuseki.
+    :param subject_name: name of subject to be searched.
+    :return:
+    """
+    query_string = "ASK { " + subject_name + " ?p ?o }"
+    # replace admin and pw by environment variable defined in docker-compose.yaml
+    p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+             data={'query': query_string})
+
+    try:
+        return json.loads(p.content)["boolean"]
+    except:
+        return BadRequest
+
+
 def mapper(item):
-    return{
+    return {
         "id": str(item.id),
         "name": item.name,
     }
-        
+
 
 class Ontologies(Resource):
     def get(self, workspace_id):
         return jsonify([mapper(item) for item in ontology_data_access.get_all(workspace_id)])
 
-    @parse_params( 
+    @parse_params(
         Argument("file", type=FileStorage, location='files', required=False),
         Argument("name", default=None, type=str, required=False),
         Argument("querystring", type=str, required=False),
-        Argument("graphname", type=str, required=False),
+        Argument("graph_name", type=str, required=False),
         Argument("search", type=str, required=False))
-    def post(self, name, file, workspace_id, querystring, graphname, search):
+    def post(self, name, file, workspace_id, querystring, graph_name, search):
 
         if search:
-            # TODO replace admin and pw by environment variable defined in docker-compose.yaml,
-            #  better solution required. lets ask maher
-            # replace admin and pw by environment variable defined in docker-compose.yaml
-            p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
-                     data={'query': create_query_string(workspace_id, graphname, search)})
+            p = select_query_fuseki(workspace_id, graph_name, search)
 
             try:
                 data = json.loads(p.content)
                 return data
-
             except Exception:
                 traceback.print_exc()
                 return p.status_code
@@ -81,7 +94,6 @@ class Ontologies(Resource):
 
             try:
                 data = json.loads(p.content)
-            
                 return data
             except Exception:
                 traceback.print_exc()

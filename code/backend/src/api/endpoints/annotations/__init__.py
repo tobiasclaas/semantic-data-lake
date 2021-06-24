@@ -48,23 +48,26 @@ class Annotation(Resource):
         Argument('workspace_id', required=True, type=str),
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', required=True, type=str),
+        Argument('property_description', required=True, type=str),
         Argument('ontology_attribute', required=True, type=str),
         Argument('comment', required=True, type=str)
     )
-    def post(self, workspace_id, datamart_id, data_attribute, ontology_attribute, comment):
+    def post(self, workspace_id, datamart_id, data_attribute, property_description, ontology_attribute, comment):
         # API function for adding a new annotation
         # ontology_attribute = [value for value in ontology_attribute.values()]
         # print(ontology_attribute)
-        return annotation_data_access.add(workspace_id, datamart_id, data_attribute, ontology_attribute, comment)
+
+        return annotation_data_access.add(workspace_id, datamart_id, data_attribute, property_description,
+                                          ontology_attribute, comment)
 
     @parse_params(
         Argument('workspace_id', type=str, required=True),
         Argument('datamart_id', type=str, required=True),
         Argument('data_attribute', type=str, required=True),
-        Argument('ontology_attribute', type=str)
+        Argument('annotation_tuple', type=str)
     )
-    def delete(self, workspace_id, datamart_id, data_attribute, ontology_attribute):
-        if ontology_attribute is None:
+    def delete(self, workspace_id, datamart_id, data_attribute, annotation_tuple):
+        if annotation_tuple is None:
             return annotation_data_access.delete_all(workspace_id, datamart_id, data_attribute)
 
-        return annotation_data_access.delete(workspace_id, datamart_id, data_attribute, ontology_attribute)
+        return annotation_data_access.delete(workspace_id, datamart_id, data_attribute, annotation_tuple)
