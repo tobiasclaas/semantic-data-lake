@@ -68,11 +68,13 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
     return HTTPStatus.CREATED
 
 
-def delete(workspace_id, datamart_id, data_attribute, annotation_tuple):
+def delete(workspace_id, datamart_id, data_attribute, property_description, ontology_attribute):
     """
     Delete annotation of ontology_tuple for data_attribute.
     :return:
     """
+    annotation_tuple = [property_description, ontology_attribute]
+
     entity = get(workspace_id, datamart_id, data_attribute)
     if entity is HTTPStatus.NOT_FOUND:
         return HTTPStatus.NOT_FOUND
@@ -86,11 +88,11 @@ def delete(workspace_id, datamart_id, data_attribute, annotation_tuple):
     try:
         if len(attribute_annotation) == 0:  # delete if there are no annotations for data_attribute
             Annotation.objects(workspace_id=workspace_id,
-                               file_name=datamart_id,
+                               datamart_id=datamart_id,
                                data_attribute=data_attribute).delete()
         else:
             Annotation.objects(workspace_id=workspace_id,
-                               file_name=datamart_id,
+                               datamart_id=datamart_id,
                                data_attribute=data_attribute).update(ontology_attribute=attribute_annotation)
     except:
         return HTTPStatus.INTERNAL_SERVER_ERROR

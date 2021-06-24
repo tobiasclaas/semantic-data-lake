@@ -64,10 +64,9 @@ class Annotation(Resource):
         Argument('workspace_id', type=str, required=True),
         Argument('datamart_id', type=str, required=True),
         Argument('data_attribute', type=str, required=True),
-        Argument('annotation_tuple', type=str)
+        Argument('property_description', type=str, required=True),
+        Argument('ontology_attribute', type=str, required=True)
     )
-    def delete(self, workspace_id, datamart_id, data_attribute, annotation_tuple):
-        if annotation_tuple is None:
-            return annotation_data_access.delete_all(workspace_id, datamart_id, data_attribute)
-
-        return annotation_data_access.delete(workspace_id, datamart_id, data_attribute, annotation_tuple)
+    def delete(self, workspace_id, datamart_id, data_attribute, property_description, ontology_attribute):
+        return annotation_data_access.delete(workspace_id, datamart_id, data_attribute, property_description,
+                                             ontology_attribute)
