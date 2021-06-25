@@ -111,7 +111,7 @@ class SparkHelper:
             dataframe.write.jdbc(
                 uri,
                 table=f'"{target.table}"',
-                mode="ignore",
+                mode="overwrite",
                 properties={
                     "user": self.settings.postgresql_storage.user,
                     "password": self.settings.postgresql_storage.password,

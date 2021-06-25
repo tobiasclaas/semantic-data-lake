@@ -216,7 +216,7 @@ services:
     networks:
       - backend
     volumes:
-      - /home/mapro2020/refactor/team-2-data-lake/datalake_config.yml:/datalake_config.yml # change your relative path
+      - /home/mapro2020/refactor/team-2-data-lake/code/backend/src/datalake_config.yml:/datalake_config.yml # change your relative path
 
   pier:
     image: semanticdatalake21/pier:refactor
