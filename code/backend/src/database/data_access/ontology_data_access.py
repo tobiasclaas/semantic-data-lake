@@ -4,7 +4,7 @@ from database.models import Ontology
 from werkzeug.exceptions import NotFound, BadRequest
 
 from database.models.workspace import Workspace
-from requests import put, post, delete as DeleteRequest
+from requests import put, post, delete as delete_request
 
 
 def get_all(workspace_id) -> [Ontology]:
@@ -47,5 +47,5 @@ def delete(id, workspace_id):
     entity = entity.get()
     if str(entity.workspace.id) != workspace_id:
         raise NotFound()
-    DeleteRequest('http://localhost:3030/{}?graph={}'.format(workspace_id, id))
+    delete_request('http://localhost:3030/{}?graph={}'.format(workspace_id, id))
     entity.delete()

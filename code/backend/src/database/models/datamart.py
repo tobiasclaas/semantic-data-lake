@@ -2,7 +2,6 @@ from enum import Enum
 
 from database import FlaskDocument, database as db
 from mongoengine.document import EmbeddedDocument
-from mongoengine import CASCADE
 from database.models.metadata import Metadata
 
 
@@ -20,7 +19,7 @@ class DatamartStatus(EmbeddedDocument):
 
 
 class Datamart(FlaskDocument):
-    uid = db.StringField(primary_key=True, binary=False, required=True, reverse_delete_rule=CASCADE)
+    uid = db.StringField(primary_key=True, binary=False, required=True)
     workspace_id = db.StringField(max_length=255)
     human_readable_name = db.StringField(max_length=255)
     comment = db.StringField(max_length=255)
