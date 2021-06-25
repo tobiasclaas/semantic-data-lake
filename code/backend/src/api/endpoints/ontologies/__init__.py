@@ -58,7 +58,7 @@ def ask_query_fuseki(workspace_id, subject_name):
     try:
         return json.loads(p.content)["boolean"]
     except:
-        return BadRequest
+        return NotFound
 
 
 def mapper(item):

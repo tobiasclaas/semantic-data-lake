@@ -43,12 +43,12 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
     """
     # checks if data_attribute exists
     if not check_data_attribute(datamart_id, data_attribute):
-        return BadRequest
+        return HTTPStatus.NOT_FOUND
 
     # checks if ontology attribute exists
     query_res = ask_query_fuseki(workspace_id=workspace_id, subject_name=ontology_attribute)
-    if not query_res or query_res is BadRequest:
-        return HTTPStatus.BAD_REQUEST
+    if not query_res or query_res is NotFound:
+        return HTTPStatus.NOT_FOUND
 
     search_res = get(datamart_id, data_attribute)
     ontology_tuple = [property_description, ontology_attribute]
@@ -63,7 +63,7 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
     else:  # there exists some annotation for data_attribute
         # append new annotation to list
         if ontology_tuple in search_res.ontology_attribute:
-            return HTTPStatus.BAD_REQUEST
+            return HTTPStatus.CREATED
 
         attribute_annotation = search_res.ontology_attribute
         attribute_annotation.append(ontology_tuple)
