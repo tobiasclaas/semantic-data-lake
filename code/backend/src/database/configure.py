@@ -14,7 +14,6 @@ def initialize():
     # ===== create default workspace if not exists ==============================================================
     if len(workspace_data_access.get_all()) == 0:
         workspace_data_access.create("Default Workspace")
-        annotation_data_access.create()
 
     # ===== create user if not exists ==============================================================
     try:

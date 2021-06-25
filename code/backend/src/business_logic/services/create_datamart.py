@@ -62,7 +62,7 @@ def create_datamart(user: User, source, target_storage, workspace_id, human_read
     uid = str(uuid.uuid4())
     datamart = Datamart(
         uid=uid,
-        workspace_id = workspace_id,
+        workspace_id=workspace_id,
         human_readable_name=human_readable_name,
         comment=comment,
         metadata=Metadata(

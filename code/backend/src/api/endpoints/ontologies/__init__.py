@@ -9,7 +9,7 @@ from database.data_access import ontology_data_access
 
 import traceback
 import json
-from requests import put, post, delete, patch
+from requests import put, post, patch
 from api.services.decorators import parse_params
 
 
@@ -50,7 +50,7 @@ def ask_query_fuseki(workspace_id, subject_name):
     :param subject_name: name of subject to be searched.
     :return:
     """
-    query_string = "ASK { " + subject_name + " ?p ?o }"
+    query_string = "ASK { " + subject_name + " ?p ?o . }"
     # replace admin and pw by environment variable defined in docker-compose.yaml
     p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
              data={'query': query_string})

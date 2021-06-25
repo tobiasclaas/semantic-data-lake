@@ -9,7 +9,6 @@ from api.services.decorators import parse_params
 from business_logic.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
 from business_logic.spark import SparkHelper
-import pyspark.sql.functions as f
 
 
 class Datamarts(Resource):

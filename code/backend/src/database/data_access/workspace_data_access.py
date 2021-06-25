@@ -1,7 +1,6 @@
 from database.models import Workspace
 from werkzeug.exceptions import NotFound, BadRequest
 from requests import put, post, delete as delete_request
-from database.data_access.annotation_data_access import create as create_annotation_document
 
 
 def get_all() -> [Workspace]:
@@ -11,8 +10,8 @@ def get_all() -> [Workspace]:
 def create(name):
     entity = Workspace(name=name)
     Workspace.objects.insert(entity)
-    post('http://localhost:3030/$/datasets', auth=('admin', 'pw123'), data={'dbName': str(entity.id), 'dbType': 'tdb'})
-    create_annotation_document()
+    post('http://localhost:3030/$/datasets', auth=('admin', 'pw123'),
+         data={'dbName': str(entity.id), 'dbType': 'tdb'})
     return entity
 
 
