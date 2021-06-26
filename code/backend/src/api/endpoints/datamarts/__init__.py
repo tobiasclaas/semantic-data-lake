@@ -10,6 +10,7 @@ from business_logic.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
 from business_logic.spark import SparkHelper
 import pyspark.sql.functions as f
+from database.models import Datamart
 
 
 
@@ -38,11 +39,16 @@ class Datamarts(Resource):
         else:
             return jsonify(mapper(data_access.get_by_uid(uid)))
 
-    @jwt_required
     @parse_params(
-        Argument("uid", type=str, required=True),
+        Argument("uid", type=str, required=False),
     )
     def delete(self, uid):
+        if uid == None:
+            marts = Datamart.objects.all()
+            for mart in marts:
+                mart.delete()
+            return f"All datamarts deleted"
+
         datamart = data_access.get_by_uid(uid)
         hnr = datamart.human_readable_name
         datamart.delete()
