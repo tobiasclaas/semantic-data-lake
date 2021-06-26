@@ -48,13 +48,13 @@ def __start__(api_user, source, target_storage, hnr, comment):
 class MongodbIngestion(Resource):
     @jwt_required
     @parse_params(
-        Argument("host", default=setting.mongodb_storage.host, type=str, required=True),
-        Argument("port", default=setting.mongodb_storage.port, type=str, required=True),
-        Argument("database", default=setting.mongodb_storage.database, type=str, required=True),
+        Argument("host", default="", type=str, required=True),
+        Argument("port", default="", type=str, required=True),
+        Argument("database", default="", type=str, required=True),
         Argument("collection", default='', type=str, required=True),
         Argument("target_storage", default='MongoDB', type=str, required=False),
-        Argument("user", default=setting.mongodb_storage.user, type=str, required=False),
-        Argument("password", default=setting.mongodb_storage.password, type=str, required=False),
+        Argument("user", default="", type=str, required=False),
+        Argument("password", default="", type=str, required=False),
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False)
     )
