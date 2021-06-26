@@ -167,13 +167,14 @@ class Datamarts(Resource):
 
             for data_input in data['input']:
                 transformed_dataframe = process_input(spark_helper, data_input)
+                # Storing the output dataframe to Mongodb.
                 storage = setting.mongodb_storage
                 target_storage = MongodbStorage(
                     host=storage.host,
                     port=storage.port,
                     user=storage.user,
                     password=storage.password,
-                    database=storage.database,
+                    database="pyspark_storage",
                     collection=data["name"]
                 )
                 spark_helper.write_mongodb(transformed_dataframe, target_storage)
@@ -181,10 +182,11 @@ class Datamarts(Resource):
 
                 spark_helper.spark_session.stop()
 
+                # Ingesting the data from mongodb to required target output
                 paras = {
                     "host": storage.host,
                     "port": storage.port,
-                    "database": storage.database,
+                    "database": "pyspark_storage",
                     "collection": data["name"],
                     "target_storage": data["target"],
                     "user": storage.user,
