@@ -25,6 +25,18 @@ import Grid from "@material-ui/core/Grid";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import ItemButton from "../../common/item/button";
 import { blue } from "@material-ui/core/colors";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Close from "@material-ui/icons/Close";
+import Box from "@material-ui/core/Box";
+import { StyledToolbar } from "../../app/header/styles";
+import { SlideProps } from "@material-ui/core/Slide";
+import Slide from "@material-ui/core/Slide";
+
+const Transition = React.forwardRef((props: SlideProps, ref) => (
+  <Slide direction="up" ref={ref} {...props} />
+));
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
@@ -118,18 +130,32 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       </Dialog>
 
       <Dialog
-        maxWidth="sm"
-        fullWidth
+        fullScreen
         open={viewModel.isAnnotationModalOpen}
-        disableAutoFocus
+        TransitionComponent={Transition}
+        keepMounted
       >
-        <DialogTitle>{t("dataset_management.annotation.title")}</DialogTitle>
-        <DialogContent>{viewModel.annotationView}</DialogContent>
-        <DialogActions>
-          <Button color="primary" onClick={() => viewModel.endAnnotation()}>
-            {t("generic.close")}
-          </Button>
-        </DialogActions>
+        <AppBar position="fixed">
+          <StyledToolbar>
+            <IconButton
+              style={{ marginRight: "0.5rem" }}
+              edge="start"
+              color="inherit"
+              onClick={() => viewModel.endAnnotation()}
+            >
+              <Close />
+            </IconButton>
+            <Typography variant="h6">
+              {t("dataset_management.annotation.title")}
+            </Typography>
+          </StyledToolbar>
+        </AppBar>
+        <Box display="flex" flexDirection="column" height="100%">
+          <StyledToolbar />
+          <Box flexGrow={1} overflow="auto">
+            {viewModel.annotationView}
+          </Box>
+        </Box>
       </Dialog>
     </React.Fragment>
   );

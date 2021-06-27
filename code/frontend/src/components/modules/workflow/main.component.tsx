@@ -23,6 +23,7 @@ import ReactFlow, {
 import { v4 as uuidv4 } from "uuid";
 import nodes from "./nodes";
 import Button from "@material-ui/core/Button";
+import WorkflowHelper from "../../../utils/helpers/workflowHelper";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
@@ -44,7 +45,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
     let node: FlowNode<any> = {
       id: uuidv4(),
       position,
-      data: { label: `${type} node` },
+      data: {},
       type,
     };
 
@@ -70,25 +71,31 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   };
 
   return (
-    <div style={{ flex: 1, display: "flex" }}>
-      <ReactFlowProvider>
-        <Sidebar viewModel={viewModel} />
-        <div style={{ flex: 1 }} ref={reactFlowWrapper}>
-          <ReactFlow
-            elements={elements}
-            nodeTypes={nodes}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            onLoad={onLoad}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-          >
-            <Controls />
-          </ReactFlow>
-        </div>
-      </ReactFlowProvider>
-      <Button onClick={() => console.log(elements)}>Show Code</Button>
-    </div>
+    <React.Fragment>
+      <div style={{ flex: 1, display: "flex" }}>
+        <ReactFlowProvider>
+          <Sidebar viewModel={viewModel} />
+          <div style={{ flex: 1 }} ref={reactFlowWrapper}>
+            <ReactFlow
+              elements={elements}
+              nodeTypes={nodes}
+              onConnect={onConnect}
+              onElementsRemove={onElementsRemove}
+              onLoad={onLoad}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+            >
+              <Controls />
+            </ReactFlow>
+          </div>
+        </ReactFlowProvider>
+      </div>
+      <Button
+        onClick={() => console.log(WorkflowHelper.parseElements(elements))}
+      >
+        Show Code
+      </Button>
+    </React.Fragment>
   );
 });
 

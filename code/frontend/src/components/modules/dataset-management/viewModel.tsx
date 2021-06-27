@@ -39,7 +39,7 @@ class ViewModel extends ContentStore {
         headers: { Accept: "application/json" },
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datasets`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
@@ -106,7 +106,6 @@ class ViewModel extends ContentStore {
         throw new Error("Current workspace must be set.");
       const formData = new FormData();
       formData.append("name", this.uploadName);
-      formData.append("type", this.uploadType);
       if (this.bodyContentViewModel) this.bodyContentViewModel.fill(formData);
 
       const configs = {
@@ -117,7 +116,7 @@ class ViewModel extends ContentStore {
         body: formData,
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datasets`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts/ingestion/${this.uploadType}`,
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
