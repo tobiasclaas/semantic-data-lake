@@ -3,6 +3,7 @@ import yaml
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
+
 class PostgresqlStorage:
     def __init__(self, host, port, database, user, password):
         self.host = host
@@ -47,14 +48,13 @@ class Settings(object):
 
 def load(server):
     #config_path = os.environ.get('/home/mapro2020/refactor/team-2-data-lake/datalake_config.yml')
-    config_file = open(os.path.join(__location__, '../../../datalake_config.yml'))
+    config_file = open(os.path.join(__location__, 'datalake_config.yml'))
     config_data = yaml.load(config_file, yaml.FullLoader)
 
     jwt = config_data.get("jwt")
     server_mongodb = config_data.get("serverMongodb")
     host = server_mongodb.get("host")
     port = server_mongodb.get("port")
-    mongo_db = server_mongodb.get("database")
 
     server.config.update(
         SECRET_KEY=jwt.get("secretKey"),
@@ -65,7 +65,7 @@ def load(server):
         JWT_ACCESS_TOKEN_EXPIRES=jwt.get("accessTokenExpires"),
         JWT_REFRESH_TOKEN_EXPIRES=jwt.get("refreshTokenExpires"),
         MONGODB_SETTINGS={
-            "host": f"mongodb://{host}:{port}/{mongo_db}",
+            "host": f"mongodb://{host}:{port}",
             "username": server_mongodb.get("user"),
             "password": server_mongodb.get("password"),
             "authentication_source": "admin"

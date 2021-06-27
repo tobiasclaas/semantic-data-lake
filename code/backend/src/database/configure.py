@@ -4,7 +4,7 @@ from werkzeug.exceptions import NotFound
 
 from settings import Settings
 from database import FlaskDocument
-from database.data_access import user_data_access, workspace_data_access
+from database.data_access import user_data_access, workspace_data_access, annotation_data_access
 from database.models import User
 
 
@@ -45,12 +45,14 @@ def initialize():
         cur = connection.cursor()
         cur.execute("SELECT datname FROM pg_database;")
         list_database = cur.fetchall()
+        # print(list_database)
+        #  and (postgresql.database,) != (None,)
         if (postgresql.database,) not in list_database:
             cur.execute(f"CREATE DATABASE {postgresql.database};")
             print(f"[POSTGRES] created storage database")
         connection.close()
 
 
-def drop_collections(self):
+def drop_collections():
     for klass in FlaskDocument.all_subclasses():
         klass.drop_collection()

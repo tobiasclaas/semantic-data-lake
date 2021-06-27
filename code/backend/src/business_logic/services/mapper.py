@@ -1,5 +1,7 @@
 import json
 
+from http import HTTPStatus
+
 from database.models import *
 
 
@@ -27,6 +29,9 @@ def mapper(model):
     if model is None:
         return None
 
+    if type(model) is HTTPStatus:
+        return model
+
     # ===== user ===================================================================================
     if isinstance(model, User):
         return {
@@ -34,6 +39,16 @@ def mapper(model):
             "firstname": model.firstname,
             "lastname": model.lastname,
             "isAdmin": model.is_admin
+        }
+
+    # ===== annotation =============================================================================
+    if isinstance(model, Annotation):
+        return {
+            "workspace_id": model.workspace_id,
+            "datamart_id": model.datamart_id,
+            "data_attribute": model.data_attribute,
+            "ontology_attribute": model.ontology_attribute,
+            "comment": model.comment
         }
 
     # ===== datamart status ========================================================================
@@ -115,6 +130,7 @@ def mapper(model):
         return {
             "uid": model.uid,
             "humanReadableName": model.human_readable_name,
+            "workspace_id": model.workspace_id,
             "comment": model.comment,
             "metadata": mapper(model.metadata),
             "status": mapper(model.status)
