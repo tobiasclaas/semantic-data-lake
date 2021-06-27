@@ -18,7 +18,7 @@ def create(name):
     post('http://localhost:3030/$/datasets', auth=('admin', 'pw123'),
          data={'dbName': str(entity.id), 'dbType': 'tdb'})
     # upload poa ontology
-    file_location = os.getcwd() + "/code/backend/Resources/propertyorattribute.n3"
+    file_location = os.path.join(__location__, "Resources", "propertyorattribute.n3")
     with open(file_location, 'rb') as fp:
         file = FileStorage(fp)
         ontology_data_access.add("Property or Attribute", file, entity.id)

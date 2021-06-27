@@ -11,7 +11,6 @@ jwt:
 serverMongodb:
   host: "localhost"
   port: 27017
-  database: "datalake"
   user: "admin"
   password: "admin"
 
