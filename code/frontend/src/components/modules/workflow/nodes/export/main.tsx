@@ -3,7 +3,7 @@ import React, { memo } from "react";
 
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
-import StorageIcon from "@material-ui/icons/Storage";
+import SaveIcon from "@material-ui/icons/Save";
 
 export default memo(({ data }: { data: any }) => {
   const { t } = useTranslation();
@@ -18,15 +18,15 @@ export default memo(({ data }: { data: any }) => {
           padding: 10,
         }}
       >
-        <StorageIcon />
+        <SaveIcon />
         <Typography style={{ margin: "0 0.5rem" }}>
-          {t("workflow.items.data_source")}
+          {t("workflow.items.export")}
         </Typography>
       </div>
       <Handle
-        type="source"
-        position={Position.Right}
-        id="output"
+        type="target"
+        position={Position.Left}
+        id="input"
         style={{ background: "#555" }}
       />
     </>

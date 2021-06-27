@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles";
 import { createStyles } from "@material-ui/core/styles";
 import { Container } from "./styles";
+import { NodeType } from "../nodes";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
@@ -31,17 +32,24 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       <List>
         <ListItem
           button
-          onDragStart={(event) => onDragStart(event, "data_source")}
+          onDragStart={(event) => onDragStart(event, NodeType.data_source)}
           draggable
         >
           <ListItemText primary={t("workflow.items.data_source")} />
         </ListItem>
         <ListItem
           button
-          onDragStart={(event) => onDragStart(event, "join")}
+          onDragStart={(event) => onDragStart(event, NodeType.join)}
           draggable
         >
           <ListItemText primary={t("workflow.items.join")} />
+        </ListItem>
+        <ListItem
+          button
+          onDragStart={(event) => onDragStart(event, NodeType.export)}
+          draggable
+        >
+          <ListItemText primary={t("workflow.items.export")} />
         </ListItem>
       </List>
     </Container>

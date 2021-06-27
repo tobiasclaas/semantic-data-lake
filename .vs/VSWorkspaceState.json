@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\code",
+    "\\code\\frontend",
+    "\\docker"
   ],
+  "SelectedNode": "\\docker\\spark",
   "PreviewInSolutionExplorer": false
 }

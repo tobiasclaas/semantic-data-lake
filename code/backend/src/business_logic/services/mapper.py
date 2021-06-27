@@ -117,7 +117,6 @@ def mapper(model):
 
         return {
             "createdAt": model.created_at.isoformat() if model.created_by else None,
-            "createdBy": mapper(model.created_by.fetch()),
             "heritage": heritage,
             "constructionCode": model.construction_code,
             "constructionQuery": model.construction_query,

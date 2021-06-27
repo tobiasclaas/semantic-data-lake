@@ -5,6 +5,7 @@ from .storage import (
 from .user import User
 from .workspace import Workspace
 from .ontology import Ontology
+from .dataset import Dataset
 from .metadata import Metadata
 from .datamart import DatamartStatus, Datamart, DatamartState
 from .annotation import Annotation
