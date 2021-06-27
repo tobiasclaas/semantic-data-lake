@@ -2,6 +2,5 @@
 .idea
 #VSCode
 **/.vscode
-
 **/data/
-/.vs
+/.vs/**

@@ -75,31 +75,9 @@ class Ontologies(Resource):
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=False),
         Argument("name", default=None, type=str, required=False),
-        Argument("querystring", type=str, required=False),
-        Argument("graph_name", type=str, required=False),
-        Argument("search", type=str, required=False))
-    def post(self, name, file, workspace_id, querystring, graph_name, search):
-
-        if search:
-            p = select_query_fuseki(workspace_id, graph_name, search)
-
-            try:
-                data = json.loads(p.content)
-                return data
-            except Exception:
-                traceback.print_exc()
-                return p.status_code
-        elif querystring:
-            p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'), data={'query': querystring})
-
-            try:
-                data = json.loads(p.content)
-                return data
-            except Exception:
-                traceback.print_exc()
-                return p.status_code
-        else:
-            return jsonify(mapper(ontology_data_access.add(name, file, workspace_id)))
+    )
+    def post(self, name, file, workspace_id):
+        return jsonify(mapper(ontology_data_access.add(name, file, workspace_id)))
 
     def delete(self, id, workspace_id):
         try:
@@ -107,3 +85,11 @@ class Ontologies(Resource):
             return Response(status=200)
         except HTTPException as inst:
             return Response(status=inst.code)
+   
+
+class OntologiesSearch(Resource):
+    @parse_params( 
+        Argument("q", default=None, type=str, required=True),
+    )
+    def get(self, workspace_id, q):
+        return jsonify([{"uri":"http://demo", "text":"demo"}, {"uri":"http://test", "text":"test"}])

@@ -42,13 +42,6 @@ export const FooterGridItem = withStyles(() => ({
   },
 }))(Grid);
 
-export const FooterButton = withStyles(() => ({
-  root: {
-    flex: 1,
-    color: "red",
-  },
-}))(Button);
-
 export const BodyTypography = withStyles(() => ({
   root: {
     whiteSpace: "nowrap",
