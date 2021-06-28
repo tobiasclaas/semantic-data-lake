@@ -18,6 +18,7 @@ def create(name):
     post('http://localhost:3030/$/datasets', auth=('admin', 'pw123'),
          data={'dbName': str(entity.id), 'dbType': 'tdb'})
     # upload poa ontology
+    __location__ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
     file_location = os.path.join(__location__, "Resources", "propertyorattribute.n3")
     with open(file_location, 'rb') as fp:
         file = FileStorage(fp)
