@@ -7,7 +7,7 @@ from requests import put, post, delete as delete_request
 from api.services.decorators import parse_params
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
-from business_logic.services.mapper import mapper
+from business_logic.services.mapper import mapper as mapper_general
 
 import traceback
 import json
@@ -45,12 +45,12 @@ def select_query_fuseki(workspace_id, graph_name, search):
                 data={'query': create_query_string(workspace_id, graph_name, search)})
 
 
-
 def mapper(item):
     return {
         "id": str(item.id),
         "name": item.name,
     }
+
 
 def get_suggestions(workspace_id, search_term):
     """
@@ -76,6 +76,7 @@ def get_suggestions(workspace_id, search_term):
         return data
     except Exception:
         return p.status_code
+
 
 class Ontologies(Resource):
     def get(self, workspace_id):
@@ -107,14 +108,13 @@ class OntologiesSearch(Resource):
 class Annotation(Resource):
     @parse_params(
         Argument('datamart_id', required=True, type=str),
-        Argument('data_attribute', required=True, type=str)
+        Argument('data_attribute', type=str, default=None)
     )
-    def get(self, datamart_id, data_attribute=''):
+    def get(self, workspace_id, datamart_id, data_attribute):
         # API function for accessing annotations of specific attribute
-        return mapper(annotation_data_access.get(datamart_id, data_attribute))
+        return mapper_general(annotation_data_access.get(datamart_id, data_attribute))
 
     @parse_params(
-        Argument('workspace_id', required=True, type=str),
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', required=True, type=str),
         Argument('property_description', required=True, type=str),
@@ -134,9 +134,10 @@ class Annotation(Resource):
         Argument('property_description', type=str, required=True),
         Argument('ontology_attribute', type=str, required=True)
     )
-    def delete(self, datamart_id, data_attribute, property_description, ontology_attribute):
+    def delete(self, workspace_id, datamart_id, data_attribute, property_description, ontology_attribute):
         return annotation_data_access.delete(datamart_id, data_attribute, property_description,
                                              ontology_attribute)
+
 
 class Completion(Resource):
     @parse_params(

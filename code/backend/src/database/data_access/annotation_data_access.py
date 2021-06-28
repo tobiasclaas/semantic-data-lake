@@ -1,6 +1,8 @@
-from http import HTTPStatus
 import json
 import uuid
+from flask import jsonify
+from http import HTTPStatus
+from requests import post
 from bson.binary import Binary, UuidRepresentation
 from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
 from database.models import Annotation, Datamart
@@ -23,6 +25,7 @@ def ask_query_fuseki(workspace_id, subject_name):
     except:
         return NotFound
 
+
 def check_data_attribute(datamart_id, data_attribute):
     """
     Checks if data_attribute exists for datamart.
@@ -31,6 +34,8 @@ def check_data_attribute(datamart_id, data_attribute):
     datamart = Datamart.objects(uid=datamart_id).get()
     if not datamart:
         return HTTPStatus.NOT_FOUND
+    if not datamart.metadata.source.has_header:
+        return False
     entries = json.loads(datamart.metadata.schema)['fields']
     for entry in entries:
         if entry['name'] == data_attribute:
@@ -103,7 +108,7 @@ def delete(datamart_id, data_attribute, property_description, ontology_attribute
 
     attribute_annotation = entity.ontology_attribute
     if annotation_tuple not in attribute_annotation:
-        return HTTPStatus.BAD_REQUEST
+        return HTTPStatus.NOT_FOUND
 
     attribute_annotation.remove(annotation_tuple)
     # update document in collection
