@@ -5,7 +5,7 @@ from werkzeug.exceptions import InternalServerError
 
 
 class Logout(Resource):
-    @jwt_required
+    
     def post(self):
         try:
             response = jsonify({

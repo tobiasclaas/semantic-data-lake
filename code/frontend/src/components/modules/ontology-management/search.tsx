@@ -18,7 +18,6 @@ class Search extends React.Component {
         throw new Error("Current workspace must be set.");
       else{
         this.state.databasename = workspacesStore.currentWorkspace.id;
-        console.log("YEAH",this.state.databasename)
       }
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
@@ -54,7 +53,6 @@ class Search extends React.Component {
         }
         else{
           this.Ok = true;
-          console.log("Ok", this.Ok);
         }
         this.setState({
           results: JSON.parse(result).results,
@@ -100,7 +98,6 @@ class Search extends React.Component {
           }]
       }
     }
-    console.log("DATA", data);
 
     
 

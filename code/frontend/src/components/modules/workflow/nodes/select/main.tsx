@@ -1,9 +1,9 @@
-import Typography from "@material-ui/core/Typography";
 import React, { memo } from "react";
 
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
-import StorageIcon from "@material-ui/icons/Storage";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
+import { Typography } from "@material-ui/core";
 import { IData } from "./data";
 
 export default memo(({ data }: { data: IData }) => {
@@ -19,11 +19,17 @@ export default memo(({ data }: { data: IData }) => {
           padding: 10,
         }}
       >
-        <StorageIcon />
+        <ViewColumnIcon />
         <Typography style={{ margin: "0 0.5rem" }}>
-          {t("workflow.items.data_source")}
+          {t("workflow.items.select")}
         </Typography>
       </div>
+      <Handle
+        type="target"
+        position={Position.Left}
+        id="input"
+        style={{ background: "#555" }}
+      />
       <Handle
         type="source"
         position={Position.Right}

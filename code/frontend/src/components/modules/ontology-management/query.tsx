@@ -19,7 +19,6 @@ class Query extends React.Component {
         throw new Error("Current workspace must be set.");
       else {
         this.state.databasename = workspacesStore.currentWorkspace.id;
-        console.log("YEAH", this.state.databasename)
       }
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
@@ -53,7 +52,6 @@ class Query extends React.Component {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    console.log("PROPS", props)
     var configs = {
       method: 'POST',
       headers: myHeaders,

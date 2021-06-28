@@ -4,8 +4,9 @@ import React, { memo } from "react";
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
 import SaveIcon from "@material-ui/icons/Save";
+import { IData } from "./data";
 
-export default memo(({ data }: { data: any }) => {
+export default memo(({ data }: { data: IData }) => {
   const { t } = useTranslation();
   return (
     <>

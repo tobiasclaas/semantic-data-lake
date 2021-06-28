@@ -71,7 +71,7 @@ def __start__(spark_helper, dataframe, api_user, source, target_storage, workspa
 
 class WorkFlow(Resource):
 
-    @jwt_required
+    
     @parse_params(
         #Argument("file", type=FileStorage, location='files', required=True)
         Argument("workflow", type=str, required=True)

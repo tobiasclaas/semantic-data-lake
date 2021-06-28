@@ -45,7 +45,7 @@ def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
 
 
 class MongodbIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
@@ -76,7 +76,7 @@ class MongodbIngestion(Resource):
 
 
 class PostgresqlIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
@@ -105,7 +105,7 @@ class PostgresqlIngestion(Resource):
 
 
 class CsvIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("delimiter", default=';', type=str, required=False),
@@ -132,7 +132,7 @@ class CsvIngestion(Resource):
 
 
 class JsonIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("target_storage", default='HDFS', type=str, required=False),
@@ -152,7 +152,7 @@ class JsonIngestion(Resource):
 
 
 class XmlIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("row_tag", default=';', type=str, required=False),

@@ -8,7 +8,7 @@ from database.data_access import user_data_access
 
 
 class Current(Resource):
-    @jwt_required
+    
     def post(self):
         try:
             email = get_jwt_identity()["email"]
