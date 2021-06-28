@@ -1,13 +1,27 @@
 from http import HTTPStatus
-
 import json
 import uuid
 from bson.binary import Binary, UuidRepresentation
 from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
-
 from database.models import Annotation, Datamart
-from api.endpoints.ontologies import ask_query_fuseki
 
+
+def ask_query_fuseki(workspace_id, subject_name):
+    """
+    Performs ask query on Fuseki Default-Graph.
+    :param workspace_id: to identify dataset in fuseki.
+    :param subject_name: name of subject to be searched.
+    :return:
+    """
+    query_string = "ASK { " + subject_name + " ?p ?o . }"
+    # replace admin and pw by environment variable defined in docker-compose.yaml
+    p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+             data={'query': query_string})
+
+    try:
+        return json.loads(p.content)["boolean"]
+    except:
+        return NotFound
 
 def check_data_attribute(datamart_id, data_attribute):
     """

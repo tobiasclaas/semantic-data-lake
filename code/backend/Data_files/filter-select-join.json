@@ -1,0 +1,46 @@
+{
+   "type":"output",
+   "name":"exported.csv",
+   "target":"HDFS",
+   "input":[
+      {
+         "type":"filter",
+         "condition":"name= \"Arsene Wenger\" or name= \"Robin Hood\"",
+         "input":[
+            {
+               "type":"select",
+               "columns":[
+                  "name",
+                  "dept_name",
+                  "head"
+               ],
+               "input":[
+                  {
+                     "type":"join",
+                     "input":[
+                        {
+                           "column":"Department",
+                           "input":[
+                              {
+                                 "type":"source",
+                                 "id":"1bb83ba0-a37b-44ee-9728-d8fb1524eef5"
+                              }
+                           ]
+                        },
+                        {
+                           "column":"id",
+                           "input":[
+                              {
+                                 "type":"source",
+                                 "id":"8739c272-cf67-40bf-91c9-2dcef57ffeb1"
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}

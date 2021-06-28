@@ -4,6 +4,7 @@ from flask_restful import Api
 from api.endpoints.datamarts import Datamarts
 from api.endpoints.datamarts.ingestion import *
 from api.endpoints.datamarts.creation import *
+from api.endpoints.datamarts.workflow import WorkFlow
 
 DATAMARTS_BLUEPRINT = Blueprint("datamarts.py", __name__)
 
@@ -32,3 +33,8 @@ Api(DATAMARTS_BLUEPRINT).add_resource(DatamartPreviewApi, *creation_preview_rout
 
 creation_save_routes = ["/datamarts/creation/save"]
 Api(DATAMARTS_BLUEPRINT).add_resource(DatamartSaveApi, *creation_save_routes)
+
+# ===== workflow ===================================================================================
+workflow_routes = ["/workspaces/<workspace_id>/workflow"]
+Api(DATAMARTS_BLUEPRINT).add_resource(WorkFlow, *workflow_routes)
+

@@ -99,3 +99,70 @@ def ingest(datamart: Datamart):
     spark_helper.spark_session.stop()
 
     return datamart
+
+
+
+def ingest_spark_helper(datamart: Datamart, spark_helper, dataframe):
+    try:
+        source = datamart.metadata.source
+        target = datamart.metadata.target
+
+        dataframe: DataFrame
+
+        # write
+        if isinstance(target, MongodbStorage):
+            spark_helper.write_mongodb(dataframe, target)
+
+        elif isinstance(target, PostgresqlStorage):
+            if isinstance(source, CsvStorage) or isinstance(source, JsonStorage) or isinstance(source, XmlStorage):
+                raise NotAcceptable(f"Cannot save file in prostgres")
+
+            elif isinstance(source, MongodbStorage):
+                flat_cols = [c[0] for c in dataframe.dtypes if c[1][:6] != 'struct']
+                nested_cols = [c[0] for c in dataframe.dtypes if c[1][:6] == 'struct']
+                flattened_dataframe = dataframe.select(
+                    flat_cols + [
+                        functions.col(nc + '.' + c).alias(nc + '_' + c)
+                        for nc in nested_cols
+                        for c in dataframe.select(nc + '.*').columns
+                    ]
+                )
+                dataframe = flattened_dataframe
+
+            spark_helper.write_postgresql(dataframe, target)
+
+        elif isinstance(target, CsvStorage):
+            spark_helper.write_csv(dataframe, target)
+
+        elif isinstance(target, JsonStorage):
+            spark_helper.write_json(dataframe, target)
+
+        elif isinstance(target, XmlStorage):
+            spark_helper.write_xml(dataframe, target)
+
+        else:
+            raise NotAcceptable("invalid target storage")
+
+    except Exception as e:
+        if spark_helper:
+            spark_helper.spark_session.stop()
+
+        datamart.status.state = DatamartState.FAILED
+        datamart.status.error = f"{e}"
+        datamart.status.ended = datetime.now()
+        datamart.save()
+        return datamart
+
+    dataframe.show()
+    print(dataframe.schema)
+
+    datamart.metadata.schema = dataframe.schema.json()
+    datamart.status.state = DatamartState.SUCCESS
+    datamart.status.error = None
+    datamart.status.ended = datetime.now()
+
+    datamart.save()
+
+    spark_helper.spark_session.stop()
+
+    return datamart
