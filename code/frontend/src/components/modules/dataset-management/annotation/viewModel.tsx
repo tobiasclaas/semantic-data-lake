@@ -8,23 +8,23 @@ import {
 } from "mobx";
 import React from "react";
 import ContentStore from "../../../../models/contentStore";
-import { DataSetType, IDataSet } from "../../../../models/dataset";
+import { IDatamart } from "../../../../models/datamarts";
 import StoreStatus from "../../../../models/storeStatus.enum";
 import workspacesStore from "../../../../stores/workspaces.store";
 import View from "./main.component";
 
 class ViewModel extends ContentStore {
-  datasets: IObservableArray<IDataSet>;
+  datamarts: IObservableArray<IDatamart>;
 
-  constructor(item: IDataSet) {
+  constructor(item: IDatamart) {
     super();
-    this.datasets = observable.array([] as IDataSet[]);
+    this.datamarts = observable.array([] as IDatamart[]);
     makeObservable(this);
 
     this.initialize(item);
   }
 
-  private async initialize(item: IDataSet) {
+  private async initialize(item: IDatamart) {
     this.setStatus(StoreStatus.initializing);
     try {
       if (!workspacesStore.currentWorkspace)
@@ -35,21 +35,21 @@ class ViewModel extends ContentStore {
         headers: { Accept: "application/json" },
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datasets`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
-      const datasets = await response.json();
-      this.setDataSets(datasets);
+      const datamarts = await response.json();
+      this.setDatamarts(datamarts);
       this.setStatus(StoreStatus.ready);
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }
   }
 
-  @action setDataSets(newValue: IDataSet[]) {
-    this.datasets.clear();
-    this.datasets.push(...newValue);
+  @action setDatamarts(newValue: IDatamart[]) {
+    this.datamarts.clear();
+    this.datamarts.push(...newValue);
   }
 
   getView = () => <View viewModel={this} />;

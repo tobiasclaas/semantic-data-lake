@@ -21,36 +21,19 @@ import ReactFlow, {
   ArrowHeadType,
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
-import nodes from "./nodes";
+import nodes, { NodeType } from "./nodes";
 import Button from "@material-ui/core/Button";
 import WorkflowHelper from "../../../utils/helpers/workflowHelper";
+import { NodeData } from "../../../models/workflow";
+import { toJS } from "mobx";
+import PropertiesDialog from "./propertiesDialog";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [elements, setElements] = useState<Elements<any>>([]);
-
-  const onConnect = (e: Edge<any> | Connection) => {
-    (e as any).arrowHeadType = ArrowHeadType.Arrow;
-    setElements((els) => addEdge(e, els));
-  };
-
-  const onElementsRemove = (elementsToRemove: Elements<any>) =>
-    setElements((els) => removeElements(elementsToRemove, els));
 
   const onLoad = (_reactFlowInstance: OnLoadParams<any>) =>
     setReactFlowInstance(_reactFlowInstance);
-
-  const generateNode = (type: string, position: XYPosition) => {
-    let node: FlowNode<any> = {
-      id: uuidv4(),
-      position,
-      data: {},
-      type,
-    };
-
-    return node;
-  };
 
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -61,13 +44,15 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
     event.preventDefault();
     if (!reactFlowWrapper.current) return;
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData("application/reactflow");
+    const type = event.dataTransfer.getData(
+      "application/reactflow"
+    ) as NodeType;
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
 
-    setElements((es) => es.concat(generateNode(type, position)));
+    viewModel.addNode(type, position);
   };
 
   return (
@@ -77,11 +62,15 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           <Sidebar viewModel={viewModel} />
           <div style={{ flex: 1 }} ref={reactFlowWrapper}>
             <ReactFlow
-              elements={elements}
+              elements={viewModel.elements.slice()}
               nodeTypes={nodes}
-              onConnect={onConnect}
-              onElementsRemove={onElementsRemove}
+              onElementsRemove={(e) => viewModel.removeElements(e)}
+              onConnect={(e) => viewModel.addEdge(e)}
               onLoad={onLoad}
+              onNodeContextMenu={(e, node) => {
+                e.preventDefault();
+                viewModel.openPropertiesModal(node);
+              }}
               onDrop={onDrop}
               onDragOver={onDragOver}
             >
@@ -90,8 +79,13 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           </div>
         </ReactFlowProvider>
       </div>
+      <PropertiesDialog viewModel={viewModel} />
       <Button
-        onClick={() => console.log(WorkflowHelper.parseElements(elements))}
+        onClick={() => {
+          console.log(
+            toJS(WorkflowHelper.parseElements(viewModel.elements.slice()))
+          );
+        }}
       >
         Show Code
       </Button>

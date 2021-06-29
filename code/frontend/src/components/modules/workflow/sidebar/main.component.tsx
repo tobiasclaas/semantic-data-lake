@@ -30,27 +30,19 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   return (
     <Container>
       <List>
-        <ListItem
-          button
-          onDragStart={(event) => onDragStart(event, NodeType.data_source)}
-          draggable
-        >
-          <ListItemText primary={t("workflow.items.data_source")} />
-        </ListItem>
-        <ListItem
-          button
-          onDragStart={(event) => onDragStart(event, NodeType.join)}
-          draggable
-        >
-          <ListItemText primary={t("workflow.items.join")} />
-        </ListItem>
-        <ListItem
-          button
-          onDragStart={(event) => onDragStart(event, NodeType.export)}
-          draggable
-        >
-          <ListItemText primary={t("workflow.items.export")} />
-        </ListItem>
+        {Object.keys(NodeType).map((type: string) => {
+          const type_string = type;
+          return (
+            <ListItem
+              key={type_string}
+              button
+              onDragStart={(event) => onDragStart(event, type_string)}
+              draggable
+            >
+              <ListItemText primary={t(`workflow.items.${type_string}`)} />
+            </ListItem>
+          );
+        })}
       </List>
     </Container>
   );

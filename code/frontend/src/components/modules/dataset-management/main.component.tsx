@@ -18,7 +18,7 @@ import FileInput from "../../common/FileInput";
 import Item from "../../common/item";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { DataSetType } from "../../../models/dataset";
+import { DatamartType } from "../../../models/datamarts";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
@@ -56,11 +56,11 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         {t("dataset_management.description")}
       </Typography>
       <ContainerGrid container spacing={0}>
-        {viewModel.datasets.map((item) => (
+        {viewModel.datamarts.map((item) => (
           <Item
-            key={item.id}
-            title={item.name}
-            onDelete={() => viewModel.delete(item)}
+            key={item.uid}
+            title={item.humanReadableName}
+            // onDelete={() => viewModel.delete(item)}
           >
             <ItemButton
               htmlColor={blue[500]}
@@ -103,7 +103,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
                   <Select
                     value={viewModel.uploadType}
                     onChange={(e) =>
-                      viewModel.setUploadType(e.target.value as DataSetType)
+                      viewModel.setUploadType(e.target.value as DatamartType)
                     }
                   >
                     <MenuItem value="csv">CSV</MenuItem>

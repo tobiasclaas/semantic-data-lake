@@ -88,7 +88,7 @@ class DatamartPreviewApi(Resource):
             session_state.error = err
             session_state.state = STATE_FAILED
 
-    @jwt_required
+    
     @parse_params(
         Argument("preview_row_count", type=int, default=10),
     )
@@ -119,7 +119,7 @@ class DatamartPreviewApi(Resource):
             }
             return response, status.HTTP_201_CREATED
 
-    @jwt_required
+    
     @parse_params(
         Argument("datamarts", type=dict, required=True),
         Argument("pyspark", type=str),
@@ -148,7 +148,7 @@ class DatamartPreviewApi(Resource):
 # save api
 # ==================================================================================================
 class DatamartSaveApi(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("datamarts", required=True, action="append"),
         Argument("human_readable_name", type=str, required=True),

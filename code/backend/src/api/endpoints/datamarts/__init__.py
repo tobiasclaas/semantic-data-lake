@@ -9,10 +9,12 @@ from api.services.decorators import parse_params
 from business_logic.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
 from business_logic.spark import SparkHelper
+from database.models import Datamart
+
 
 
 class Datamarts(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("page", default=1, type=int, required=False),
         Argument("limit", default=10, type=int, required=False),
@@ -31,24 +33,25 @@ class Datamarts(Resource):
                 if mapper(datamart)['workspace_id'] == workspace_id:
                     result.append(mapper(datamart))
 
-            return jsonify({
-                "total": len(result),
-                "datamarts": result
-            })
+            return jsonify(result)
         else:
             return jsonify(mapper(data_access.get_by_uid(uid)))
 
-    @jwt_required
+    
     @parse_params(
-        Argument("uid", type=str, required=True),
+        Argument("uid", type=str, required=False),
     )
     def delete(self, workspace_id, uid):
+        if uid == None:
+            Datamart.objects.all().delete()
+            return f"All datamarts deleted"
+
         datamart = data_access.get_by_uid(uid)
         hnr = datamart.human_readable_name
         datamart.delete()
         return f"deleted datamart {hnr}"
 
-    @jwt_required
+    
     @parse_params(
         Argument("comment", default='', type=str, required=False),
         Argument("annotated_schema", required=False),

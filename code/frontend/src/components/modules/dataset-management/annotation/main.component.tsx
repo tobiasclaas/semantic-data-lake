@@ -18,7 +18,6 @@ import FileInput from "../../../common/FileInput";
 import Item from "../../../common/item";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { DataSetType } from "../../../../models/dataset";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";

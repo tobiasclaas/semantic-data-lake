@@ -45,7 +45,7 @@ def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
 
 
 class MongodbIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
@@ -61,7 +61,7 @@ class MongodbIngestion(Resource):
             self, host, port, database, collection, workspace_id, target_storage, user, password, comment,
             human_readable_name
     ):
-        api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
+        # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
 
         source = MongodbStorage(
             host=host,
@@ -72,11 +72,11 @@ class MongodbIngestion(Resource):
             collection=collection
         )
 
-        return jsonify(mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment)))
+        return jsonify(mapper(__start__(None, source, target_storage, workspace_id, human_readable_name, comment)))
 
 
 class PostgresqlIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
@@ -90,7 +90,7 @@ class PostgresqlIngestion(Resource):
     )
     def post(self, host, port, database, table, workspace_id, target_storage, user, password, comment,
              human_readable_name):
-        api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
+        # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
 
         source = PostgresqlStorage(
             host=host,
@@ -101,11 +101,10 @@ class PostgresqlIngestion(Resource):
             table=table
         )
 
-        return jsonify(mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment)))
+        return jsonify(mapper(__start__(None, source, target_storage, workspace_id, human_readable_name, comment)))
 
 
 class CsvIngestion(Resource):
-    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("delimiter", default=';', type=str, required=False),
@@ -116,7 +115,7 @@ class CsvIngestion(Resource):
     )
     def post(self, workspace_id, file: FileStorage, delimiter, has_header, target_storage, comment,
              human_readable_name):
-        api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
+        # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = CsvStorage(
@@ -128,11 +127,11 @@ class CsvIngestion(Resource):
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
-        return jsonify(mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment)))
+        return jsonify(mapper(__start__(None, source, target_storage, workspace_id, human_readable_name, comment)))
 
 
 class JsonIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("target_storage", default='HDFS', type=str, required=False),
@@ -140,7 +139,7 @@ class JsonIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(self, workspace_id, file: FileStorage, target_storage, comment, human_readable_name):
-        api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
+        # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = JsonStorage(file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.json")
@@ -148,11 +147,11 @@ class JsonIngestion(Resource):
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
-        return jsonify(mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment)))
+        return jsonify(mapper(__start__(None, source, target_storage, workspace_id, human_readable_name, comment)))
 
 
 class XmlIngestion(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("row_tag", default=';', type=str, required=False),
@@ -161,7 +160,7 @@ class XmlIngestion(Resource):
         Argument("human_readable_name", default='', type=str, required=False),
     )
     def post(self, workspace_id, file: FileStorage, row_tag, target_storage, comment, human_readable_name):
-        api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
+        # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = XmlStorage(
@@ -172,4 +171,4 @@ class XmlIngestion(Resource):
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
-        return jsonify(mapper(__start__(api_user, source, target_storage, workspace_id, human_readable_name, comment)))
+        return jsonify(mapper(__start__(None, source, target_storage, workspace_id, human_readable_name, comment)))

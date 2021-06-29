@@ -13,7 +13,7 @@ from .current import Current
 
 
 class Users(Resource):
-    @jwt_required
+    
     @parse_params(
         Argument("email", type=str)
     )
@@ -27,7 +27,7 @@ class Users(Resource):
                 users.append(mapper(user))
             return jsonify(users)
 
-    @jwt_required
+    
     @parse_params(
         Argument("email", required=True, type=str),
         Argument("firstname", required=True, type=str),
@@ -42,7 +42,7 @@ class Users(Resource):
         user.save()
         return jsonify(mapper(user))
 
-    @jwt_required
+    
     @parse_params(
         Argument("email", required=True, type=str),
         Argument("password", required=True, type=str),
@@ -65,7 +65,7 @@ class Users(Resource):
             user.save()
             return jsonify(mapper())
 
-    @jwt_required
+    
     @parse_params(
         Argument("email", required=True, type=str)
     )

@@ -8,7 +8,7 @@ import {
 } from "mobx";
 import React from "react";
 import ContentStore from "../../../models/contentStore";
-import { DataSetType, IDataSet } from "../../../models/dataset";
+import { DatamartType, IDatamart } from "../../../models/datamarts";
 import StoreStatus from "../../../models/storeStatus.enum";
 import routingStore from "../../../stores/routing.store";
 import workspacesStore from "../../../stores/workspaces.store";
@@ -18,11 +18,11 @@ import AnnotationViewModel from "./annotation";
 import View from "./main.component";
 
 class ViewModel extends ContentStore {
-  datasets: IObservableArray<IDataSet>;
+  datamarts: IObservableArray<IDatamart>;
 
   constructor() {
     super();
-    this.datasets = observable.array([] as IDataSet[]);
+    this.datamarts = observable.array([] as IDatamart[]);
     makeObservable(this);
 
     this.initialize();
@@ -43,17 +43,17 @@ class ViewModel extends ContentStore {
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
-      const datasets = await response.json();
-      this.setDataSets(datasets);
+      const datamarts = await response.json();
+      this.setDatamarts(datamarts);
       this.setStatus(StoreStatus.ready);
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }
   }
 
-  @action setDataSets(newValue: IDataSet[]) {
-    this.datasets.clear();
-    this.datasets.push(...newValue);
+  @action setDatamarts(newValue: IDatamart[]) {
+    this.datamarts.clear();
+    this.datamarts.push(...newValue);
   }
 
   // Upload Modal
@@ -62,11 +62,11 @@ class ViewModel extends ContentStore {
   @action openUploadDialog() {
     this.isUploadDialogOpen = true;
     this.uploadName = "";
-    this.setUploadType(DataSetType.csv);
+    this.setUploadType(DatamartType.csv);
   }
   @action closeUploadDialog() {
     this.isUploadDialogOpen = false;
-    this.setUploadType(DataSetType.csv);
+    this.setUploadType(DatamartType.csv);
     this.uploadName = "";
   }
 
@@ -76,8 +76,8 @@ class ViewModel extends ContentStore {
   }
 
   @observable bodyContentViewModel: BodyViewModel | null = null;
-  @observable uploadType: DataSetType = DataSetType.csv;
-  @action async setUploadType(value: DataSetType) {
+  @observable uploadType: DatamartType = DatamartType.csv;
+  @action async setUploadType(value: DatamartType) {
     this.uploadType = value;
     await import("./body/" + this.uploadType).then((res) => {
       runInAction(() => {
@@ -121,7 +121,7 @@ class ViewModel extends ContentStore {
       );
       if (!response.ok) throw new Error(response.statusText);
       runInAction(async () => {
-        this.datasets.push((await response.json()) as IDataSet);
+        this.datamarts.push((await response.json()) as IDatamart);
       });
       this.closeUploadDialog();
       this.setStatus(StoreStatus.ready);
@@ -131,7 +131,7 @@ class ViewModel extends ContentStore {
   }
 
   @observable annotationViewModel: ContentStore | null = null;
-  @action beginAnnotation(item: IDataSet) {
+  @action beginAnnotation(item: IDatamart) {
     this.annotationViewModel = new AnnotationViewModel(item);
   }
   @action endAnnotation() {
@@ -146,7 +146,7 @@ class ViewModel extends ContentStore {
     return this.annotationViewModel.getView();
   }
 
-  async delete(item: IDataSet) {
+  async delete(item: IDatamart) {
     this.setStatus(StoreStatus.working);
     try {
       if (!workspacesStore.currentWorkspace)
@@ -160,11 +160,11 @@ class ViewModel extends ContentStore {
         },
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datasets/${item.id}`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts/${item.uid}`,
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
-      this.datasets.remove(item);
+      this.datamarts.remove(item);
       this.setStatus(StoreStatus.ready);
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
