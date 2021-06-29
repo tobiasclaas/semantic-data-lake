@@ -131,7 +131,7 @@ class ViewModel extends ContentStore {
       if (!workspacesStore.currentWorkspace)
         throw new Error("Current workspace must be set.");
       const formData = new FormData();
-      formData.append("name", this.uploadName);
+      formData.append("human_readable_name", this.uploadName);
       if (this.bodyContentViewModel) this.bodyContentViewModel.fill(formData);
 
       const configs = {
