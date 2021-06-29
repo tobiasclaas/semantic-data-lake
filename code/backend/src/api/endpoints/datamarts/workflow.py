@@ -1,7 +1,7 @@
 import json
 import uuid
 import datetime
-from flask import jsonify, Response
+from flask import jsonify, Response, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
@@ -43,9 +43,9 @@ def process_input(spark_helper, data):
         dataframe = df1.select(*data["columns"])
         return dataframe
 
-    if data['type'] == 'source':
-        source_ids.append(data['id'])
-        datamart = data_access.get_by_uid(data['id'])
+    if data['type'] == 'data_source':
+        source_ids.append(data['uid'])
+        datamart = data_access.get_by_uid(data['uid'])
         dataframe = spark_helper.read_datamart(datamart)
         return dataframe
 
@@ -77,76 +77,30 @@ class WorkFlow(Resource):
 
     @parse_params(
         # Argument("file", type=FileStorage, location='files', required=True)
-        Argument("workflow", type=str, required=False)
+        # Argument("workflow", type=str, required=False)
     )
-    def post(self, workspace_id, workflow):
+    def post(self, workspace_id):
 
         spark_helper = SparkHelper("transform")
         try:
-            file = r"""{
-               "type":"output",
-               "name":"exported.csv",
-               "target":"MongoDB",
-               "input":[
-                  {
-                     "type":"filter",
-                     "condition":"name= \"Arsene Wenger\" or name= \"Robin Hood\"",
-                     "input":[
-                        {
-                           "type":"select",
-                           "columns":[
-                              "name",
-                              "dept_name",
-                              "head"
-                           ],
-                           "input":[
-                              {
-                                 "type":"join",
-                                 "input":[
-                                    {
-                                       "column":"Department",
-                                       "input":[
-                                          {
-                                             "type":"source",
-                                             "id":"e99377da-3649-43f7-afb3-bc4160e9d586"
 
-                                          }
-                                       ]
-                                    },
-                                    {
-                                       "column":"id",
-                                       "input":[
-                                          {
-                                             "type":"source",
-                                             "id":"a62e52e9-aec4-4960-953c-c70d32182e35"
-                                          }
-                                       ]
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  }
-               ]
-            }"""
-            # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
-            # hdfs = settings.Settings().hdfs_storage
-            data = json.loads(file)
-            human_readable_name = data["name"]
-            for data_input in data['input']:
-                transformed_dataframe = process_input(spark_helper, data_input)
-                transformed_dataframe.show()
 
-            source = CsvStorage(
-                file=f"{','.join(source_ids)}",
-            )
-            # target = CsvStorage(
-            #     file=f"{hdfs.ingestion_directory}/{workspace_id}/transform_{uuid.uuid4()}.csv",
-            # )
+            data = json.loads(request.data)
+            for data_input in data:
+                human_readable_name = data_input["name"]
+                transformed_dataframe = process_input(spark_helper, data_input['input'][0])
+                # transformed_dataframe.show()
 
-            return jsonify(mapper(__start__(spark_helper, transformed_dataframe, None, source, data['target'], workspace_id,
-                                            human_readable_name, workflow)))
+                source = CsvStorage(
+                    file=f"{','.join(source_ids)}",
+                )
+                __start__(spark_helper, transformed_dataframe, None, source, data_input['target'], workspace_id,
+                          human_readable_name, "")
+                # target = CsvStorage(
+                #     file=f"{hdfs.ingestion_directory}/{workspace_id}/transform_{uuid.uuid4()}.csv",
+                # )
+
+            return Response(status=200)
 
         except Exception as e:
             if (spark_helper):
