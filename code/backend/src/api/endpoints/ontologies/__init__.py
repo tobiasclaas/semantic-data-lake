@@ -154,7 +154,6 @@ class Annotation(Resource):
 
 class Completion(Resource):
     @parse_params(
-        Argument('workspace_id', required=True, type=str),
         Argument('search_term', required=True, type=str)
     )
     def get(self, workspace_id, search_term=''):
