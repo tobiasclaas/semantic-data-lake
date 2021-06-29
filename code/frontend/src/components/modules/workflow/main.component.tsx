@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import ViewModel from "./viewModel";
 import IViewProps from "../../../models/iViewProps";
@@ -27,10 +27,19 @@ import WorkflowHelper from "../../../utils/helpers/workflowHelper";
 import { NodeData } from "../../../models/workflow";
 import { toJS } from "mobx";
 import PropertiesDialog from "./propertiesDialog";
+import Fab from "@material-ui/core/Fab";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import { green } from "@material-ui/core/colors";
+import routingStore from "../../../stores/routing.store";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
+  const { t } = useTranslation();
+  useEffect(() => {
+    viewModel.registerIntevals();
+    return () => viewModel.deregisterIntevals();
+  });
 
   const onLoad = (_reactFlowInstance: OnLoadParams<any>) =>
     setReactFlowInstance(_reactFlowInstance);
@@ -80,15 +89,25 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         </ReactFlowProvider>
       </div>
       <PropertiesDialog viewModel={viewModel} />
-      <Button
-        onClick={() => {
-          console.log(
-            toJS(WorkflowHelper.parseElements(viewModel.elements.slice()))
-          );
+      <Fab
+        style={{
+          backgroundColor: green[500],
+          position: "absolute",
+          bottom: "1rem",
+          right: "1rem",
+          zIndex: 10000,
+        }}
+        variant="extended"
+        size="medium"
+        color="primary"
+        onClick={async () => {
+          await viewModel.submit();
+          routingStore.history.push("/dataset-management");
         }}
       >
-        Show Code
-      </Button>
+        <PlayArrowIcon style={{ marginRight: "0.4rem" }} />
+        {t("generic.execute")}
+      </Fab>
     </React.Fragment>
   );
 });

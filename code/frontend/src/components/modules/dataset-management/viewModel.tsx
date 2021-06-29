@@ -8,7 +8,11 @@ import {
 } from "mobx";
 import React from "react";
 import ContentStore from "../../../models/contentStore";
-import { DatamartType, IDatamart } from "../../../models/datamarts";
+import {
+  DatamartStatus,
+  DatamartType,
+  IDatamart,
+} from "../../../models/datamarts";
 import StoreStatus from "../../../models/storeStatus.enum";
 import routingStore from "../../../stores/routing.store";
 import workspacesStore from "../../../stores/workspaces.store";
@@ -28,32 +32,54 @@ class ViewModel extends ContentStore {
     this.initialize();
   }
 
+  private refreshIntervalId: number | null = null;
+
   private async initialize() {
     this.setStatus(StoreStatus.initializing);
     try {
-      if (!workspacesStore.currentWorkspace)
-        throw new Error("Current workspace must be set.");
-
-      const configs = {
-        method: "GET",
-        headers: { Accept: "application/json" },
-      };
-      const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
-        configs
-      );
-      if (!response.ok) throw new Error(response.statusText);
-      const datamarts = await response.json();
-      this.setDatamarts(datamarts);
+      await this.refreshDatamarts();
       this.setStatus(StoreStatus.ready);
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }
   }
 
+  public deregisterIntevals() {
+    if (this.refreshIntervalId !== null)
+      window.clearInterval(this.refreshIntervalId);
+    this.refreshIntervalId = null;
+  }
+
+  public registerIntevals() {
+    this.deregisterIntevals();
+    this.refreshIntervalId = window.setInterval(
+      this.refreshDatamarts.bind(this),
+      3000
+    );
+  }
+
+  private async refreshDatamarts() {
+    if (!workspacesStore.currentWorkspace)
+      throw new Error("Current workspace must be set.");
+
+    const configs = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+    const response = await fetch(
+      `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
+      configs
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const datamarts = (await response.json()) as IDatamart[];
+    datamarts[0].status.state = DatamartStatus.failed;
+    datamarts[1].status.state = DatamartStatus.running;
+
+    this.setDatamarts(datamarts);
+  }
+
   @action setDatamarts(newValue: IDatamart[]) {
-    this.datamarts.clear();
-    this.datamarts.push(...newValue);
+    this.datamarts.replace(newValue);
   }
 
   // Upload Modal
