@@ -75,7 +75,6 @@ def __start__(spark_helper, dataframe, api_user, source, target_storage, workspa
 
 class WorkFlow(Resource):
 
-    @jwt_required
     @parse_params(
         # Argument("file", type=FileStorage, location='files', required=True)
         Argument("workflow", type=str, required=False)
@@ -83,12 +82,11 @@ class WorkFlow(Resource):
     def post(self, workspace_id, workflow):
 
         spark_helper = SparkHelper("transform")
-        setting = settings.Settings()
         try:
             file = r"""{
                "type":"output",
                "name":"exported.csv",
-               "target":"HDFS",
+               "target":"MongoDB",
                "input":[
                   {
                      "type":"filter",
@@ -110,7 +108,7 @@ class WorkFlow(Resource):
                                        "input":[
                                           {
                                              "type":"source",
-                                             "id":"65935e68-ea79-4644-b1c1-472b66b0682a"
+                                             "id":"e99377da-3649-43f7-afb3-bc4160e9d586"
 
                                           }
                                        ]
@@ -120,7 +118,7 @@ class WorkFlow(Resource):
                                        "input":[
                                           {
                                              "type":"source",
-                                             "id":"c99347c4-d910-4844-bc32-d0efe532a0f8"
+                                             "id":"a62e52e9-aec4-4960-953c-c70d32182e35"
                                           }
                                        ]
                                     }
@@ -132,8 +130,8 @@ class WorkFlow(Resource):
                   }
                ]
             }"""
-            api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
-            hdfs = settings.Settings().hdfs_storage
+            # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
+            # hdfs = settings.Settings().hdfs_storage
             data = json.loads(file)
             human_readable_name = data["name"]
             for data_input in data['input']:
@@ -147,7 +145,7 @@ class WorkFlow(Resource):
             #     file=f"{hdfs.ingestion_directory}/{workspace_id}/transform_{uuid.uuid4()}.csv",
             # )
 
-            return jsonify(mapper(__start__(spark_helper, transformed_dataframe, api_user, source, data['target'], workspace_id,
+            return jsonify(mapper(__start__(spark_helper, transformed_dataframe, None, source, data['target'], workspace_id,
                                             human_readable_name, workflow)))
 
         except Exception as e:
