@@ -1,55 +1,40 @@
+import json
 from flask import json, jsonify, Response
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
 from werkzeug.datastructures import FileStorage
-from requests import put, post, delete as delete_request
 from api.services.decorators import parse_params
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
 from business_logic.services.mapper import mapper as mapper_general
-
-import traceback
-import json
 from requests import put, post, patch
 from api.services.decorators import parse_params
 
 
-def create_query_string(databasename: str, graph_name: str, querystring: str):
+def create_query_string(graph_name: str, keyword: str):
     """
     This methods generates the query string for the keyword-search in put.
-    :param databasename: name of the database
-    :param graph_name: graph to be queried, default is "default graph"
-    :param querystring: keywords to search for or when search-bool is false the query itself
+    :param graph_name: graph to be queried, default is "default graph",
+        like "<http://localhost:3030/60d5c79a7d2c38ee678e87a8/60d5c79d7d2c38ee678e87a9>"
+    :param keyword: keywords to search for or when search-bool is false the query itself
     :returns: the query
     """
     if graph_name == '' or graph_name is None:
         graph_name = '?g'
-        query = "SELECT ?s ?p ?o " \
-                "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                                                                                                        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                               "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
-    else:
-        graph_name = 'http://localhost:3030/' + databasename + '/' + graph_name
-        query = "SELECT ?s ?p ?o " \
-                "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                                                                                                          "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                                   "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+
+    query = """ SELECT ?subject ?predicate ?object
+                WHERE {
+                    GRAPH """ + graph_name + """ {
+                        ?subject ?predicate ?object .
+                        FILTER (
+                            regex(str(?subject), '""" + keyword + """') ||
+                            regex(str(?predicate), '""" + keyword + """') ||
+                            regex(str(?object),  '""" + keyword + """'))
+                    }
+                } """
 
     return query
-
-
-def select_query_fuseki(workspace_id, graph_name, search):
-    # replace admin and pw by environment variable defined in docker-compose.yaml
-    return post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
-                data={'query': create_query_string(workspace_id, graph_name, search)})
-
-
-def mapper(item):
-    return {
-        "id": str(item.id),
-        "name": item.name,
-    }
 
 
 def get_suggestions(workspace_id, search_term):
@@ -78,6 +63,19 @@ def get_suggestions(workspace_id, search_term):
         return p.status_code
 
 
+def select_query_fuseki(workspace_id, graph_name, querystring):
+    # replace admin and pw by environment variable defined in docker-compose.yaml
+    return post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+                data={'query': create_query_string(graph_name, querystring)})
+
+
+def mapper(item):
+    return {
+        "id": str(item.id),
+        "name": item.name,
+    }
+
+
 class Ontologies(Resource):
     def get(self, workspace_id):
         return jsonify([mapper(item) for item in ontology_data_access.get_all(workspace_id)])
@@ -99,10 +97,25 @@ class Ontologies(Resource):
 
 class OntologiesSearch(Resource):
     @parse_params( 
-        Argument("q", default=None, type=str, required=True),
+        Argument("querystring", required=True, type=str),
+        Argument("graph_name", default='?g', type=str),
+        Argument("is_query", default=False, type=bool)
     )
-    def get(self, workspace_id, q):
-        return jsonify([{"uri":"http://demo", "text":"demo"}, {"uri":"http://test", "text":"test"}])
+    def get(self, workspace_id, querystring, graph_name, is_query):
+        """
+        :param workspace_id: ID of workspace
+        :param querystring: A keyword or the query itself
+        :param graph_name: ID of Graph in Fuseki, not the entire URL
+        :param is_query: A bool value if a query or keyword is given in querystring
+        :return:
+        """
+        if is_query:
+            return jsonify(post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+                                data={'query': querystring}).content.decode('utf-8'))
+
+        if not (graph_name == '?g'):
+            graph_name = '<http://localhost:3030/' + workspace_id + '/' + graph_name + '>'
+        return jsonify(select_query_fuseki(workspace_id, graph_name, querystring).content.decode('utf-8'))
 
 
 class Annotation(Resource):

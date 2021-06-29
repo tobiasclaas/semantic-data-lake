@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pyspark.sql import DataFrame, functions
 from werkzeug.exceptions import NotAcceptable
+from database.data_access import datamart_data_access as data_access
 
 from business_logic.spark import SparkHelper
 from database.models import (
@@ -156,6 +157,13 @@ def ingest_spark_helper(datamart: Datamart, spark_helper, dataframe):
     dataframe.show()
     print(dataframe.schema)
 
+    marts = source.file.split(',')
+    heritage = []
+    for mart in marts:
+        mart = data_access.get_by_uid(mart)
+        heritage.append(mart)
+
+    datamart.metadata.heritage = heritage
     datamart.metadata.schema = dataframe.schema.json()
     datamart.status.state = DatamartState.SUCCESS
     datamart.status.error = None
