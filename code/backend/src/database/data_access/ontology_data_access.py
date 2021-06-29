@@ -22,29 +22,29 @@ def add(name, file, workspace_id) -> Ontology:
         workspace=workspace)
     Ontology.objects.insert(entity)
 
-    extension = os.path.splitext(file.filename)[1].lower()
+    file_extension = os.path.splitext(file.filename)[1].lower()
 
-    if ".n3" == extension:
+    if ".n3" == file_extension:
         headers = {'Content-Type': 'text/n3; charset=utf-8'}
-    elif ".rdf" == extension:
+    elif ".rdf" == file_extension:
         headers = {'Content-Type': 'application/rdf+xml; charset=utf-8'}
-    elif ".owl" == extension:
+    elif ".owl" == file_extension:
         headers = {'Content-Type': 'application/rdf+xml; charset=utf-8'}
-    elif ".jsonld" == extension:
+    elif ".jsonld" == file_extension:
         headers = {'Content-Type': 'application/ld+json; charset=utf-8'}
     else:
-        raise TypeError(extension.lower() + " is not supported")
+        raise TypeError(file_extension.lower() + " is not supported")
 
     post('http://localhost:3030/{}?graph={}'.format(workspace_id, str(entity.id)), data=file, headers=headers)
     return entity
 
 
-def delete(id, workspace_id):
-    entity: Ontology = Ontology.objects(id__exact=id)
+def delete(graph_id, workspace_id):
+    entity: Ontology = Ontology.objects(id__exact=graph_id)
     if not entity:
         raise NotFound()
     entity = entity.get()
     if str(entity.workspace.id) != workspace_id:
         raise NotFound()
-    delete_request('http://localhost:3030/{}?graph={}'.format(workspace_id, id))
+    delete_request('http://localhost:3030/{}?graph={}'.format(workspace_id, graph_id))
     entity.delete()
