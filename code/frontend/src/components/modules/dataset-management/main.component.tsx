@@ -18,13 +18,13 @@ import FileInput from "../../common/FileInput";
 import Item from "../../common/item";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { DatamartType } from "../../../models/datamarts";
+import { DatamartStatus, DatamartType } from "../../../models/datamarts";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import ItemButton from "../../common/item/button";
-import { blue } from "@material-ui/core/colors";
+import { blue, green } from "@material-ui/core/colors";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -33,6 +33,9 @@ import Box from "@material-ui/core/Box";
 import { StyledToolbar } from "../../app/header/styles";
 import { SlideProps } from "@material-ui/core/Slide";
 import Slide from "@material-ui/core/Slide";
+import { useEffect } from "react";
+import Chip from "@material-ui/core/Chip";
+import { red } from "@material-ui/core/colors";
 
 const Transition = React.forwardRef((props: SlideProps, ref) => (
   <Slide direction="up" ref={ref} {...props} />
@@ -40,6 +43,10 @@ const Transition = React.forwardRef((props: SlideProps, ref) => (
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
+  useEffect(() => {
+    viewModel.registerIntevals();
+    return () => viewModel.deregisterIntevals();
+  });
 
   return (
     <React.Fragment>
@@ -62,12 +69,52 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             title={item.humanReadableName}
             // onDelete={() => viewModel.delete(item)}
           >
-            <ItemButton
-              htmlColor={blue[500]}
-              onClick={() => viewModel.beginAnnotation(item)}
-            >
-              <LocalOfferIcon fontSize="small" />
-            </ItemButton>
+            {item.status.state == DatamartStatus.failed && (
+              <div
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Chip
+                  style={{
+                    opacity: 0.8,
+                    backgroundColor: red[500],
+                    color: "#fff",
+                    height: "auto",
+                  }}
+                  label={t("dataset_management.status." + item.status.state)}
+                />
+              </div>
+            )}
+            {item.status.state == DatamartStatus.running && (
+              <div
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Chip
+                  style={{
+                    opacity: 0.8,
+                    backgroundColor: green[500],
+                    color: "#fff",
+                    height: "auto",
+                  }}
+                  label={t("dataset_management.status." + item.status.state)}
+                />
+              </div>
+            )}
+            {item.status.state == DatamartStatus.success && (
+              <ItemButton
+                htmlColor={blue[500]}
+                onClick={() => viewModel.beginAnnotation(item)}
+              >
+                <LocalOfferIcon fontSize="small" />
+              </ItemButton>
+            )}
           </Item>
         ))}
       </ContainerGrid>

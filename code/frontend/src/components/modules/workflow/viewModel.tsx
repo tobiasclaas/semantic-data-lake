@@ -2,7 +2,7 @@ import { extendObservable, IObservableArray, runInAction, toJS } from "mobx";
 import { action, makeObservable, observable } from "mobx";
 import React from "react";
 import ContentStore from "../../../models/contentStore";
-import { IDatamart } from "../../../models/datamarts";
+import { DatamartStatus, IDatamart } from "../../../models/datamarts";
 import StoreStatus from "../../../models/storeStatus.enum";
 import appStore from "../../../stores/app.store";
 import View from "./main.component";
@@ -22,6 +22,7 @@ import { v4 as uuidv4 } from "uuid";
 import { computed } from "mobx";
 import PropertiesViewModel from "./propertiesViewModel";
 import { NodeType } from "./nodes";
+import WorkflowHelper from "../../../utils/helpers/workflowHelper";
 
 class ViewModel extends ContentStore {
   constructor() {
@@ -91,34 +92,54 @@ class ViewModel extends ContentStore {
   datamarts: IObservableArray<IDatamart>;
   elements: IObservableArray<FlowElement<NodeData>>;
 
+  private refreshIntervalId: number | null = null;
+
   private async initialize() {
     this.setStatus(StoreStatus.initializing);
     try {
-      if (!workspacesStore.currentWorkspace)
-        throw new Error("Current workspace must be set.");
-
-      const configs = {
-        method: "GET",
-        headers: { Accept: "application/json" },
-      };
-      const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
-        configs
-      );
-      if (!response.ok) throw new Error(response.statusText);
-      const datamarts = await response.json();
-      this.setDatamarts(datamarts);
+      await this.refreshDatamarts();
       this.setStatus(StoreStatus.ready);
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }
   }
 
-  @action setDatamarts(newValue: IDatamart[]) {
-    this.datamarts.clear();
-    this.datamarts.push(...newValue);
+  public deregisterIntevals() {
+    if (this.refreshIntervalId !== null)
+      window.clearInterval(this.refreshIntervalId);
+    this.refreshIntervalId = null;
   }
-  // TODO: refresh each 1sec
+
+  public registerIntevals() {
+    this.deregisterIntevals();
+    this.refreshIntervalId = window.setInterval(
+      this.refreshDatamarts.bind(this),
+      3000
+    );
+  }
+
+  private async refreshDatamarts() {
+    if (!workspacesStore.currentWorkspace)
+      throw new Error("Current workspace must be set.");
+
+    const configs = {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    };
+    const response = await fetch(
+      `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
+      configs
+    );
+    if (!response.ok) throw new Error(response.statusText);
+    const datamarts = (await response.json()) as IDatamart[];
+    this.setDatamarts(
+      datamarts.filter((i) => i.status.state === DatamartStatus.success)
+    );
+  }
+
+  @action setDatamarts(newValue: IDatamart[]) {
+    this.datamarts.replace(newValue);
+  }
 
   getView = () => <View viewModel={this} />;
 
@@ -126,6 +147,31 @@ class ViewModel extends ContentStore {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
+
+  async submit() {
+    if (!workspacesStore.currentWorkspace)
+      throw new Error("Current workspace must be set.");
+
+    this.setStatus(StoreStatus.working);
+    try {
+      const configs = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(WorkflowHelper.parseElements(this.elements)),
+      };
+      const response = await fetch(
+        `/workspaces/${workspacesStore.currentWorkspace.id}/workflow`,
+        configs
+      );
+      if (!response.ok) throw new Error(response.statusText);
+      this.setStatus(StoreStatus.ready);
+    } catch (ex) {
+      this.setStatus(StoreStatus.failed);
+    }
+  }
 
   // Properties
   @observable propertiesViewModel: PropertiesViewModel<NodeData> | null = null;

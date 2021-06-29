@@ -27,7 +27,7 @@ class ViewModel extends BodyViewModel {
     this.file = value;
   }
 
-  @observable delimiter: string = ";";
+  @observable delimiter: string = ",";
   @action setDelimiter(value: string) {
     this.delimiter = value;
   }
