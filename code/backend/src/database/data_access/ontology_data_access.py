@@ -19,8 +19,7 @@ def add(name, file, workspace_id) -> Ontology:
 
     entity = Ontology(
         name=name,
-        workspace=workspace
-    )
+        workspace=workspace)
     Ontology.objects.insert(entity)
 
     extension = os.path.splitext(file.filename)[1].lower()

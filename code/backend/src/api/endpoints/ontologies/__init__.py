@@ -1,3 +1,4 @@
+import json
 from flask import json, jsonify, Response
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
@@ -8,33 +9,33 @@ from api.services.decorators import parse_params
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
 from business_logic.services.mapper import mapper as mapper_general
-
-import traceback
-import json
 from requests import put, post, patch
 from api.services.decorators import parse_params
 
 
-def create_query_string(databasename: str, graph_name: str, querystring: str):
+def create_query_string(database_name: str, graph_name: str, keyword: str):
     """
     This methods generates the query string for the keyword-search in put.
-    :param databasename: name of the database
-    :param graph_name: graph to be queried, default is "default graph"
-    :param querystring: keywords to search for or when search-bool is false the query itself
+    :param database_name: name of the database
+    :param graph_name: graph to be queried, default is "default graph",
+        like "<http://localhost:3030/60d5c79a7d2c38ee678e87a8/60d5c79d7d2c38ee678e87a9>"
+    :param keyword: keywords to search for or when search-bool is false the query itself
     :returns: the query
     """
     if graph_name == '' or graph_name is None:
         graph_name = '?g'
-        query = "SELECT ?s ?p ?o " \
-                "WHERE { { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                                                                                                        "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                               "UNION { Graph " + graph_name + " { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
-    else:
-        graph_name = 'http://localhost:3030/' + databasename + '/' + graph_name
-        query = "SELECT ?s ?p ?o " \
-                "WHERE { { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?s,'" + querystring + "')) } } " \
-                                                                                                          "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?p, '" + querystring + "')) } } " \
-                                                                                                                                                                                                   "UNION { Graph <" + graph_name + "> { ?s ?p ?o . FILTER (contains(?o, '" + querystring + "')) } } }"
+
+    query = """ SELECT ?subject ?predicate ?object ?g
+                WHERE {
+                    GRAPH """ + graph_name + """ {
+                        ?subject ?predicate ?object .
+                        FILTER (
+                            regex(str(?subject), """ + keyword + """) ||
+                            regex(str(?predicate), """ + keyword + """) ||
+                            regex(str(?object),  """ + keyword + """))
+                  }
+                }
+                """
 
     return query
 
