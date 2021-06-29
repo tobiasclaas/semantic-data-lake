@@ -72,9 +72,6 @@ class ViewModel extends ContentStore {
     );
     if (!response.ok) throw new Error(response.statusText);
     const datamarts = (await response.json()) as IDatamart[];
-    datamarts[0].status.state = DatamartStatus.failed;
-    datamarts[1].status.state = DatamartStatus.running;
-
     this.setDatamarts(datamarts);
   }
 
