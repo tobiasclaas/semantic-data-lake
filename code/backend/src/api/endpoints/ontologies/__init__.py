@@ -49,11 +49,11 @@ def get_suggestions(workspace_id, search_term):
         WHERE {
           ?subject a ?x ;
             rdfs:label ?label .
-          FILTER (regex(str(?subject), '""" + search_term + """', 'i') || 
+          FILTER (regex(str(?subject), '#""" + search_term + """', 'i') || 
             regex(?label, '""" + search_term + """', 'i'))
         }
         ORDER BY strlen(?label)
-        LIMIT 10    """
+        LIMIT 20 """
     p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'), data={'query': querystring})
 
     try:
