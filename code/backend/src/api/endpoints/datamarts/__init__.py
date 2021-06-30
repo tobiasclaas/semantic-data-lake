@@ -25,7 +25,6 @@ class Datamarts(Resource):
     )
     def get(self, workspace_id, uid, page, limit, field_to_order, asc, search):
         if uid is None:
-            print("uid is none")
             result = []
             datamarts = data_access.get_list(page, limit, field_to_order, asc, search)
             
