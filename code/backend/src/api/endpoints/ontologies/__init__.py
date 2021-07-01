@@ -2,13 +2,13 @@ import json
 from flask import json, jsonify, Response
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
-from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
+from werkzeug.exceptions import HTTPException
 from werkzeug.datastructures import FileStorage
 from api.services.decorators import parse_params
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
 from business_logic.services.mapper import mapper as mapper_general
-from requests import put, post, patch
+from requests import post
 from api.services.decorators import parse_params
 
 
@@ -112,6 +112,7 @@ class OntologiesSearch(Resource):
         if is_query:
             return jsonify(post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
                                 data={'query': querystring}).content.decode('utf-8'))
+                                
 
         if not (graph_name == '?g'):
             graph_name = '<http://localhost:3030/' + workspace_id + '/' + graph_name + '>'
