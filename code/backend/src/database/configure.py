@@ -30,6 +30,9 @@ def initialize():
 
     # ===== init postgresql ========================================================================
     postgresql = settings.postgresql_storage
+    for item in workspace_data_access.get_all():
+        if item.name == "Default Workspace":
+            default_workspace_id = f"workspace_" + f"{item.id}"
     connection = None
 
     try:
@@ -40,15 +43,15 @@ def initialize():
     except psycopg2.OperationalError as err:
         print(f"[POSTGRES] error while creating:\n\t{err}")
 
-    if connection is not None:
+    if connection is not None and default_workspace_id is not None:
         connection.autocommit = True
         cur = connection.cursor()
         cur.execute("SELECT datname FROM pg_database;")
         list_database = cur.fetchall()
         # print(list_database)
         #  and (postgresql.database,) != (None,)
-        if (postgresql.database,) not in list_database:
-            cur.execute(f"CREATE DATABASE {postgresql.database};")
+        if (default_workspace_id,) not in list_database:
+            cur.execute(f"CREATE DATABASE " + default_workspace_id)
             print(f"[POSTGRES] created storage database")
         connection.close()
 

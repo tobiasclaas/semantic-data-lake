@@ -39,6 +39,7 @@ const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             }
           >
             <MenuItem value="HDFS">HDFS</MenuItem>
+            <MenuItem value="MongoDB">MongoDB</MenuItem>
           </Select>
         </FormControl>
       </Grid>
