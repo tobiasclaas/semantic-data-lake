@@ -5,7 +5,8 @@ from werkzeug.exceptions import NotFound, BadRequest
 from requests import put, post, delete as delete_request
 from database.data_access import ontology_data_access
 from werkzeug.datastructures import FileStorage
-
+import psycopg2
+from settings import Settings
 
 def get_all() -> [Workspace]:
     return Workspace.objects.all()
@@ -23,8 +24,30 @@ def create(name):
     with open(file_location, 'rb') as fp:
         file = FileStorage(fp)
         ontology_data_access.add("Property or Attribute", file, entity.id)
-    return entity
 
+    # create database in postgres based on workspace_id
+    settings = Settings()
+    postgresql = settings.postgresql_storage
+    connection = None
+    try:
+        connection = psycopg2.connect(
+            f"host='{postgresql.host}' user='{postgresql.user}' password='{postgresql.password}'" +
+            f" port='{postgresql.port}'"
+        )
+    except psycopg2.OperationalError as err:
+        print(f"[POSTGRES] error while creating:\n\t{err}")
+
+    if connection is not None :
+        connection.autocommit = True
+        cur = connection.cursor()
+        cur.execute("SELECT datname FROM pg_database;")
+        list_database = cur.fetchall()
+        if (entity.id,) not in list_database:
+            cur.execute(f"CREATE DATABASE " + "workspace_" + str(entity.id))
+            print(f"[POSTGRES] created storage database")
+        connection.close()
+
+    return entity
 
 def delete(id):
     entity: Workspace = Workspace.objects(id__exact=id)

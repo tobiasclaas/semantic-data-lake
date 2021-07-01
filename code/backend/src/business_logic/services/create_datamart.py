@@ -28,7 +28,7 @@ def __get_target__(source, target_storage, workspace_id, uid):
             port=settings.postgresql_storage.port,
             user=settings.postgresql_storage.user,
             password=settings.postgresql_storage.password,
-            database=settings.postgresql_storage.database,
+            database=f"workspace_"+workspace_id,
             table=uid
         )
 
@@ -80,31 +80,3 @@ def create_datamart(user: User, source, target_storage, workspace_id, human_read
     datamart.save()
 
     return datamart
-
-# def create_datamart_workflow(user: User, source, target_storage, workspace_id, human_readable_name, comment):
-#     uid = str(uuid.uuid4())
-#     folder = settings.hdfs_storage.storage_directory
-#     datamart = Datamart(
-#         uid=uid,
-#         workspace_id=workspace_id,
-#         human_readable_name=human_readable_name,
-#         comment=comment,
-#         metadata=Metadata(
-#             created_at=datetime.now(),
-#             created_by=None,
-#             heritage=[],
-#             construction_code="",
-#             construction_query="",
-#             source=source,
-#             target=CsvStorage(
-#                 file=f"{folder}/{workspace_id}/transform_{uid}.csv",
-#                 has_header=source.has_header,
-#                 delimiter=source.delimiter
-#             )
-#         ),
-#         status=DatamartStatus()
-#     )
-#
-#     datamart.save()
-#
-#     return datamart
