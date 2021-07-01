@@ -8,6 +8,7 @@ from werkzeug.datastructures import FileStorage
 import psycopg2
 from settings import Settings
 
+
 def get_all() -> [Workspace]:
     return Workspace.objects.all()
 
@@ -37,7 +38,7 @@ def create(name):
     except psycopg2.OperationalError as err:
         print(f"[POSTGRES] error while creating:\n\t{err}")
 
-    if connection is not None :
+    if connection is not None:
         connection.autocommit = True
         cur = connection.cursor()
         cur.execute("SELECT datname FROM pg_database;")
@@ -49,11 +50,14 @@ def create(name):
 
     return entity
 
-def delete(id):
-    entity: Workspace = Workspace.objects(id__exact=id)
+
+def delete(workspace_id):
+    entity: Workspace = Workspace.objects(id__exact=workspace_id)
+    if entity.name == 'Default Workspace':
+        return None
     if not entity:
         raise NotFound()
     if len(get_all()) == 1:
         raise BadRequest()
-    delete_request('http://localhost:3030/$/datasets/{}'.format(id), auth=('admin', 'pw123'))
-    Workspace.objects(id__exact=id).delete()
+    delete_request('http://localhost:3030/$/datasets/{}'.format(workspace_id), auth=('admin', 'pw123'))
+    Workspace.objects(id__exact=workspace_id).delete()

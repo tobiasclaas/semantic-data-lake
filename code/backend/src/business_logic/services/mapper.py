@@ -32,6 +32,13 @@ def mapper(model):
     if type(model) is HTTPStatus:
         return model
 
+    # ===== Workspace ==============================================================================
+    if isinstance(model, Workspace):
+        return {
+            "id": str(model.id),
+            "name": model.name
+        }
+
     # ===== user ===================================================================================
     if isinstance(model, User):
         return {
@@ -133,6 +140,14 @@ def mapper(model):
             "comment": model.comment,
             "metadata": mapper(model.metadata),
             "status": mapper(model.status)
+        }
+
+    # ===== Ontology ===============================================================================
+    if isinstance(model, Ontology):
+        return {
+            "id": str(model.id),
+            "name": model.name,
+            "workspace_id": str(model.workspace.id)
         }
 
     else:

@@ -1,5 +1,3 @@
-import json
-
 from flask import jsonify, Response
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
@@ -12,9 +10,8 @@ from business_logic.spark import SparkHelper
 from database.models import Datamart
 
 
-
 class Datamarts(Resource):
-    
+
     @parse_params(
         Argument("page", default=1, type=int, required=False),
         Argument("limit", default=10, type=int, required=False),
@@ -27,7 +24,7 @@ class Datamarts(Resource):
         if uid is None:
             result = []
             datamarts = data_access.get_list(page, limit, field_to_order, asc, search)
-            
+
             for datamart in datamarts.items:
                 if mapper(datamart)['workspace_id'] == workspace_id:
                     result.append(mapper(datamart))
@@ -36,12 +33,11 @@ class Datamarts(Resource):
         else:
             return jsonify(mapper(data_access.get_by_uid(uid)))
 
-    
     @parse_params(
         Argument("uid", type=str, required=False),
     )
     def delete(self, workspace_id, uid):
-        if uid == None:
+        if uid is None:
             Datamart.objects.all().delete()
             return f"All datamarts deleted"
 
@@ -50,7 +46,6 @@ class Datamarts(Resource):
         datamart.delete()
         return f"deleted datamart {hnr}"
 
-    
     @parse_params(
         Argument("comment", default='', type=str, required=False),
         Argument("annotated_schema", required=False),
@@ -61,10 +56,10 @@ class Datamarts(Resource):
         datamart.human_readable_name = human_readable_name
         datamart.workspace_id = workspace_id
         datamart.comment = comment
-        datamart.metadata.schema = annotated_schema\
-            .replace("\'", "\"")\
-            .replace(" ", "")\
-            .replace("True", "true")\
+        datamart.metadata.schema = annotated_schema \
+            .replace("\'", "\"") \
+            .replace(" ", "") \
+            .replace("True", "true") \
             .replace("False", "false")
         datamart.save()
         return jsonify(mapper(datamart))

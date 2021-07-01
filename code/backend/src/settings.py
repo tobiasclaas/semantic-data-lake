@@ -47,7 +47,7 @@ class Settings(object):
 
 
 def load(server):
-    #config_path = os.environ.get('/home/mapro2020/refactor/team-2-data-lake/datalake_config.yml')
+    # config_path = os.environ.get('/home/mapro2020/refactor/team-2-data-lake/datalake_config.yml')
     config_file = open(os.path.join(__location__, 'datalake_config.yml'))
     config_data = yaml.load(config_file, yaml.FullLoader)
 
