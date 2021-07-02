@@ -25,7 +25,6 @@ class ViewModel extends ContentStore {
   constructor() {
     super();
     this.ontologies = observable.array([] as IOntology[]);
-    this.queryresults = observable.array([]);
     makeObservable(this);
 
     this.initialize();
@@ -75,6 +74,16 @@ class ViewModel extends ContentStore {
     this.IsQuery = value;
   }
 
+  @observable Querysent: boolean = false;
+  @action setQuerysent(value: boolean) {
+    this.Querysent = value;
+  }
+
+  @observable Data: string = "";
+  @action setData(value: string) {
+    this.Data = value;
+  }
+
 
   async query() {
     this.setStatus(StoreStatus.working);
@@ -94,14 +103,14 @@ class ViewModel extends ContentStore {
       };
 
       if (this.IsQuery == true){
-        var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies-query?`
+        var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/search?`
         + new URLSearchParams({
           querystring: this.QueryString.toString(),
           is_query: "True",
           graph_name: this.GraphName.toString(),
         })
       } else {
-        var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies-query?`
+        var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/search?`
         + new URLSearchParams({
           querystring: this.QueryString.toString(),
           is_query: "False",
@@ -109,11 +118,9 @@ class ViewModel extends ContentStore {
       })}
       const response = await fetch(URI, configs);
       if (!response.ok) throw new Error(response.statusText);
-      console.log("response", response)
-      runInAction(async () => {
-        this.queryresults.push((await response.json()));
-      });
       this.setStatus(StoreStatus.ready);
+      this.Querysent = true;
+      this.Data = await response.text();
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }

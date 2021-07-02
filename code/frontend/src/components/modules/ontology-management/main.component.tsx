@@ -24,6 +24,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { PagesSharp } from "@material-ui/icons";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,10 +58,22 @@ function a11yProps(index: any) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
+function QueryTable(props) {
+  const Data = props.Data;
+  const Querysent = props.Querysent;
+  if (Querysent == true){
+    console.log("Data",Data)
+    console.log("Data",Data['bindings'])
+    console.log("Data",Data.bindings)
+    return (<h1>yo</h1>);
+  } else{return null}
+}
 
 /* Sayeds Part End */
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+
+
   const { t } = useTranslation();
 
   const [value, setValue] = React.useState(0);
@@ -69,7 +82,6 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
     setValue(newValue);
   };
 
-  /* Sayeds Part End*/
 
   return (
     <React.Fragment>
@@ -173,6 +185,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         </Grid>
         <div>
             Here the Query should be displayed as a table, but how to do that ?!
+            <QueryTable Querysent={viewModel.Querysent} Data={viewModel.Data} />
         </div>
       </TabPanel>
     </React.Fragment>

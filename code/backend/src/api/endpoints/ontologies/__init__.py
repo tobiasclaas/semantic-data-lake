@@ -116,7 +116,7 @@ class OntologiesSearch(Resource):
                 j = json.loads(p)
                 return jsonify(j['results'])
             except:
-                return "query falsch"
+                return jsonify(str({"bindings": "Query Falsch"}))
                                 
 
         if not (graph_name == '?g'):
