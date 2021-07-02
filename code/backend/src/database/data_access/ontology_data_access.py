@@ -11,7 +11,7 @@ def get_all(workspace_id) -> [Ontology]:
     """
     Get all ontologies in a specific workspace.
     :param workspace_id: id of workspace.
-    :returns: a list of ontologies
+    :returns: all ontologies in the workspace.
     """
     workspace = Workspace.objects(id__exact=workspace_id).get()
     return Ontology.objects(workspace=workspace).all()

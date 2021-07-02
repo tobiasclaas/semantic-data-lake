@@ -99,8 +99,14 @@ class Annotation(Resource):
         :return: Annotation objects.
         """
         try:
-            ret = mapper_general(annotation_data_access.get(datamart_id, data_attribute))
-            return ret
+            ret = annotation_data_access.get(datamart_id, data_attribute)
+
+            if len(ret) == 0:
+                return []
+            elif len(ret) == 1:
+                return mapper(ret.get())
+            if len(ret) > 1:
+                return jsonify([mapper(ret[i]) for i in range(0, len(ret))])
         except HTTPException as ex:
             return Response(status=ex.code)
 
@@ -127,7 +133,7 @@ class Annotation(Resource):
         try:
             ret = annotation_data_access.add(workspace_id, datamart_id, data_attribute, property_description,
                                              ontology_attribute, comment)
-            return ret
+            return mapper(ret)
         except HTTPException as ex:
             return Response(status=ex.code)
 

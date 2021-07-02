@@ -51,7 +51,7 @@ def mapper(model):
     # ===== annotation =============================================================================
     if isinstance(model, Annotation):
         return {
-            "datamart_id": model.datamart_id.id,
+            "datamart_id": str(model.datamart_id.id),
             "data_attribute": model.data_attribute,
             "ontology_attribute": model.ontology_attribute,
             "comment": model.comment

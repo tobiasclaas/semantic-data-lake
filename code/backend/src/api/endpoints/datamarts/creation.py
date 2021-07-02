@@ -88,7 +88,6 @@ class DatamartPreviewApi(Resource):
             session_state.error = err
             session_state.state = STATE_FAILED
 
-    
     @parse_params(
         Argument("preview_row_count", type=int, default=10),
     )

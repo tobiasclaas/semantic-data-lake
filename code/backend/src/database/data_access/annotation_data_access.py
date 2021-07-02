@@ -1,6 +1,6 @@
 import json
 from requests import post
-from werkzeug.exceptions import BadRequest, HTTPException, NotFound, InternalServerError
+from werkzeug.exceptions import BadRequest, HTTPException, NotFound, InternalServerError, Conflict
 from database.models import Annotation, Datamart
 
 
@@ -19,12 +19,14 @@ def ask_query_fuseki(workspace_id, subject_name):
     try:
         return json.loads(p.content)["boolean"]
     except:
-        raise BadRequest
+        raise InternalServerError
 
 
 def check_data_attribute(datamart_id, data_attribute):
     """
     Checks if data_attribute exists for datamart.
+    :param datamart_id: id of datamart.
+    :param data_attribute: name of attribute/column to be annotated.
     :return: True if exists, False if not exists.
     """
     datamart = Datamart.objects(uid=datamart_id).get()
@@ -43,13 +45,20 @@ def check_data_attribute(datamart_id, data_attribute):
 def get(datamart_id, data_attribute):
     """
     Get all annotations for data_attribute.
+    :param datamart_id: id of datamart.
+    :param data_attribute: name of attribute/column to be annotated.
     """
-    annotation: Annotation = Annotation.objects(datamart_id=datamart_id,
-                                                data_attribute=data_attribute)
-    if not annotation:
+
+    try:
+        if data_attribute is None:
+            annotation: Annotation = Annotation.objects(datamart_id=datamart_id)
+        else:
+            annotation: Annotation = Annotation.objects(datamart_id=datamart_id,
+                                                        data_attribute=data_attribute)
+    except:
         raise NotFound
 
-    return annotation.get()
+    return annotation.all()
 
 
 def perform_integrity_checks(workspace_id, datamart_id, data_attribute, ontology_attribute):
@@ -92,6 +101,10 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
 
     try:  # there exists some annotation for data_attribute
         old_annotation_entity = get(datamart_id, data_attribute)
+        if len(old_annotation_entity) == 1:
+            old_annotation_entity = old_annotation_entity.get()
+        else:
+            return Conflict
 
         # check if annotation exists
         if ontology_tuple in old_annotation_entity.ontology_attribute:
@@ -130,29 +143,34 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
 
 def delete(datamart_id, data_attribute, ontology_attribute):
     """
-    Deletes a a single annotation for
-    :param datamart_id:
-    :param data_attribute:
-    :param ontology_attribute:
-    :return:
+    Deletes a the annotation of data_attribute with ontology-attribute ontology_attribute.
+    :param datamart_id: id of datamart which contains data_attribute.
+    :param data_attribute: selected column.
+    :param ontology_attribute: annotation for column.
+    :returns: updated entry.
     """
     entity = get(datamart_id, data_attribute)
+    if len(entity) == 1:
+        attribute_annotation = entity.get().ontology_attribute
+    else:  # len(entity) > 1
+        attribute_annotation = [entity[i].ontology_attribute for i in range(0, len(entity))]
 
-    attribute_annotation = entity.ontology_attribute  # list of tuple (description., ontology_attr.)
+    # attribute_annotation = entity.ontology_attribute  # list of tuple (description., ontology_attr.)
     new_attribute_annotation = [x for x in attribute_annotation if not x[1] == ontology_attribute]
 
-    if len(attribute_annotation) == len(new_attribute_annotation):
+    if len(attribute_annotation) == len(new_attribute_annotation):  # check if something changed
         return entity
 
     # update document in collection
     try:
-        if len(attribute_annotation) == 0:  # delete if there are no annotations for data_attribute
+        if len(new_attribute_annotation) == 0:  # delete if there are no annotations for data_attribute
             Annotation.objects(datamart_id=datamart_id,
                                data_attribute=data_attribute).delete()
+            return None
         else:
             Annotation.objects(datamart_id=datamart_id,
                                data_attribute=data_attribute).update(ontology_attribute=attribute_annotation)
+            return Annotation.objects(datamart_id=datamart_id,
+                                      data_attribute=data_attribute).all()
     except:
         raise InternalServerError
-
-    return None
