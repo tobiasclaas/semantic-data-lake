@@ -15,7 +15,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       <Grid item container xs>
         <FileInput
           label={t("generic.file")}
-          accept=".csv"
+          accept=".json"
           onChange={(v) => viewModel.setFile(v)}
         />
       </Grid>

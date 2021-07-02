@@ -110,8 +110,13 @@ class OntologiesSearch(Resource):
         :return:
         """
         if is_query:
-            return jsonify(post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
-                                data={'query': querystring}).content.decode('utf-8'))
+            try:
+                p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+                                    data={'query': querystring}).content.decode('utf-8')
+                j = json.loads(p)
+                return jsonify(j['results'])
+            except:
+                return "query falsch"
                                 
 
         if not (graph_name == '?g'):

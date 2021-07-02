@@ -7,6 +7,7 @@ import {
   runInAction,
 } from "mobx";
 import React from "react";
+import { render } from "react-dom";
 import ContentStore from "../../../models/contentStore";
 import {
   IOntology,
@@ -24,6 +25,7 @@ class ViewModel extends ContentStore {
   constructor() {
     super();
     this.ontologies = observable.array([] as IOntology[]);
+    this.queryresults = observable.array([]);
     makeObservable(this);
 
     this.initialize();
@@ -56,6 +58,67 @@ class ViewModel extends ContentStore {
     this.ontologies.clear();
     this.ontologies.push(...newValue);
   }
+
+  /* Sayeds Part Start */
+  @observable QueryString: string = "";
+  @action setQueryString(value: string) {
+    this.QueryString = value;
+  }
+
+  @observable GraphName: string = "";
+  @action setGraphName(value: string) {
+    this.GraphName = value;
+  }
+
+  @observable IsQuery: boolean = true;
+  @action setIsQuery(value: boolean) {
+    this.IsQuery = value;
+  }
+
+
+  async query() {
+    this.setStatus(StoreStatus.working);
+    try {
+      if (!workspacesStore.currentWorkspace)
+        throw new Error("Current workspace must be set.");
+      const queryformData = new FormData();
+      queryformData.append("Querystring", this.QueryString);
+      queryformData.append("Graphname", this.GraphName);
+      queryformData.append("Graphname", this.IsQuery);
+
+      const configs = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      };
+
+      if (this.IsQuery == true){
+        var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies-query?`
+        + new URLSearchParams({
+          querystring: this.QueryString.toString(),
+          is_query: "True",
+          graph_name: this.GraphName.toString(),
+        })
+      } else {
+        var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies-query?`
+        + new URLSearchParams({
+          querystring: this.QueryString.toString(),
+          is_query: "False",
+          graph_name: this.GraphName.toString(),
+      })}
+      const response = await fetch(URI, configs);
+      if (!response.ok) throw new Error(response.statusText);
+      console.log("response", response)
+      runInAction(async () => {
+        this.queryresults.push((await response.json()));
+      });
+      this.setStatus(StoreStatus.ready);
+    } catch (ex) {
+      this.setStatus(StoreStatus.failed);
+    }
+  }
+  /* Sayeds Part End*/
 
   // Upload Modal
 
@@ -90,7 +153,6 @@ class ViewModel extends ContentStore {
       const formData = new FormData();
       formData.append("name", this.uploadName);
       formData.append("file", this.uploadFile as Blob);
-
       const configs = {
         method: "POST",
         headers: {
@@ -102,6 +164,7 @@ class ViewModel extends ContentStore {
         `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies`,
         configs
       );
+
       if (!response.ok) throw new Error(response.statusText);
       runInAction(async () => {
         this.ontologies.push((await response.json()) as IOntology);
@@ -111,6 +174,7 @@ class ViewModel extends ContentStore {
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }
+
   }
 
   async delete(item: IOntology) {
