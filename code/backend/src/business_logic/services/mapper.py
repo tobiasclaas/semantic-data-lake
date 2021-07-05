@@ -26,6 +26,11 @@ def __state_to_string__(state: DatamartState):
 
 
 def mapper(model):
+    """
+    Maps input model to desired dictionary object, to be shown in frontend.
+    :param model:
+    :return: dictionary object
+    """
     if model is None:
         return None
 
