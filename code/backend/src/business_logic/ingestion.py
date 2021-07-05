@@ -15,6 +15,13 @@ settings = Settings()
 
 
 def ingest(datamart: Datamart):
+    """
+    Using the datamart.metadata.source and datamart.metadata.target fields, reads from source
+    and writes to target using spark session. Pyspark dataframe object.
+    :param datamart: Datamart object, containing all information from where to read and
+    where to write.
+    :return: Datamart object. The same datamart object is returned with few fields modified
+    """
     spark_helper = None
     try:
         spark_helper = SparkHelper(f"ingest_{datamart.uid}")
@@ -104,6 +111,14 @@ def ingest(datamart: Datamart):
 
 
 def ingest_spark_helper(datamart: Datamart, spark_helper, dataframe):
+    """
+    Used in workflow api. Responsible for ingesting input dataframe (pyspark object)
+    to datamart.metadata.target using same spark_helper.
+    :param datamart: Datamart object.
+    :param spark_helper: SparkHelper object. This object contained spark_session object as well.
+    :param dataframe: Dataframe (pyspark) object.
+    :return: Datamart object.
+    """
     try:
         source = datamart.metadata.source
         target = datamart.metadata.target

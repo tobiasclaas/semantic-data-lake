@@ -22,6 +22,18 @@ from database.models import (
 
 
 def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
+    """
+
+    :param api_user: User object, currently passed a None object, since their is no user login functionality, but used
+    for assgining to datamart.created_by field.
+    :param source: Valid objects are {MongodbStorage, PostgresqlStorage, CsvStorage,
+    JsonStorage, XmlStorage} for defining the source of datamart to be read from.
+    :param target_storage: String object, valid values are 'HDFS', 'MongoDB', 'Postgres'.
+    :param workspace_id: String object, used for saving in datamart.workspace_id field
+    :param hnr: String object, used for saving in datamart.human_readable_name field
+    :param comment: String object, used for saving in datamart.comment field
+    :return: Datamart object
+    """
     datamart = create_datamart(api_user, source, target_storage, workspace_id, hnr, comment)
 
     try:
@@ -124,6 +136,8 @@ class CsvIngestion(Resource):
             delimiter=delimiter
         )
 
+        # Used to first write input file to HDFS datalake_ingestion folder, and from their ingested
+        # to datalake_storage folder if target_storage='HDFS'
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
@@ -144,6 +158,8 @@ class JsonIngestion(Resource):
 
         source = JsonStorage(file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.json")
 
+        # Used to first write input file to HDFS datalake_ingestion folder, and from their ingested
+        # to datalake_storage folder if target_storage='HDFS'
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
@@ -168,6 +184,8 @@ class XmlIngestion(Resource):
             row_tag=row_tag,
         )
 
+        # Used to first write input file to HDFS datalake_ingestion folder, and from their ingested
+        # to datalake_storage folder if target_storage='HDFS'
         client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
         client.create_file(source.file, file)
 
