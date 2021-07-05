@@ -27,7 +27,6 @@ class Users(Resource):
                 users.append(mapper(user))
             return jsonify(users)
 
-    
     @parse_params(
         Argument("email", required=True, type=str),
         Argument("firstname", required=True, type=str),
@@ -42,7 +41,6 @@ class Users(Resource):
         user.save()
         return jsonify(mapper(user))
 
-    
     @parse_params(
         Argument("email", required=True, type=str),
         Argument("password", required=True, type=str),
@@ -63,8 +61,7 @@ class Users(Resource):
                 is_admin=is_admin
             )
             user.save()
-            return jsonify(mapper())
-
+            return jsonify(mapper(user))
     
     @parse_params(
         Argument("email", required=True, type=str)

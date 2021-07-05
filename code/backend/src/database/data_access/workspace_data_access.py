@@ -1,11 +1,11 @@
 import os
 
-from database.models import Workspace
+import psycopg2
+from database.models import Workspace, Ontology
 from werkzeug.exceptions import NotFound, BadRequest
 from requests import put, post, delete as delete_request
 from database.data_access import ontology_data_access
 from werkzeug.datastructures import FileStorage
-import psycopg2
 from settings import Settings
 
 
@@ -52,12 +52,16 @@ def create(name):
 
 
 def delete(workspace_id):
-    entity: Workspace = Workspace.objects(id__exact=workspace_id)
-    if entity.name == 'Default Workspace':
-        return None
-    if not entity:
-        raise NotFound()
     if len(get_all()) == 1:
         raise BadRequest()
+    entity: Workspace = Workspace.objects(id__exact=workspace_id)
+    if len(entity) == 0:
+        raise NotFound()
+    entity = entity.get()
+    if entity.name == 'Default Workspace':
+        return None
+    # delete workspace in fuseki
     delete_request('http://localhost:3030/$/datasets/{}'.format(workspace_id), auth=('admin', 'pw123'))
+    # delete ontology entries in MongoDB
+    Ontology.objects(workspace=workspace_id).delete()
     Workspace.objects(id__exact=workspace_id).delete()

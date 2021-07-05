@@ -24,9 +24,9 @@ class Workspaces(Resource):
     @parse_params(
         Argument("workspace_id", default=None, type=str, required=True),
     )
-    def delete(self, id):
+    def delete(self, workspace_id):
         try:
-            workspace_data_access.delete(id)
+            workspace_data_access.delete(workspace_id)
             return Response(status=200)
         except HTTPException as inst:
             return Response(status=inst.code)

@@ -79,8 +79,6 @@ class WorkFlow(Resource):
 
         spark_helper = SparkHelper("transform")
         try:
-
-
             data = json.loads(request.data)
             for data_input in data:
                 human_readable_name = data_input["name"]
@@ -88,13 +86,13 @@ class WorkFlow(Resource):
                 # transformed_dataframe.show()
                 source = CsvStorage(
                     file=f"{','.join(source_ids)}",
-                    has_header = True,
+                    has_header=True
                 )
                 __start__(spark_helper, transformed_dataframe, None, source, data_input['target'], workspace_id,
                           human_readable_name, "")
 
         except Exception as e:
-            if (spark_helper):
+            if spark_helper:
                 spark_helper.spark_session.stop()
 
             print(e)

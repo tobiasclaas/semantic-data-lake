@@ -29,9 +29,10 @@ def check_data_attribute(datamart_id, data_attribute):
     :param data_attribute: name of attribute/column to be annotated.
     :return: True if exists, False if not exists.
     """
-    datamart = Datamart.objects(uid=datamart_id).get()
-    if not datamart:
+    datamart = Datamart.objects(uid=datamart_id)
+    if len(datamart) == 0:
         raise NotFound  # Datamart not found
+    datamart = datamart.get()
     if not datamart.metadata.source.has_header:
         return False  # file has no header
 
@@ -101,10 +102,18 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
 
     try:  # there exists some annotation for data_attribute
         old_annotation_entity = get(datamart_id, data_attribute)
-        if len(old_annotation_entity) == 1:
-            old_annotation_entity = old_annotation_entity.get()
-        else:
-            return Conflict
+
+        if len(old_annotation_entity) == 0:  # just add the new entry
+            ontology_tuple = [ontology_tuple]
+            entity = Annotation(datamart_id=datamart_id, data_attribute=data_attribute,
+                                ontology_attribute=ontology_tuple, comment=comment)
+            try:
+                Annotation.objects.insert(entity)
+                return entity
+            except:
+                raise InternalServerError
+
+        old_annotation_entity = old_annotation_entity.get()
 
         # check if annotation exists
         if ontology_tuple in old_annotation_entity.ontology_attribute:
@@ -131,14 +140,8 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
                                   ontology_attribute=attribute_annotation).get()
 
     except HTTPException as ex:  # there are no annotations for data_attribute
-        ontology_tuple = [ontology_tuple]
-        entity = Annotation(datamart_id=datamart_id, data_attribute=data_attribute,
-                            ontology_attribute=ontology_tuple, comment=comment)
-        try:
-            Annotation.objects.insert(entity)
-            return entity
-        except:
-            raise InternalServerError
+        raise InternalServerError
+
 
 
 def delete(datamart_id, data_attribute, ontology_attribute):
