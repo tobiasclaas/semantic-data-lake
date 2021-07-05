@@ -1,4 +1,4 @@
-from flask import jsonify, Response
+from flask import jsonify
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
@@ -6,8 +6,6 @@ from flask_restful.reqparse import Argument
 from api.services.decorators import parse_params
 from business_logic.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
-from business_logic.spark import SparkHelper
-from database.models import Datamart
 
 
 class Datamarts(Resource):
@@ -37,9 +35,9 @@ class Datamarts(Resource):
         Argument("uid", type=str, required=False),
     )
     def delete(self, workspace_id, uid):
-        if uid is None:
-            Datamart.objects.all().delete()
-            return f"All datamarts deleted"
+        # if uid is None:
+        #     Datamart.objects.all().delete()
+        #     return f"All datamarts deleted"
 
         datamart = data_access.get_by_uid(uid)
         hnr = datamart.human_readable_name
