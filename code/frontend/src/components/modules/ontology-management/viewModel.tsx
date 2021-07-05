@@ -19,12 +19,18 @@ import routingStore from "../../../stores/routing.store";
 import workspacesStore from "../../../stores/workspaces.store";
 import View from "./main.component";
 
+
+export interface IData {
+  Data: string;
+}
+
 class ViewModel extends ContentStore {
   ontologies: IObservableArray<IOntology>;
 
   constructor() {
     super();
     this.ontologies = observable.array([] as IOntology[]);
+    this.Data = observable.array([] as IData[]);
     makeObservable(this);
 
     this.initialize();
@@ -79,13 +85,17 @@ class ViewModel extends ContentStore {
     this.Querysent = value;
   }
 
-  @observable Data: string = "";
-  @action setData(value: string) {
-    this.Data = value;
+  @action setData(newValue) {
+    this.Data.replace(newValue);
   }
 
-
   async query() {
+/*     state = {
+      Data: ''
+    }
+    setData = () => {
+      this.setState({ Data: value })
+    } */
     this.setStatus(StoreStatus.working);
     try {
       if (!workspacesStore.currentWorkspace)
@@ -102,25 +112,28 @@ class ViewModel extends ContentStore {
         },
       };
 
-      if (this.IsQuery == true){
+      if (this.IsQuery == true) {
         var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/search?`
-        + new URLSearchParams({
-          querystring: this.QueryString.toString(),
-          is_query: "True",
-          graph_name: this.GraphName.toString(),
-        })
+          + new URLSearchParams({
+            querystring: this.QueryString.toString(),
+            is_query: "True",
+            graph_name: this.GraphName.toString(),
+          })
       } else {
         var URI = `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/search?`
-        + new URLSearchParams({
-          querystring: this.QueryString.toString(),
-          is_query: "False",
-          graph_name: this.GraphName.toString(),
-      })}
+          + new URLSearchParams({
+            querystring: this.QueryString.toString(),
+            graph_name: this.GraphName.toString(),
+          })
+      }
+      console.log("URI",URI)
       const response = await fetch(URI, configs);
       if (!response.ok) throw new Error(response.statusText);
       this.setStatus(StoreStatus.ready);
       this.Querysent = true;
-      this.Data = await response.text();
+      runInAction(async () => {
+        this.Data.push((await response.text()) as IData);
+      });
     } catch (ex) {
       this.setStatus(StoreStatus.failed);
     }

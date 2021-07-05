@@ -1,4 +1,5 @@
 import React from "react";
+import { get, set, observable, values, toJS } from "mobx"
 import { observer } from "mobx-react-lite";
 import ViewModel from "./viewModel";
 import IViewProps from "../../../models/iViewProps";
@@ -61,12 +62,29 @@ function a11yProps(index: any) {
 function QueryTable(props) {
   const Data = props.Data;
   const Querysent = props.Querysent;
-  if (Querysent == true){
-    console.log("Data",Data)
-    console.log("Data",Data['bindings'])
-    console.log("Data",Data.bindings)
-    return (<h1>yo</h1>);
-  } else{return null}
+  if (Querysent == true) {
+    console.log("DatatoJS", Data)
+    console.log("DatatoJS", get(Data))
+    console.log("DatatoJS", values(Data))
+    console.log("DatatoJS", toJS(Data))
+    console.log("DatatoJS", toJS(Data.slice()))
+    console.log("Querysent", Querysent)
+    return (<div>
+      <table className="tat">
+        <tbody>
+          <tr><th>Subject</th><th>Predicate</th><th>Object</th></tr>
+          {
+            Data.map((dynamicData) =>
+              <tr className="trow">
+                <td>  {dynamicData.s.value}</td>
+                <td> {dynamicData.p.value} </td>
+                <td> {dynamicData.o.value} </td>
+              </tr>
+            )}
+        </tbody>
+      </table>
+    </div>)
+  } else { return null }
 }
 
 /* Sayeds Part End */
@@ -184,8 +202,8 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           </Button>
         </Grid>
         <div>
-            Here the Query should be displayed as a table, but how to do that ?!
-            <QueryTable Querysent={viewModel.Querysent} Data={viewModel.Data} />
+          Here the Query should be displayed as a table, but how to do that ?!
+          <QueryTable Querysent={viewModel.Querysent} Data={viewModel.Data} />
         </div>
       </TabPanel>
     </React.Fragment>
