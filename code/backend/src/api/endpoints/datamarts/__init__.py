@@ -1,11 +1,47 @@
 from flask import jsonify
+import pymongo
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
-
+from pywebhdfs.webhdfs import PyWebHdfsClient
+from database.models import (
+    MongodbStorage, PostgresqlStorage,
+    CsvStorage, JsonStorage, XmlStorage
+)
+import settings
 from api.services.decorators import parse_params
 from business_logic.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
+
+
+def delete_from_hdfs(file_name):
+    hdfs = settings.Settings().hdfs_storage
+    client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
+    client.delete_file_dir(file_name)
+
+
+def Delete_data(storage):
+    if isinstance(storage, CsvStorage):
+        # Checks if csv extension available in file name. Their is a special case
+        # where CsvStorage object is created and file is not present in HDFS.
+        # That is in Workflow Api
+        if '.csv' in storage.file:
+            delete_from_hdfs(storage.file)
+
+    elif isinstance(storage, JsonStorage) or isinstance(storage, XmlStorage):
+        delete_from_hdfs(storage.file)
+
+    elif isinstance(storage, MongodbStorage):
+        auth = f"{storage.user}:{storage.password}@"
+        uri = f"mongodb://{auth}{storage.host}:{storage.port}/{storage.database}?authSource=admin"
+        myclient = pymongo.MongoClient(uri)
+        mydb = myclient[storage.database]
+        mydb[storage.collection].drop()
+
+    #
+    # elif isinstance(storage, PostgresqlStorage):
+    #     dataframe = spark_helper.read_postrgesql(source)
+
 
 
 class Datamarts(Resource):
@@ -41,6 +77,12 @@ class Datamarts(Resource):
 
         datamart = data_access.get_by_uid(uid)
         hnr = datamart.human_readable_name
+        try:
+            Delete_data(datamart.metadata.source)
+            Delete_data(datamart.metadata.target)
+        except Exception as e:
+            print (e)
+
         datamart.delete()
         return f"deleted datamart {hnr}"
 
