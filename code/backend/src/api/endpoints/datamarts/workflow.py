@@ -93,6 +93,7 @@ class WorkFlow(Resource):
 
                 source = CsvStorage(
                     file=f"{','.join(source_ids)}",
+                    has_header=True
                 )
                 __start__(spark_helper, transformed_dataframe, None, source, data_input['target'], workspace_id,
                           human_readable_name, "")
