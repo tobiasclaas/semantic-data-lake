@@ -18,13 +18,13 @@ import FileInput from "../../common/FileInput";
 import Item from "../../common/item";
 
 /* Sayeds Part */
-import { useState } from "react";
-import Query from "./query.tsx";
-import Search from "./search.tsx";
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { PagesSharp } from "@material-ui/icons";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,7 +45,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -58,44 +58,36 @@ function a11yProps(index: any) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
+function QueryTable(props) {
+  const Data = props.Data;
+  const Querysent = props.Querysent;
+  if (Querysent == true){
+    console.log("Data",Data)
+    console.log("Data",Data['bindings'])
+    console.log("Data",Data.bindings)
+    return (<h1>yo</h1>);
+  } else{return null}
+}
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 /* Sayeds Part End */
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+
+
   const { t } = useTranslation();
-
-  /* Sayeds Part Start */
-  const [queryinfos, setQueryinfos] = useState([]);
-
-  const addQueryHandler = (queryinfo) => {
-    setQueryinfos([...queryinfos, queryinfo]);
-  };
-
-  const [searchinfos, setSearchinfos] = useState([]);
-
-  const addSearchHandler = (searchinfo) => {
-    setSearchinfos([...searchinfos, searchinfo]);
-  };
 
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-  /* Sayeds Part End*/
+
 
   return (
     <React.Fragment>
       <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
         <Tab label=" Upload an Ontology-File " {...a11yProps(0)} />
         <Tab label=" Query an Ontology " {...a11yProps(1)} />
-        <Tab label=" Search for Keyword " {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
         <TopRightFab
@@ -158,10 +150,43 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         </Dialog>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Query addQueryHandler={addQueryHandler} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Search addSearchHandler={addSearchHandler} />
+        <Grid item sm>
+          <TextField
+            autoFocus
+            onChange={(e) => viewModel.setQueryString(e.target.value)}
+            value={viewModel.QueryString}
+            margin="dense"
+            label={"Query"}
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            onChange={(e) => viewModel.setGraphName(e.target.value)}
+            value={viewModel.GraphName}
+            margin="dense"
+            label={"Graph"}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={viewModel.IsQuery}
+                color="primary"
+                onChange={(e) => viewModel.setIsQuery(e.target.checked)}
+              />
+            }
+            label={t("Is Query")}
+          />
+          <Button
+            color="primary"
+            onClick={() => viewModel.query()}
+          >
+            {t("Send")}
+          </Button>
+        </Grid>
+        <div>
+            Here the Query should be displayed as a table, but how to do that ?!
+            <QueryTable Querysent={viewModel.Querysent} Data={viewModel.Data} />
+        </div>
       </TabPanel>
     </React.Fragment>
   );

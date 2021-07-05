@@ -6,15 +6,9 @@ from flask_restful.reqparse import Argument
 from passlib.hash import pbkdf2_sha256 as sha256
 from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
 
+from business_logic.services.mapper import mapper
 from api.services.decorators import parse_params
 from database.data_access import workspace_data_access
-
-
-def mapper(item):
-    return {
-        "id": str(item.id),
-        "name": item.name,
-    }
 
 
 class Workspaces(Resource):
@@ -28,7 +22,7 @@ class Workspaces(Resource):
         return jsonify(mapper(workspace_data_access.create(name)))
 
     @parse_params(
-        Argument("id", default=None, type=str, required=True),
+        Argument("workspace_id", default=None, type=str, required=True),
     )
     def delete(self, id):
         try:

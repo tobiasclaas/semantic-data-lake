@@ -75,10 +75,6 @@ def __start__(spark_helper, dataframe, api_user, source, target_storage, workspa
 
 class WorkFlow(Resource):
 
-    @parse_params(
-        # Argument("file", type=FileStorage, location='files', required=True)
-        # Argument("workflow", type=str, required=False)
-    )
     def post(self, workspace_id):
 
         spark_helper = SparkHelper("transform")
@@ -90,18 +86,12 @@ class WorkFlow(Resource):
                 human_readable_name = data_input["name"]
                 transformed_dataframe = process_input(spark_helper, data_input['input'][0])
                 # transformed_dataframe.show()
-
                 source = CsvStorage(
                     file=f"{','.join(source_ids)}",
-                    has_header=True
+                    has_header = True
                 )
                 __start__(spark_helper, transformed_dataframe, None, source, data_input['target'], workspace_id,
                           human_readable_name, "")
-                # target = CsvStorage(
-                #     file=f"{hdfs.ingestion_directory}/{workspace_id}/transform_{uuid.uuid4()}.csv",
-                # )
-
-            return Response(status=200)
 
         except Exception as e:
             if (spark_helper):
