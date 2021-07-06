@@ -85,17 +85,13 @@ class ViewModel extends ContentStore {
     this.Querysent = value;
   }
 
-  @action setData(newValue) {
-    this.Data.replace(newValue);
+  @action setData(newValue: IData[]) {
+    this.setData.clear();
+    this.Data.push(...newValue);
   }
 
   async query() {
-/*     state = {
-      Data: ''
-    }
-    setData = () => {
-      this.setState({ Data: value })
-    } */
+
     this.setStatus(StoreStatus.working);
     try {
       if (!workspacesStore.currentWorkspace)
@@ -132,7 +128,7 @@ class ViewModel extends ContentStore {
       this.setStatus(StoreStatus.ready);
       this.Querysent = true;
       runInAction(async () => {
-        this.Data.push((await response.text()) as IData);
+        this.Data.push((await response.json()) as IData);
       });
     } catch (ex) {
       this.setStatus(StoreStatus.failed);

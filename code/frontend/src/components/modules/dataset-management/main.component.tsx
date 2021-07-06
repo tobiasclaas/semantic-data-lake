@@ -155,7 +155,9 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
                   >
                     <MenuItem value="csv">CSV</MenuItem>
                     <MenuItem value="json">JSON</MenuItem>
-                    <MenuItem value="XML">XML</MenuItem>
+                    <MenuItem value="xml">XML</MenuItem>
+                    <MenuItem value="postgres">Postgres</MenuItem>
+                    <MenuItem value="mongodb">MongoDB</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

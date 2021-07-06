@@ -42,6 +42,8 @@
   "dataset_management.status.success": "Success",
   "dataset_management.status.failed": "Failed",
   "dataset_management.upload.csv.has_header": "Has Header",
+  "dataset_management.upload.csv.comment":"Comment",
+  "dataset_management.upload.csv.target_storage":"Target Storage",
   "dataset_management.annotation.title": "Dataset Annotation",
   "workflow.properties_dialog.title": "Properties",
   "workflow.properties_dialog.data_source.datamart": "Datamart",
