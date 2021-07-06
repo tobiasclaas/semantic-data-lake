@@ -1,6 +1,9 @@
 export enum DatamartType {
   csv = "csv",
   json = "json",
+  xml = "xml",
+  mongodb ="mongodb",
+  postgres = "postgres",
 }
 
 export interface IDatamart {
