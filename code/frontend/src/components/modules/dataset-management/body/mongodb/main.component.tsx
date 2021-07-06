@@ -125,7 +125,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
               <TextField
                 fullWidth
                 autoFocus
-                onChange={(e) => viewModel.setUser(e.target.value)}
+                onChange={(e) => viewModel.setComment(e.target.value)}
                 value={viewModel.Comment}
                 margin="dense"
                 label={t("dataset_management.upload.mongodb.comment")}
