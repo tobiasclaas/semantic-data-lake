@@ -48,6 +48,7 @@
   "dataset_management.upload.mongodb.host":"Host",
   "dataset_management.upload.mongodb.port":"Port",
   "dataset_management.upload.mongodb.database":"Database",
+  "dataset_management.upload.postgres.table":"Table",
   "dataset_management.upload.mongodb.collection":"Collection",
   "dataset_management.upload.mongodb.target_storage":"Target Storage",
   "dataset_management.upload.mongodb.user":"User",

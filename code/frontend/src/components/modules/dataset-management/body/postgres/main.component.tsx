@@ -68,7 +68,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
                 onChange={(e) => viewModel.setTable(e.target.value)}
                 value={viewModel.Table}
                 margin="dense"
-                label={t("dataset_management.upload.mongodb.collection")}
+                label={t("dataset_management.upload.postgres.table")}
               />
             }
           />
@@ -125,7 +125,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
               <TextField
                 fullWidth
                 autoFocus
-                onChange={(e) => viewModel.setUser(e.target.value)}
+                onChange={(e) => viewModel.setComment(e.target.value)}
                 value={viewModel.Comment}
                 margin="dense"
                 label={t("dataset_management.upload.mongodb.comment")}
