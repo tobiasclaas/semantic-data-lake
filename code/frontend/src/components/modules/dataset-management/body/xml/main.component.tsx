@@ -19,22 +19,36 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       <Grid item container xs>
         <FileInput
           label={t("generic.file")}
-          accept=".json"
+          accept=".xml"
           onChange={(v) => viewModel.setFile(v)}
         />
       </Grid>
       <Grid container spacing={2} item style={{ alignItems: "center" }}>
-      <Grid item>
+        <Grid item>
           <FormControlLabel
             control={
               <TextField
-              fullWidth
-              autoFocus
-              onChange={(e) => viewModel.setComment(e.target.value)}
-              value={viewModel.comment}
-              margin="dense"
-              label={t("dataset_management.upload.csv.comment")}
-            />
+                fullWidth
+                autoFocus
+                onChange={(e) => viewModel.setRowTag(e.target.value)}
+                value={viewModel.RowTag}
+                margin="dense"
+                label={t("dataset_management.upload.xml.rowtag")}
+              />
+            }
+          />
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={
+              <TextField
+                fullWidth
+                autoFocus
+                onChange={(e) => viewModel.setComment(e.target.value)}
+                value={viewModel.comment}
+                margin="dense"
+                label={t("dataset_management.upload.csv.comment")}
+              />
             }
           />
         </Grid>
@@ -42,16 +56,16 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           <FormControlLabel
             control={
               <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={viewModel.target_storage}
-              onChange={(e) => viewModel.setTargetStorage(e.target.value)}
-            >
-              <MenuItem value={"HDFS"}>HDFS</MenuItem>
-              <MenuItem value={"MongoDB"}>MongoDB</MenuItem>
-              <MenuItem value={"Postgres"}>Postgres</MenuItem>
-              label={t("dataset_management.upload.csv.target_storage")}
-            </Select>
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={viewModel.target_storage}
+                onChange={(e) => viewModel.setTargetStorage(e.target.value)}
+              >
+                <MenuItem value={"HDFS"}>HDFS</MenuItem>
+                <MenuItem value={"MongoDB"}>MongoDB</MenuItem>
+                <MenuItem value={"Postgres"}>Postgres</MenuItem>
+                label={t("dataset_management.upload.csv.target_storage")}
+              </Select>
             }
           />
         </Grid>

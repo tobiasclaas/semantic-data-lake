@@ -27,6 +27,11 @@ class ViewModel extends BodyViewModel {
     this.file = value;
   }
 
+  @observable Row_Tag: string = '';
+  @action setRow_Tag(value: string) {
+    this.target_storage = value;
+  }
+
   @observable target_storage: string = 'HDFS';
   @action setTargetStorage(value: string) {
     this.target_storage = value;
