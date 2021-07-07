@@ -73,7 +73,7 @@ class WorkFlow(Resource):
     def post(self, workspace_id):
         """
         Data is fetched using request.data method. Data is a array of json(dictionary) objects.
-        It just submits the request and doesn't return anything. To check is request was
+        It just submits the request and doesn't return anything. To check if request was
         completed successfully, check if the target datamart is showing in Data management tab.
         """
         spark_helper = SparkHelper("transform")
