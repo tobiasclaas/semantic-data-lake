@@ -8,7 +8,7 @@ ONTOLOGY_BLUEPRINT = Blueprint("ontology.py", __name__)
 search_routes = ["/workspaces/<workspace_id>/ontologies/search"]
 Api(ONTOLOGY_BLUEPRINT).add_resource(OntologiesSearch, *search_routes)
 
-routes = ["/workspaces/<workspace_id>/ontologies", "/workspaces/<workspace_id>/ontologies/<id>"]
+routes = ["/workspaces/<workspace_id>/ontologies", "/workspaces/<workspace_id>/ontologies/<ontology_id>"]
 Api(ONTOLOGY_BLUEPRINT).add_resource(Ontologies, *routes)
 
 annotation_routes = ["/workspaces/<workspace_id>/ontologies/annotation"]
