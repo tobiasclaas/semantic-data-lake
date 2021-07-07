@@ -5,7 +5,7 @@ from werkzeug.exceptions import NotFound, BadRequest
 
 from database.models.workspace import Workspace
 from requests import post, delete as delete_request
-
+import settings
 
 def get_all(workspace_id) -> [Ontology]:
     """
@@ -108,6 +108,6 @@ def get_suggestions(workspace_id, search_term):
         }
         ORDER BY strlen(?label)
         LIMIT 20 """
-    p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'), data={'query': querystring})
+    p = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password), data={'query': querystring})
 
     return p.content

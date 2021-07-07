@@ -1,7 +1,8 @@
 import os
 import yaml
 
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+__location__ = os.path.realpath(os.path.join(
+    os.getcwd(), os.path.dirname(__file__)))
 
 
 class PostgresqlStorage:
@@ -28,6 +29,12 @@ class HdfsStorage:
         self.port = port
         self.ingestion_directory = ingestion_directory
         self.storage_directory = storage_directory
+
+
+class FusekiStorage:
+    def __init__(self, user, password):
+        self.user = user
+        self.password = password
 
 
 class Settings(object):
@@ -100,4 +107,10 @@ def load(server):
         hdfs_data.get("port"),
         hdfs_data.get("ingestionDirectory"),
         hdfs_data.get("storageDirectory")
+    )
+
+    f_data = config_data.get("storages").get("fuseki")
+    settings.fuseki_storage = FusekiStorage(
+        f_data.get("user"),
+        f_data.get("password"),
     )

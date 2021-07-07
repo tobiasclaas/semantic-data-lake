@@ -9,6 +9,7 @@ from api.services.decorators import parse_params
 from business_logic.services.mapper import mapper
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
+import settings
 
 
 class Ontologies(Resource):
@@ -71,12 +72,12 @@ class OntologiesSearch(Resource):
         """
         if is_query:
             # query fuseki with user defined query
-            return jsonify(post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+            return jsonify(post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
                                 data={'query': querystring}).content.decode('utf-8'))
 
         if not (graph_name == '?g'):  # name of graph is adjusted to as is in fuseki
             graph_name = '<http://localhost:3030/' + workspace_id + '/' + graph_name + '>'
-        r = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+        r = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
                  data={'query': ontology_data_access.create_query_string(graph_name, querystring)})
 
         return jsonify(r.content.decode('utf-8'))

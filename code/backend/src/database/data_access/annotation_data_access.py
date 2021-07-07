@@ -2,7 +2,7 @@ import json
 from requests import post
 from werkzeug.exceptions import BadRequest, HTTPException, NotFound, InternalServerError, Conflict
 from database.models import Annotation, Datamart
-
+import settings
 
 def ask_query_fuseki(workspace_id, subject_name):
     """
@@ -13,7 +13,7 @@ def ask_query_fuseki(workspace_id, subject_name):
     """
     query_string = "ASK { " + subject_name + " ?p ?o . }"
     # replace admin and pw by environment variable defined in docker-compose.yaml
-    p = post('http://localhost:3030/' + workspace_id, auth=('admin', 'pw123'),
+    p = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
              data={'query': query_string})
 
     try:
