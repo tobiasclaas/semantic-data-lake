@@ -7,7 +7,7 @@ from requests import put, post, delete as delete_request
 from database.data_access import ontology_data_access
 from werkzeug.datastructures import FileStorage
 from settings import Settings
-import mongoengine
+import pymongo
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
 
@@ -71,8 +71,10 @@ def delete(workspace_id):
     client = PyWebHdfsClient(host=settings.hdfs_storage.namenode, port="9870")
     client.delete_file_dir("/datalake_storage/" + workspace_id, recursive=True)
     # delete database in MongoDB based on workspace_id
-    ### drop MongoDB database here ###
-    ### Missing ###
+    #auth = f"{storage.user}:{storage.password}@"
+    uri = f"mongodb://admin:admin@localhost:27017/?authSource=admin"
+    mongo_client = pymongo.MongoClient(uri)
+    mongo_client.drop_database(workspace_id)
     # delete database in postgres based on workspace_id
     postgresql = settings.postgresql_storage
     connection = None

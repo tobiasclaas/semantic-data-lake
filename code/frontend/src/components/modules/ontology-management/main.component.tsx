@@ -19,6 +19,8 @@ import FileInput from "../../common/FileInput";
 import Item from "../../common/item";
 
 /* Sayeds Part */
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Grid from "@material-ui/core/Grid";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -177,13 +179,15 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             label={"Query"}
             fullWidth
           />
-          <TextField
-            autoFocus
-            onChange={(e) => viewModel.setGraphName(e.target.value)}
-            value={viewModel.GraphName}
-            margin="dense"
-            label={"Graph"}
-          />
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label={t("Graph Name")}
+          >
+            <MenuItem >Graph 1</MenuItem>
+            <MenuItem >Graph 2</MenuItem>
+            label={t("Graph Name")}
+          </Select>
           <FormControlLabel
             control={
               <Checkbox
