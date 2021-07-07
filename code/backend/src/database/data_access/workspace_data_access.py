@@ -72,7 +72,8 @@ def delete(workspace_id):
     client.delete_file_dir("/datalake_storage/" + workspace_id, recursive=True)
     # delete database in MongoDB based on workspace_id
     #auth = f"{storage.user}:{storage.password}@"
-    uri = f"mongodb://admin:admin@localhost:27017/?authSource=admin"
+    uri = f"mongodb://{settings.mongodb_storage.user}:{settings.mongodb_storage.password}@{settings.mongodb_storage.host}:{settings.mongodb_storage.port}/?authSource=admin"
+    print(uri)
     mongo_client = pymongo.MongoClient(uri)
     mongo_client.drop_database(workspace_id)
     # delete database in postgres based on workspace_id
