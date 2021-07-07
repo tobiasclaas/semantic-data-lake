@@ -16,8 +16,9 @@ def get_all() -> [Workspace]:
 def create(name):
     entity = Workspace(name=name)
     Workspace.objects.insert(entity)
+    settings = Settings()
     # create dataset in fuseki
-    post('http://localhost:3030/$/datasets', auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
+    post('http://localhost:3030/$/datasets', auth=(settings.fuseki_storage.user, settings.fuseki_storage.password),
          data={'dbName': str(entity.id), 'dbType': 'tdb'})
     # upload poa ontology
     __location__ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
@@ -27,7 +28,6 @@ def create(name):
         ontology_data_access.add("Property or Attribute", file, entity.id)
 
     # create database in postgres based on workspace_id
-    settings = Settings()
     postgresql = settings.postgresql_storage
     connection = None
     try:

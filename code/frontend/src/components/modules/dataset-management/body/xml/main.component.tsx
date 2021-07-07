@@ -18,6 +18,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
     <React.Fragment>
       <Grid item container xs>
         <FileInput
+        required
           label={t("generic.file")}
           accept=".xml"
           onChange={(v) => viewModel.setFile(v)}

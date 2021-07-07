@@ -6,6 +6,7 @@
   "header.data": "Data Management",
   "header.ontology": "Ontology Management",
   "header.workflow": "Workflow",
+  "header.zeppelin": "Zeppelin",
   "workspaceChanger.title": "Add a New Workspace",
   "workspaceChanger.description": "Please provide the new workspace name.",
   "generic.cancel": "Cancel",

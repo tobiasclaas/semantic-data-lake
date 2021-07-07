@@ -68,7 +68,7 @@ class ViewModel extends BodyViewModel {
   }
 
   canUpload(): boolean {
-    return this.host !== null;
+    return this.host !== null && this.port !== null;
   }
 
   getView = () => <View viewModel={this} />;

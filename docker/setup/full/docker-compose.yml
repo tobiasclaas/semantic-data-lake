@@ -227,7 +227,7 @@ services:
       - 80:80
 
   #------------------------------------------------------------------------------------------------
-  # misc
+  # zeppelin
   #------------------------------------------------------------------------------------------------
   zeppelin:
     image: apache/zeppelin:0.9.0
@@ -235,7 +235,10 @@ services:
     networks:
       - backend
     ports:
-      - 8070:8080
+      - 1234:8080
+    volumes:
+      - ../zeppelin-conf:/opt/zeppelin/conf
+      - ./data/zeppelin:/opt/zeppelin
 
 networks:
   backend:

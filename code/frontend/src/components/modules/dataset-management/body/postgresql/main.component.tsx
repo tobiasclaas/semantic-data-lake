@@ -19,6 +19,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           <FormControlLabel
             control={
               <TextField
+              required
                 fullWidth
                 autoFocus
                 onChange={(e) => viewModel.setHost(e.target.value)}
@@ -33,6 +34,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           <FormControlLabel
             control={
               <TextField
+              required
                 fullWidth
                 autoFocus
                 onChange={(e) => viewModel.setPort(e.target.value)}

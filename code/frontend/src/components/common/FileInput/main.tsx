@@ -24,6 +24,7 @@ const FileInput: React.FC<FileInputProps> = (props) => {
 
   return (
     <TextField
+    required
       margin="dense"
       fullWidth
       label={props.label}

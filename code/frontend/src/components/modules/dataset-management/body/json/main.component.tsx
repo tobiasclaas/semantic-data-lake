@@ -17,6 +17,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
     <React.Fragment>
       <Grid item container xs>
         <FileInput
+        required
           label={t("generic.file")}
           accept=".json"
           onChange={(v) => viewModel.setFile(v)}

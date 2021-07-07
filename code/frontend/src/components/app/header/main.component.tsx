@@ -35,6 +35,9 @@ const Header: React.FC = () => {
           <Button color="inherit" onClick={goto("/workflow")}>
             {t("header.workflow")}
           </Button>
+          <Button color="inherit" onClick={goto("/zeppelin")}>
+            {t("header.zeppelin")}
+          </Button>
           <div style={{ flexGrow: 1 }} />
           <WorkspaceChanger />
           <LanguageChanger />
