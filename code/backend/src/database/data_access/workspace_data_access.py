@@ -66,12 +66,13 @@ def delete(workspace_id):
         return None
     # delete workspace in fuseki
     delete_request('http://localhost:3030/$/datasets/{}'.format(workspace_id), auth=('admin', 'pw123'))
-    # delete workspace folder in hdfs
+    # delete workspace folder in hdfs based on workspace_id
     settings = Settings()
     client = PyWebHdfsClient(host=settings.hdfs_storage.namenode, port="9870")
     client.delete_file_dir("/datalake_storage/" + workspace_id, recursive=True)
     # delete database in MongoDB based on workspace_id
-    # drop database here
+    ### drop MongoDB database here ###
+    ### Missing ###
     # delete database in postgres based on workspace_id
     postgresql = settings.postgresql_storage
     connection = None

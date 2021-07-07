@@ -67,7 +67,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           <Item
             key={item.uid}
             title={item.humanReadableName}
-            // onDelete={() => viewModel.delete(item)}
+            onDelete={() => viewModel.delete(item)}
           >
             {item.status.state == DatamartStatus.failed && (
               <div

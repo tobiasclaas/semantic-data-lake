@@ -177,13 +177,9 @@ class ViewModel extends ContentStore {
 
       const configs = {
         method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts/${item.uid}`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts?uid=${item.uid}`,
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
