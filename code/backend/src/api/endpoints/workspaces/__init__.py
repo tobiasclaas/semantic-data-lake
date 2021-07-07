@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from passlib.hash import pbkdf2_sha256 as sha256
-from werkzeug.exceptions import BadRequest, HTTPException, NotFound, Conflict
+from werkzeug.exceptions import HTTPException
 
 from business_logic.services.mapper import mapper
 from api.services.decorators import parse_params

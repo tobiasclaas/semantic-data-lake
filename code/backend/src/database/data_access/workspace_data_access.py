@@ -7,6 +7,10 @@ from requests import put, post, delete as delete_request
 from database.data_access import ontology_data_access
 from werkzeug.datastructures import FileStorage
 from settings import Settings
+import mongoengine
+from pywebhdfs.webhdfs import PyWebHdfsClient
+
+
 
 
 def get_all() -> [Workspace]:
@@ -62,6 +66,28 @@ def delete(workspace_id):
         return None
     # delete workspace in fuseki
     delete_request('http://localhost:3030/$/datasets/{}'.format(workspace_id), auth=('admin', 'pw123'))
+    # delete workspace folder in hdfs
+    settings = Settings()
+    client = PyWebHdfsClient(host=settings.hdfs_storage.namenode, port="9870")
+    client.delete_file_dir("/datalake_storage/" + workspace_id, recursive=True)
+    # delete database in MongoDB based on workspace_id
+    # drop database here
+    # delete database in postgres based on workspace_id
+    postgresql = settings.postgresql_storage
+    connection = None
+    try:
+        connection = psycopg2.connect(
+            f"host='{postgresql.host}' user='{postgresql.user}' password='{postgresql.password}'" +
+            f" port='{postgresql.port}'"
+        )
+    except psycopg2.OperationalError as err:
+        print(f"[POSTGRES] error while creating:\n\t{err}")
+
+    if connection is not None:
+        connection.autocommit = True
+        cur = connection.cursor()
+        cur.execute("DROP DATABASE workspace_" + workspace_id + ";")
+        connection.close()
     # delete ontology entries in MongoDB
     Ontology.objects(workspace=workspace_id).delete()
     Workspace.objects(id__exact=workspace_id).delete()
