@@ -71,7 +71,6 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             >
               <MenuItem value={"HDFS"}>HDFS</MenuItem>
               <MenuItem value={"MongoDB"}>MongoDB</MenuItem>
-              <MenuItem value={"Postgres"}>Postgres</MenuItem>
               label={t("dataset_management.upload.csv.target_storage")}
             </Select>
             }

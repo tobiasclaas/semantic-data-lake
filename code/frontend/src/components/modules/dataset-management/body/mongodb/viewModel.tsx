@@ -47,7 +47,7 @@ class ViewModel extends BodyViewModel {
     this.Collection = value;
   }
 
-  @observable Target_Storage: string = "HDFS";
+  @observable Target_Storage: string = "MongoDB";
   @action setTarget_Storage(value: string) {
     this.Target_Storage = value;
   }
@@ -68,7 +68,7 @@ class ViewModel extends BodyViewModel {
   }
 
   canUpload(): boolean {
-    return this.file !== null;
+    return this.host !== null;
   }
 
   getView = () => <View viewModel={this} />;

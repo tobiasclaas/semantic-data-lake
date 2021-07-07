@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import FileInput from "../../../../common/FileInput";
 import Grid from "@material-ui/core/Grid";
 import { TextField } from "@material-ui/core";
-import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -49,7 +48,6 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             >
               <MenuItem value={"HDFS"}>HDFS</MenuItem>
               <MenuItem value={"MongoDB"}>MongoDB</MenuItem>
-              <MenuItem value={"Postgres"}>Postgres</MenuItem>
               label={t("dataset_management.upload.csv.target_storage")}
             </Select>
             }

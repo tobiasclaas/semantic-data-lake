@@ -13,8 +13,8 @@ import View from "./main.component";
 class ViewModel extends BodyViewModel {
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
-    formData.append("delimiter", this.delimiter);
-    formData.append("has_header", this.hasHeader ? "1" : "0");
+    formData.append("target_storage", this.target_storage);
+    formData.append("comment", this.comment);
   }
 
   constructor() {

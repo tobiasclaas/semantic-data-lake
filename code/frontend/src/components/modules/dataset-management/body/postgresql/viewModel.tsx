@@ -15,8 +15,8 @@ class ViewModel extends BodyViewModel {
     formData.append("host", this.Host);
     formData.append("port", this.Port);
     formData.append("database", this.DataBase);
-    formData.append("collection", this.Collection);
-    formData.append("target_storage", this.Target_Storage);
+    formData.append("table", this.Table);
+    formData.append("target_storage", "PostgreSQL");
     formData.append("user", this.User);
     formData.append("password", this.Password);
     formData.append("comment", this.Comment);
@@ -47,7 +47,7 @@ class ViewModel extends BodyViewModel {
     this.Table = value;
   }
 
-  @observable Target_Storage: string = "HDFS";
+  @observable Target_Storage: string = "PostgreSQL";
   @action setTarget_Storage(value: string) {
     this.Target_Storage = value;
   }
@@ -68,7 +68,7 @@ class ViewModel extends BodyViewModel {
   }
 
   canUpload(): boolean {
-    return this.file !== null;
+    return this.host !== null;
   }
 
   getView = () => <View viewModel={this} />;
