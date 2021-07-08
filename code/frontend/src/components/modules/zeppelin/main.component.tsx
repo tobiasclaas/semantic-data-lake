@@ -7,8 +7,6 @@ import Iframe from 'react-iframe'
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
-
-
   return (
     <div style = {{height:"100vh"}} width="1500">
         <iframe

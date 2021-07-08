@@ -959,25 +959,25 @@
       "properties": {
         "SPARK_HOME": {
           "name": "SPARK_HOME",
-          "value": "",
+          "value": "/usr/local/spark/",
           "type": "string",
           "description": "Location of spark distribution"
         },
         "spark.master": {
           "name": "spark.master",
-          "value": "local[*]",
+          "value": "spark://master:7077",
           "type": "string",
           "description": "Spark master uri. local | yarn-client | yarn-cluster | spark master address of standalone mode, ex) spark://master_host:7077"
         },
         "spark.submit.deployMode": {
           "name": "spark.submit.deployMode",
-          "value": "",
+          "value": "cluster",
           "type": "string",
           "description": "The deploy mode of Spark driver program, either \"client\" or \"cluster\", Which means to launch driver program locally (\"client\") or remotely (\"cluster\") on one of the nodes inside the cluster."
         },
         "spark.app.name": {
           "name": "spark.app.name",
-          "value": "",
+          "value": "zeppelin",
           "type": "string",
           "description": "The name of spark application."
         },
@@ -1251,6 +1251,8 @@
       "option": {
         "remote": true,
         "port": -1,
+        "perNote": "shared",
+        "perUser": "shared",
         "isExistingProcess": false,
         "setPermission": false,
         "owners": [],
@@ -1638,7 +1640,7 @@
       "properties": {
         "zeppelin.python": {
           "name": "zeppelin.python",
-          "value": "python",
+          "value": "python3",
           "type": "string",
           "description": "Python binary executable path. It is set to python by default.(assume python is in your $PATH)"
         },
@@ -1726,6 +1728,8 @@
       "option": {
         "remote": true,
         "port": -1,
+        "perNote": "shared",
+        "perUser": "shared",
         "isExistingProcess": false,
         "setPermission": false,
         "owners": [],
@@ -3004,7 +3008,7 @@
     {
       "id": "local",
       "type": "default",
-      "url": "file:///opt/zeppelin/.m2/repository",
+      "url": "file:///root/.m2/repository",
       "host": "",
       "protocol": "file",
       "releasePolicy": {
@@ -3023,7 +3027,7 @@
     {
       "id": "local",
       "type": "default",
-      "url": "file:///root/.m2/repository",
+      "url": "file:///opt/zeppelin/.m2/repository",
       "host": "",
       "protocol": "file",
       "releasePolicy": {

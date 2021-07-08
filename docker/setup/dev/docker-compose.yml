@@ -177,6 +177,7 @@ services:
   # zeppelin
   #------------------------------------------------------------------------------------------------
   zeppelin:
+      tty: true
       image: apache/zeppelin:0.9.0
       container_name: zeppelin
       networks:
@@ -185,8 +186,10 @@ services:
         - master
       ports:
         - 1234:8080
+      user: root
       volumes:
-        - ../zeppelin-conf:/opt/zeppelin/conf
+        - ../zeppelin/zeppelin-conf:/opt/zeppelin/conf
+        - ../zeppelin/notebook:/opt/zeppelin/notebook
       environment:
         - "SPARK_MASTER=spark://master:7077"
       env_file:
