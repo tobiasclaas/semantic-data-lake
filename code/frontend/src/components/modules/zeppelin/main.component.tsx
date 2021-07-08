@@ -8,21 +8,18 @@ import Iframe from 'react-iframe'
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
+
   return (
-    <div>
-      <div>
+    <div style = {{height:"100vh"}} width="1500">
         <iframe
-          height="100%"
-          width="100%"
-          src="http://localhost:1234/#/&output=embed"
+          src="http://localhost:1234/#/"
+          style = {{height:"100vh"}}
+          width="1500"
           title="YouTube video player"
-          target="_parent"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         >
-
         </iframe>
-      </div>
     </div>
   );
 });

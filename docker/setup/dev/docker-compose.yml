@@ -173,6 +173,25 @@ services:
     #  extra_hosts:
     #   - "datalake6:192.168.220.6" # change to your hostname and ip address
 
+  #------------------------------------------------------------------------------------------------
+  # zeppelin
+  #------------------------------------------------------------------------------------------------
+  zeppelin:
+      image: apache/zeppelin:0.9.0
+      container_name: zeppelin
+      networks:
+        - backend
+      depends_on:
+        - master
+      ports:
+        - 1234:8080
+      volumes:
+        - ../zeppelin-conf:/opt/zeppelin/conf
+      environment:
+        - "SPARK_MASTER=spark://master:7077"
+      env_file:
+        - ./hadoop.env
+
 
   #------------------------------------------------------------------------------------------------
   # databases
@@ -211,19 +230,6 @@ services:
     volumes:
       - ../config.ttl:/fuseki/config.ttl
       - ./data/fuseki:/fuseki
-
-  #------------------------------------------------------------------------------------------------
-  # zeppelin
-  #------------------------------------------------------------------------------------------------
-  zeppelin:
-    image: apache/zeppelin:0.9.0
-    container_name: zeppelin
-    networks:
-      - backend
-    ports:
-      - 1234:8080
-    volumes:
-      - ../zeppelin-conf:/opt/zeppelin/conf
 
 networks:
   backend:
