@@ -6,7 +6,7 @@ from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
 from database.models import (
     MongodbStorage, PostgresqlStorage,
-    CsvStorage, JsonStorage, XmlStorage
+    CsvStorage, JsonStorage, XmlStorage, Datamart
 )
 import settings
 from api.services.decorators import parse_params
@@ -71,20 +71,23 @@ class Datamarts(Resource):
         Argument("uid", type=str, required=False),
     )
     def delete(self, workspace_id, uid):
-        # if uid is None:
-        #     Datamart.objects.all().delete()
-        #     return f"All datamarts deleted"
+        if uid is None:
+            Datamart.objects.filter(workspace_id=workspace_id).delete()
+            return "All datamarts deleted"
 
         datamart = data_access.get_by_uid(uid)
-        hnr = datamart.human_readable_name
-        try:
-            Delete_data(datamart.metadata.source)
-            Delete_data(datamart.metadata.target)
-        except Exception as e:
-            print (e)
+        if datamart.workspace_id == workspace_id:
+            hnr = datamart.human_readable_name
+            try:
+                Delete_data(datamart.metadata.source)
+                Delete_data(datamart.metadata.target)
+            except Exception as e:
+                print (e)
 
-        datamart.delete()
-        return f"deleted datamart {hnr}"
+            datamart.delete()
+            return f"deleted datamart {hnr}"
+        else:
+            return "Permission not allowed"
 
     @parse_params(
         Argument("comment", default='', type=str, required=False),

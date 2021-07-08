@@ -15,8 +15,7 @@ class SparkHelper:
         self.settings = Settings()
         try:
             conf = SparkConf().set("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.0," +
-                                                          "org.postgresql:postgresql:42.2.18," +
-                                                          "com.databricks:spark-xml_2.12:0.10.0")
+                                                          "org.postgresql:postgresql:42.2.18,")
             # conf.set("spark.jars", "postgresql-42.2.18")
             SparkContext(master="local", conf=conf)           # For fixing "Failed to create pysparkSession" error
             self.spark_session = SparkSession.builder \

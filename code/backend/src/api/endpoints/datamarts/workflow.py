@@ -31,13 +31,19 @@ def process_input(spark_helper, data):
         else:
             return df1.join(df2, df1[data['input'][0]['column']] == df2[data['input'][1]['column']])
 
-    if data['type'] == 'filter':
+    elif data['type'] == 'filter':
         df1 = process_input(spark_helper, data['input'][0])
         return df1.filter(data["condition"])
 
-    if data['type'] == 'select':
+    elif data['type'] == 'select':
         df1 = process_input(spark_helper, data['input'][0])
+        if 'distinct' in data.keys() and data['distinct']:
+            return df1.dropDuplicates(data["columns"])
         return df1.select(*data["columns"])
+
+    elif data['type'] == 'groupby':
+        df1 = process_input(spark_helper, data['input'][0])
+        return df1.groupBy(*data['column']).agg(data["aggregate"])
 
     if data['type'] == 'data_source':
         source_ids.append(data['uid'])
