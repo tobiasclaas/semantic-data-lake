@@ -15,8 +15,7 @@ export const ItemContainer = withStyles(() => ({
     display: "flex",
     margin: "0px 8px 16px 8px",
     flex: 1,
-    flexDirection: "column",
-    width: "fit-content"
+    flexDirection: "column"
   },
 }))(Paper);
 
