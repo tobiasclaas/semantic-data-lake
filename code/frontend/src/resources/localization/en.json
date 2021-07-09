@@ -46,6 +46,7 @@
   "dataset_management.upload.csv.comment":"Comment",
   "dataset_management.upload.csv.target_storage":"Target Storage",
   "dataset_management.upload.xml.rowtag":"row tag",
+  "dataset_management.upload.xml.roottag":"root tag",
   "dataset_management.upload.mongodb.host":"Host",
   "dataset_management.upload.mongodb.port":"Port",
   "dataset_management.upload.mongodb.database":"Database",
