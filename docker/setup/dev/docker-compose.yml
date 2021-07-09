@@ -189,7 +189,7 @@ services:
       user: root
       volumes:
         - ../zeppelin/zeppelin-conf:/opt/zeppelin/conf
-        - ../zeppelin/notebook:/opt/zeppelin/notebook
+        - ../zeppelin/notebook:/opt/zeppelin/notebook:rw
       environment:
         - "SPARK_MASTER=spark://master:7077"
       env_file:
