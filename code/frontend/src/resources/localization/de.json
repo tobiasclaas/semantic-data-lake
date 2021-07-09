@@ -36,7 +36,7 @@
   "dataset_management.upload.title": "Datei hinzufügen",
   "dataset_management.upload.type": "Typ",
   "dataset_management.upload.description": "Hier können Sie Informationen zum Datensatz hinzufügen.",
-  "dataset_management.title": "Datensatz Management",
+  "dataset_management.title": "Daten Management",
   "dataset_management.description": "Hier können Sie Ihre Datasets bearbeiten, hinzufügen und verwerfen.",
   "dataset_management.upload.csv.delimiter": "Delimiter",
   "dataset_management.status.running": "Running",

@@ -13,7 +13,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           src="http://localhost:1234/#/"
           style = {{height:"100%"}}
           width="100%"
-          title="YouTube video player"
+          title="Zeppelin"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         >
