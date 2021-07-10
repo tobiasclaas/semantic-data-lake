@@ -49,7 +49,7 @@ class SparkHelper:
                 .format("com.mongodb.spark.sql.DefaultSource") \
                 .option("spark.mongodb.input.uri", uri) \
                 .option("collection", f"{storage.collection}") \
-                .load()
+                .load().drop("_id")
         except Exception as err:
             print(err)
             self.__raise(f"Failed to read from mongodb ({uri} - {storage.collection})")
