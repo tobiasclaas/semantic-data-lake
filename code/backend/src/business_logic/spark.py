@@ -165,6 +165,7 @@ class SparkHelper:
             return self.spark_session.read \
                 .format("com.databricks.spark.xml") \
                 .option("rowTag", storage.row_tag) \
+                .option("rootTag", storage.root_tag) \
                 .load(uri)
         except Exception as err:
             print(err)
@@ -179,6 +180,7 @@ class SparkHelper:
             dataframe.write \
                 .format("com.databricks.spark.xml") \
                 .option("rowTag", target.row_tag) \
+                .option("rootTag", target.root_tag) \
                 .mode("overwrite") \
                 .save(uri)
             return uri

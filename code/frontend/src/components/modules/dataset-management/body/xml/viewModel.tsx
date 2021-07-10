@@ -14,6 +14,7 @@ class ViewModel extends BodyViewModel {
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
     formData.append("row_tag", this.Row_Tag);
+    formData.append("root_tag", this.Root_Tag);
     formData.append("target_storage", this.target_storage);
     formData.append("comment", this.comment);
 
@@ -29,9 +30,14 @@ class ViewModel extends BodyViewModel {
     this.file = value;
   }
 
-  @observable Row_Tag: string = ';';
+  @observable Row_Tag: string = '';
   @action setRow_Tag(value: string) {
-    this.target_storage = value;
+    this.Row_Tag = value;
+  }
+
+  @observable Root_Tag: string = '';
+  @action setRoot_Tag(value: string) {
+    this.Root_Tag = value;
   }
 
   @observable target_storage: string = 'HDFS';

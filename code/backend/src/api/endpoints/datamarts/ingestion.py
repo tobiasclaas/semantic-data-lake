@@ -170,18 +170,20 @@ class XmlIngestion(Resource):
     
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
-        Argument("row_tag", default=';', type=str, required=False),
+        Argument("row_tag", default='', type=str, required=False),
+        Argument("root_tag", default='', type=str, required=False),
         Argument("target_storage", default='HDFS', type=str, required=False),
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False),
     )
-    def post(self, workspace_id, file: FileStorage, row_tag, target_storage, comment, human_readable_name):
+    def post(self, workspace_id, file: FileStorage, row_tag, root_tag, target_storage, comment, human_readable_name):
         # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
         hdfs = settings.Settings().hdfs_storage
 
         source = XmlStorage(
             file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.xml",
             row_tag=row_tag,
+            root_tag=root_tag,
         )
 
         # Used to first write input file to HDFS datalake_ingestion folder, and from their ingested

@@ -53,3 +53,4 @@ class XmlStorage(BaseStorage):
     mimetype = "application/xml"
     file = db.StringField()
     row_tag = db.StringField()
+    root_tag = db.StringField()

@@ -45,6 +45,20 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
               <TextField
                 fullWidth
                 autoFocus
+                onChange={(e) => viewModel.setRoot_Tag(e.target.value)}
+                value={viewModel.Root_Tag}
+                margin="dense"
+                label={t("dataset_management.upload.xml.roottag")}
+              />
+            }
+          />
+        </Grid>
+        <Grid item>
+          <FormControlLabel
+            control={
+              <TextField
+                fullWidth
+                autoFocus
                 onChange={(e) => viewModel.setComment(e.target.value)}
                 value={viewModel.comment}
                 margin="dense"
