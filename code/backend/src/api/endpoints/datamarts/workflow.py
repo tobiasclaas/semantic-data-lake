@@ -38,7 +38,7 @@ def process_input(spark_helper, data):
     elif data['type'] == 'select':
         df1 = process_input(spark_helper, data['input'][0])
         if 'distinct' in data.keys() and data['distinct']:
-            return df1.dropDuplicates(data["columns"])
+            return df1.select(*data["columns"]).distinct()
         return df1.select(*data["columns"])
 
     elif data['type'] == 'groupby':

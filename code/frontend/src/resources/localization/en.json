@@ -64,6 +64,7 @@
   "workflow.properties_dialog.export.target": "Target",
   "workflow.properties_dialog.join.column": "Join column ({{name}})",
   "workflow.properties_dialog.select.column": "Add column",
+  "workflow.properties_dialog.select.distinct": "Distinct",
   "workflow.properties_dialog.groupby.column": "Group By column",
   "workflow.properties_dialog.groupby.function": "Group By function",
   "workflow.properties_dialog.filter.condition": "Condition"

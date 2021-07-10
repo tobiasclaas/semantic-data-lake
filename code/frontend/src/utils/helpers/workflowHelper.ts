@@ -47,6 +47,7 @@ abstract class WorkflowHelper {
 
       case NodeType.select: {
         const nodeData = node.data as SelectData;
+        data.distinct = nodeData.distinct;
         data.columns = nodeData.schema.fields.map((f) => f.name);
         data.input = WorkflowHelper.getInputNodes(node, elements).map((n) =>
           WorkflowHelper.processNode(n.node, elements)

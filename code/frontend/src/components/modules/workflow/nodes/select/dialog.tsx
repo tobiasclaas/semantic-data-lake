@@ -14,6 +14,8 @@ import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core/styles";
 import { createStyles } from "@material-ui/core/styles";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -79,6 +81,22 @@ const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
           })}
         </ul>
       </Grid>
+        <Grid item sm>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={viewModel.data?.distinct ?? false}
+                        color="primary"
+                        onChange={(e) =>
+                            viewModel.updateData((data) => {
+                                data.distinct = e.target.checked
+                            })
+                        }
+                    />
+                }
+                label={t("workflow.properties_dialog.select.distinct")}
+            />
+        </Grid>
     </Grid>
   );
 });
