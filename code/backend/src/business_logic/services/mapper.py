@@ -123,8 +123,13 @@ def mapper(model):
     # ===== metadata ===============================================================================
     if isinstance(model, Metadata):
         heritage = []
-        for ancestor in model.heritage:
-            heritage.append(mapper(ancestor.fetch()))
+        try:
+            for ancestor in model.heritage:
+                heritage.append(mapper(ancestor.fetch()))
+        except Exception as e:
+            # If the any datamart from heritage is deleted, this will return except here
+            print ("Heritage datamart is not found")
+            heritage = []
 
         return {
             "createdAt": model.created_at.isoformat() if model.created_by else None,
