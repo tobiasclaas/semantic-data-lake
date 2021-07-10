@@ -17,7 +17,7 @@ from database.data_access import datamart_data_access as data_access
 def delete_from_hdfs(file_name):
     hdfs = settings.Settings().hdfs_storage
     client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
-    client.delete_file_dir(file_name)
+    client.delete_file_dir(file_name, recursive=True)
 
 
 def Delete_data(storage):
