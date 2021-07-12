@@ -31,8 +31,8 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
               <TextField
                 fullWidth
                 autoFocus
-                onChange={(e) => viewModel.setRowTag(e.target.value)}
-                value={viewModel.RowTag}
+                onChange={(e) => viewModel.setRow_Tag(e.target.value)}
+                value={viewModel.Row_Tag}
                 margin="dense"
                 label={t("dataset_management.upload.xml.rowtag")}
               />
