@@ -17,6 +17,7 @@
   "generic.file": "File",
   "generic.delete": "Delete",
   "generic.add_new": "Add New",
+  "generic.refresh": "Refresh",
   "generic.name": "Name",
   "generic.execute": "Execute",
   "generic.browse": "Browse...",
