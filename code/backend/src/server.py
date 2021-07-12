@@ -5,6 +5,10 @@ from flask_mongoengine import MongoEngine
 import api
 import settings
 from database import configure
+"""
+This is the root file of the program. We used PyDocs for documentation of the backend. 
+To generate HTML documentation for this module issue the command: pydoc -p <port>.
+"""
 
 server = Flask(__name__)
 

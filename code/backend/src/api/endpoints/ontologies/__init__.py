@@ -5,11 +5,11 @@ from werkzeug.exceptions import HTTPException
 from werkzeug.datastructures import FileStorage
 from requests import post
 
+import settings
 from api.services.decorators import parse_params
 from business_logic.services.mapper import mapper
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
-import settings
 
 
 class Ontologies(Resource):
@@ -19,6 +19,7 @@ class Ontologies(Resource):
     def get(self, workspace_id):
         """
         API get request for ontologies.
+
         :param workspace_id: id of workspace.
         :returns: all ontologies of a given workspace in JSON format.
         """
@@ -31,6 +32,7 @@ class Ontologies(Resource):
     def post(self, name, file, workspace_id):
         """
         API post request to add a new ontology.
+
         :param name: Name of new ontology.
         :param file: The file containing the ontology.
         :param workspace_id: id of workspace the file is to be added.
@@ -41,6 +43,7 @@ class Ontologies(Resource):
     def delete(self, workspace_id, ontology_id):
         """
         API delete request for deleting an ontology from a workspace.
+
         :param workspace_id: id of workspace.
         :param ontology_id: id of ontology in MongoDB.
         :return: HTTP-Code 200 if the deletion was successful and failure-code otherwise.
@@ -53,9 +56,7 @@ class Ontologies(Resource):
 
 
 class OntologiesSearch(Resource):
-    """
-    Provides requests to search or query ontologies in fuseki directly
-    """
+    """ Provides requests to search or query ontologies in fuseki directly. """
     @parse_params(
         Argument("querystring", required=True, type=str),
         Argument("graph_name", default='?g', type=str),
@@ -64,6 +65,7 @@ class OntologiesSearch(Resource):
     def get(self, workspace_id, querystring, graph_name, is_query):
         """
         Get request to query fuseki.
+
         :param workspace_id: ID of workspace.
         :param querystring: A keyword or the query itself.
         :param graph_name: ID of Graph in Fuseki, not the entire URL.
@@ -72,21 +74,22 @@ class OntologiesSearch(Resource):
         """
         if is_query:
             # query fuseki with user defined query
-            return jsonify(post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
+            return jsonify(post('http://localhost:3030/' + workspace_id,
+                                auth=(settings.Settings().fuseki_storage.user,
+                                      settings.Settings().fuseki_storage.password),
                                 data={'query': querystring}).content.decode('utf-8'))
 
         if not (graph_name == '?g'):  # name of graph is adjusted to as is in fuseki
             graph_name = '<http://localhost:3030/' + workspace_id + '/' + graph_name + '>'
-        r = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
+        r = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user,
+                                                                settings.Settings().fuseki_storage.password),
                  data={'query': ontology_data_access.create_query_string(graph_name, querystring)})
 
         return jsonify(r.content.decode('utf-8'))
 
 
 class Annotation(Resource):
-    """
-    API class to manage Annotations.
-    """
+    """ API class to manage Annotations. """
     @parse_params(
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', type=str, default=None)
@@ -94,6 +97,7 @@ class Annotation(Resource):
     def get(self, workspace_id, datamart_id, data_attribute):
         """
         Get all annotations for a specific data_attribute.
+
         :param workspace_id: id of workspace that contains datamart with datamart_id. Is not used but part of the url.
         :param datamart_id: id of the datamart.
         :param data_attribute: name of the attribute.
@@ -121,6 +125,7 @@ class Annotation(Resource):
     def post(self, workspace_id, datamart_id, data_attribute, property_description, ontology_attribute, comment):
         """
         Post method to add new annotations to mongoDB.
+
         :param workspace_id: id of workspace that contains datamart with datamart_id
         :param datamart_id: id of datamart which contains data_attribute.
         :param data_attribute: name of the column to be annotated.
@@ -146,6 +151,7 @@ class Annotation(Resource):
     def delete(self, workspace_id, datamart_id, data_attribute, ontology_attribute):
         """
         API delete request to delete annotations.
+
         :param workspace_id: id of workspace that contains datamart with datamart_id. Is not used but part of the url.
         :param datamart_id: id of datamart that contains data_attribute.
         :param data_attribute: name of the column to be annotated.
@@ -169,6 +175,7 @@ class Completion(Resource):
     def get(self, workspace_id, search_term=''):
         """
         Api for auto completion feature.
+
         :param workspace_id: id of current workspace
         :param search_term: keyword to be auto completed.
         :returns: ontology-attribute with according label or failure http-code

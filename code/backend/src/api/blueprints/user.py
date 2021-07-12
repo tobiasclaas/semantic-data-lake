@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from api.endpoints.users import Users, Current
 
-USER_BLUEPRINT = Blueprint("user.py", __name__)
+USER_BLUEPRINT = Blueprint("user", __name__)
 
 users_routes = ["/users", "/users/<email>"]
 Api(USER_BLUEPRINT).add_resource(Users, *users_routes)

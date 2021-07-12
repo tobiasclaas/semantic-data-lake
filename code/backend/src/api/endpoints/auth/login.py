@@ -36,7 +36,6 @@ class Login(Resource):
 
             raise Unauthorized(f"Wrong email or password")
 
-
         access_token = create_access_token(identity=mapper(user))
         refresh_token = create_refresh_token(identity=mapper(user))
 
