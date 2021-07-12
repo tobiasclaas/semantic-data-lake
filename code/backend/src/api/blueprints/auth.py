@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from api.endpoints.auth import Login, Logout, TokenRefresh
 
-AUTH_BLUEPRINT = Blueprint("auth.py", __name__)
+AUTH_BLUEPRINT = Blueprint("auth", __name__)
 
 login_routes = ["/auth/login"]
 Api(AUTH_BLUEPRINT).add_resource(Login, *login_routes)

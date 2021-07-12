@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from api.endpoints.ontologies import Ontologies, OntologiesSearch, Annotation, Completion
 
-ONTOLOGY_BLUEPRINT = Blueprint("ontology.py", __name__)
+ONTOLOGY_BLUEPRINT = Blueprint("ontology", __name__)
 
 search_routes = ["/workspaces/<workspace_id>/ontologies/search"]
 Api(ONTOLOGY_BLUEPRINT).add_resource(OntologiesSearch, *search_routes)

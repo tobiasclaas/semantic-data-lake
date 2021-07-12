@@ -179,8 +179,6 @@ class SparkHelper:
         try:
             dataframe.write \
                 .format("com.databricks.spark.xml") \
-                .option("rowTag", target.row_tag) \
-                .option("rootTag", target.root_tag) \
                 .mode("overwrite") \
                 .save(uri)
             return uri
