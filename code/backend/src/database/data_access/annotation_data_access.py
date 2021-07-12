@@ -4,16 +4,19 @@ from werkzeug.exceptions import BadRequest, HTTPException, NotFound, InternalSer
 from database.models import Annotation, Datamart
 import settings
 
+
 def ask_query_fuseki(workspace_id, subject_name):
     """
     Performs ask query on Fuseki Default-Graph. Checks if an entry with a specified subject exists.
+
     :param workspace_id: to identify dataset in fuseki.
     :param subject_name: name of subject to be searched.
     :return: True if such an entry exists, false otherwise.
     """
     query_string = "ASK { " + subject_name + " ?p ?o . }"
     # replace admin and pw by environment variable defined in docker-compose.yaml
-    p = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
+    p = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user,
+                                                            settings.Settings().fuseki_storage.password),
              data={'query': query_string})
 
     try:
@@ -25,6 +28,7 @@ def ask_query_fuseki(workspace_id, subject_name):
 def check_data_attribute(datamart_id, data_attribute):
     """
     Checks if data_attribute exists for datamart.
+
     :param datamart_id: id of datamart.
     :param data_attribute: name of attribute/column to be annotated.
     :return: True if exists, False if not exists.
@@ -46,6 +50,7 @@ def check_data_attribute(datamart_id, data_attribute):
 def get(datamart_id, data_attribute):
     """
     Get all annotations for data_attribute.
+
     :param datamart_id: id of datamart.
     :param data_attribute: name of attribute/column to be annotated.
     """
@@ -65,6 +70,7 @@ def get(datamart_id, data_attribute):
 def perform_integrity_checks(workspace_id, datamart_id, data_attribute, ontology_attribute):
     """
     Calls all manual integrity checks and checks their results.
+
     :param workspace_id: id of workspace.
     :param datamart_id: id of datamart.
     :param data_attribute: name of attribute/column to be annotated.
@@ -87,6 +93,7 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
     """
     Stores an annotation in MongoDB if all integrity checks are passed. Case distinction if entry with workspace_id and
     datamart_id already exists or not.
+
     :param workspace_id: id of workspace
     :param datamart_id: id of datamart which contains data_attribute
     :param data_attribute: column to be annotated
@@ -143,10 +150,10 @@ def add(workspace_id, datamart_id, data_attribute, property_description, ontolog
         raise InternalServerError
 
 
-
 def delete(datamart_id, data_attribute, ontology_attribute):
     """
     Deletes a the annotation of data_attribute with ontology-attribute ontology_attribute.
+
     :param datamart_id: id of datamart which contains data_attribute.
     :param data_attribute: selected column.
     :param ontology_attribute: annotation for column.

@@ -17,6 +17,7 @@
   "generic.file": "File",
   "generic.delete": "Delete",
   "generic.add_new": "Add New",
+  "generic.refresh": "Refresh",
   "generic.name": "Name",
   "generic.execute": "Execute",
   "generic.browse": "Browse...",
@@ -67,5 +68,6 @@
   "workflow.properties_dialog.select.distinct": "Distinct",
   "workflow.properties_dialog.groupby.column": "Group By column",
   "workflow.properties_dialog.groupby.function": "Group By function",
+  "workflow.properties_dialog.groupby.select": "Group By select",
   "workflow.properties_dialog.filter.condition": "Condition"
 }

@@ -43,52 +43,59 @@ const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
             {t("workflow.properties_dialog.groupby.column")}
           </InputLabel>
           <Select
-            value={""}
+            value={
+                viewModel.data.group_by
+            }
             onChange={(e) =>
               viewModel.updateData((data) => {
-                data.schema.fields.push(
-                  viewModel.currentFields[e.target.value as number]
-                );
+                  data.group_by = e.target.value as string;
+                // data.schema.fields.push(
+                //   viewModel.currentFields[e.target.value as number]
+                // );
               })
             }
           >
             {viewModel.currentFields.map((item, index) => (
-              <MenuItem value={index} key={index}>
+              <MenuItem value={item.name} key={index}>
                 {item.name}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
       </Grid>
-      <Grid item sm>
-        <ul className={classes.chipContainer}>
-          {viewModel.data.schema.fields.map((item, index) => {
-            return (
-              <li key={index}>
-                <Chip
-                  label={item.name}
-                  className={classes.chip}
-                  onDelete={() =>
-                    viewModel.updateData((data) => {
-                      data.schema.fields.splice(index, 1);
-                    })
-                  }
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </Grid>
+        <Grid item sm>
+            <FormControl fullWidth margin="dense">
+                <InputLabel>
+                    {t("workflow.properties_dialog.groupby.select")}
+                </InputLabel>
+                <Select
+                    value={
+                        viewModel.data.aggregate_select
+                    }
+                    onChange={(e) =>
+                        viewModel.updateData((data) => {
+                            data.aggregate_select = e.target.value as string;
+                        })
+                    }
+                >
+                    {viewModel.currentFields.filter(item => item.type == "integer").map((item, index) => (
+                        <MenuItem value={item.name} key={index}>
+                            {item.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Grid>
         <Grid item sm>
             <FormControl fullWidth margin="dense">
                 <InputLabel>
                     {t("workflow.properties_dialog.groupby.function")}
                 </InputLabel>
                 <Select
-                    value={""}
+                    value={viewModel.data.aggregate_function}
                     onChange={(e) =>
                         viewModel.updateData((data) => {
-                            data.aggregate = e.target.value as string;
+                            data.aggregate_function = e.target.value as string;
                         })
                     }
                 >

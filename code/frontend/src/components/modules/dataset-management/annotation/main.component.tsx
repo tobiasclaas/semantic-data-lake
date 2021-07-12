@@ -31,6 +31,26 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
@@ -41,11 +61,29 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Property</TableCell>
-              <TableCell align="right">Uri</TableCell>
+              {
+                viewModel.headers.map((item, index) => (
+                  <StyledTableCell key={item}>
+                    {item}
+                  </StyledTableCell>
+                ))
+              }
+              {/*<TableCell align="right">Uri</TableCell>*/}
             </TableRow>
           </TableHead>
-          <TableBody></TableBody>
+          <TableBody>
+            {viewModel.data.map((row, index) => (
+                <StyledTableRow key={index}>
+                  {
+                    row.map((data,index) => (
+                      <TableCell key={index} component="th" scope="row">
+                        {data}
+                      </TableCell>
+                    ))
+                  }
+                </StyledTableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
     </React.Fragment>

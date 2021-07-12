@@ -1,14 +1,12 @@
 from flask import jsonify
-from flask_jwt_extended import (create_access_token, get_jwt_identity, set_access_cookies,
-                                jwt_refresh_token_required)
+from flask_jwt_extended import create_access_token, get_jwt_identity, set_access_cookies#, jwt_refresh_token_required
 from flask_restful import Resource
 from werkzeug.exceptions import InternalServerError
 
 
-
 class TokenRefresh(Resource):
     #refresh required
-    @jwt_refresh_token_required
+    #@jwt_refresh_token_required
     def post(self):
         """
         # ==================================================================================================

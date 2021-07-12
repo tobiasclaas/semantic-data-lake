@@ -4,7 +4,9 @@ import ViewModel from "./viewModel";
 import IViewProps from "../../../models/iViewProps";
 import { useTranslation } from "react-i18next";
 import TopRightFab from "../../common/topRightFab";
+import TopRightSecondFab from "../../common/topRightSecondFab";
 import AddIcon from "@material-ui/icons/Add";
+import RefreshIcon from '@material-ui/icons/Refresh';
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -43,10 +45,10 @@ const Transition = React.forwardRef((props: SlideProps, ref) => (
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
-  useEffect(() => {
+/*   useEffect(() => {
     viewModel.registerIntevals();
     return () => viewModel.deregisterIntevals();
-  });
+  }); */
 
   return (
     <React.Fragment>
@@ -58,6 +60,14 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         <AddIcon />
         {t("generic.add_new")}
       </TopRightFab>
+      <TopRightSecondFab
+        variant="extended"
+        color="primary"
+        onClick={() => viewModel.refreshDatamarts()}
+      >
+        <RefreshIcon />
+        {t("generic.refresh")}
+      </TopRightSecondFab>
       <Typography variant="h6">{t("dataset_management.title")}</Typography>
       <Typography variant="subtitle1">
         {t("dataset_management.description")}

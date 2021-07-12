@@ -6,6 +6,7 @@ import { IData as ExportData } from "../../components/modules/workflow/nodes/exp
 import { IData as JoinData } from "../../components/modules/workflow/nodes/join/data";
 import { IData as FilterData } from "../../components/modules/workflow/nodes/filter/data";
 import { IData as SelectData } from "../../components/modules/workflow/nodes/select/data";
+import { IData as GroupbyData } from "../../components/modules/workflow/nodes/groupby/data";
 
 import { NodeData } from "../../models/workflow";
 
@@ -49,6 +50,21 @@ abstract class WorkflowHelper {
         const nodeData = node.data as SelectData;
         data.distinct = nodeData.distinct;
         data.columns = nodeData.schema.fields.map((f) => f.name);
+        data.input = WorkflowHelper.getInputNodes(node, elements).map((n) =>
+          WorkflowHelper.processNode(n.node, elements)
+        );
+        break;
+      }
+
+      case NodeType.groupby: {
+        debugger
+        const nodeData = node.data as GroupbyData;
+        const aggregate_select = nodeData.aggregate_select;
+        const aggregate_function = nodeData.aggregate_function;
+
+        data.aggregate = {};
+        data.aggregate[aggregate_select] = aggregate_function;
+        data.column = [nodeData.group_by];
         data.input = WorkflowHelper.getInputNodes(node, elements).map((n) =>
           WorkflowHelper.processNode(n.node, elements)
         );

@@ -6,7 +6,6 @@ from werkzeug.exceptions import InternalServerError
 
 class Logout(Resource):
 
-    
     def post(self):
         """
         # ==================================================================================================
