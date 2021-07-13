@@ -8,6 +8,7 @@ from database import configure
 """
 This is the root file of the program. We used PyDocs for documentation of the backend. 
 To generate HTML documentation for this module issue the command: pydoc -p <port>.
+Be aware that pydoc needs the modules installed in the system itself and not in a virtual environment.
 """
 
 server = Flask(__name__)
