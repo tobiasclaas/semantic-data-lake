@@ -1,6 +1,28 @@
 version: "3"
 services:
   #------------------------------------------------------------------------------------------------
+  # application
+  #------------------------------------------------------------------------------------------------
+  application:
+    image: semanticdatalake21/app:latest
+    container_name: application
+    depends_on:
+      - mongodb
+      - postgres
+      - fuseki
+      - zeppelin
+    #env_file: ../variables.env
+    ports:
+      - 5000:5000
+    networks:
+      - backend
+    command: python3 /app/backend/src/server.py
+    extra_hosts:
+      - "localhost:192.168.220.6" # change to your hostname and ip address
+    #volumes:
+    #  - /home/mapro2020/refactor/team-2-data-lake/code/backend/src/datalake_config.yml:/datalake_config.yml # change your relative path
+
+  #------------------------------------------------------------------------------------------------
   # hadoop cluster
   #------------------------------------------------------------------------------------------------
   resourcemanager:
@@ -232,31 +254,6 @@ services:
     volumes:
       - ../config.ttl:/fuseki/config.ttl
       - ./data/fuseki:/fuseki
-
-  #------------------------------------------------------------------------------------------------
-  # application
-  #------------------------------------------------------------------------------------------------
-  backend:
-    image: semanticdatalake21/backend:refactor
-    container_name: backend
-    depends_on:
-      - mongodb
-      - postgres
-    env_file: ../variables.env
-    ports:
-      - 5000:5000
-    networks:
-      - backend
-    volumes:
-      - /home/mapro2020/refactor/team-2-data-lake/code/backend/src/datalake_config.yml:/datalake_config.yml # change your relative path
-
-  pier:
-    image: semanticdatalake21/pier:refactor
-    container_name: pier
-    depends_on:
-      - backend
-    ports:
-      - 80:80
 
 networks:
   backend:
