@@ -4,6 +4,8 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
+
+from business_logic.spark import SparkHelper
 from database.models import (
     MongodbStorage, PostgresqlStorage,
     CsvStorage, JsonStorage, XmlStorage, Datamart
@@ -53,8 +55,9 @@ class Datamarts(Resource):
         Argument("asc", default=False, type=bool, required=False),
         Argument("search", default=None, type=str, required=False),
         Argument("uid", default=None, type=str, required=False),
+        Argument("data_only", default=False, type=str, required=False),
     )
-    def get(self, workspace_id, uid, page, limit, field_to_order, asc, search):
+    def get(self, workspace_id, uid, data_only, page, limit, field_to_order, asc, search):
         if uid is None:
             result = []
             datamarts = data_access.get_list(page, limit, field_to_order, asc, search)
@@ -65,7 +68,19 @@ class Datamarts(Resource):
 
             return jsonify(result)
         else:
-            return jsonify(mapper(data_access.get_by_uid(uid)))
+            datamart = data_access.get_by_uid(uid)
+            if data_only:
+                try:
+                    spark_helper = SparkHelper("Read Data")
+                    data = spark_helper.read_datamart(datamart).toPandas().to_json()
+                    spark_helper.spark_session.stop()
+                    return data
+                except Exception as e:
+                    if (spark_helper):
+                        spark_helper.spark_session.stop()
+                    print(e)
+
+            return jsonify(mapper(datamart))
 
     @parse_params(
         Argument("uid", type=str, required=False),

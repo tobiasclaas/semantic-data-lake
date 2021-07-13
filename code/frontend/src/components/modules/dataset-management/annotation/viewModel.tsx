@@ -14,11 +14,13 @@ import workspacesStore from "../../../../stores/workspaces.store";
 import View from "./main.component";
 
 class ViewModel extends ContentStore {
-  datamarts: IObservableArray<IDatamart>;
+  data: IObservableArray<object>;
+  headers: IObservableArray<object>;
 
   constructor(item: IDatamart) {
     super();
-    this.datamarts = observable.array([] as IDatamart[]);
+    this.data = observable.array([]);
+    this.headers = observable.array([]);
     makeObservable(this);
 
     this.initialize(item);
@@ -35,22 +37,35 @@ class ViewModel extends ContentStore {
         headers: { Accept: "application/json" },
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/datamarts?uid=`+ item.uid +`&data_only=True`,
         configs
-      );
-      if (!response.ok) throw new Error(response.statusText);
-      const datamarts = await response.json();
-      this.setDatamarts(datamarts);
+      ).then(res => res.json())
+          .then(
+              (result) => {
+                const data = JSON.parse(result);
+                const headers = Object.keys(data);
+                // @ts-ignore
+                  Object.keys(data).map((item) => this.headers.push(item));
+
+                for (const [key, value] of Object.entries(data[headers[0]])) {
+                    var row = new Array();
+                    headers.forEach(function (item, index) {
+                        row.push(data[item][key]);
+                    });
+                    this.data.push(row);
+                }
+              },
+              (error) => {
+                throw new Error(error.statusText);
+              }
+          )
+
       this.setStatus(StoreStatus.ready);
     } catch (ex) {
-      this.setStatus(StoreStatus.failed);
+      console.log(ex);
     }
   }
 
-  @action setDatamarts(newValue: IDatamart[]) {
-    this.datamarts.clear();
-    this.datamarts.push(...newValue);
-  }
 
   getView = () => <View viewModel={this} />;
 }
