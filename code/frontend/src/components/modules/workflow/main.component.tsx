@@ -3,29 +3,13 @@ import { observer } from "mobx-react-lite";
 import ViewModel from "./viewModel";
 import IViewProps from "../../../models/iViewProps";
 import { useTranslation } from "react-i18next";
-import workspacesStore from "../../../stores/workspaces.store";
 import Sidebar from "./sidebar";
-import { useLocalObservable } from "mobx-react-lite";
 import ReactFlow, {
   ReactFlowProvider,
-  addEdge,
-  removeElements,
   Controls,
   OnLoadParams,
-  Connection,
-  Edge,
-  FlowElement,
-  Node as FlowNode,
-  Elements,
-  XYPosition,
-  ArrowHeadType,
 } from "react-flow-renderer";
-import { v4 as uuidv4 } from "uuid";
 import nodes, { NodeType } from "./nodes";
-import Button from "@material-ui/core/Button";
-import WorkflowHelper from "../../../utils/helpers/workflowHelper";
-import { NodeData } from "../../../models/workflow";
-import { toJS } from "mobx";
 import PropertiesDialog from "./propertiesDialog";
 import Fab from "@material-ui/core/Fab";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
