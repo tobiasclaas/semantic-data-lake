@@ -15,7 +15,7 @@ export const ItemContainer = withStyles(() => ({
     display: "flex",
     margin: "0px 8px 16px 8px",
     flex: 1,
-    flexDirection: "column",
+    flexDirection: "column"
   },
 }))(Paper);
 
@@ -41,13 +41,6 @@ export const FooterGridItem = withStyles(() => ({
     display: "flex",
   },
 }))(Grid);
-
-export const FooterButton = withStyles(() => ({
-  root: {
-    flex: 1,
-    color: "red",
-  },
-}))(Button);
 
 export const BodyTypography = withStyles(() => ({
   root: {

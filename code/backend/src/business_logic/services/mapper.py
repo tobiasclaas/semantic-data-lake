@@ -1,5 +1,7 @@
 import json
 
+from http import HTTPStatus
+
 from database.models import *
 
 
@@ -24,8 +26,23 @@ def __state_to_string__(state: DatamartState):
 
 
 def mapper(model):
+    """
+    Maps input model to desired dictionary object, to be shown in frontend.
+    :param model:
+    :return: dictionary object
+    """
     if model is None:
         return None
+
+    if type(model) is HTTPStatus:
+        return model
+
+    # ===== Workspace ==============================================================================
+    if isinstance(model, Workspace):
+        return {
+            "id": str(model.id),
+            "name": model.name
+        }
 
     # ===== user ===================================================================================
     if isinstance(model, User):
@@ -34,6 +51,15 @@ def mapper(model):
             "firstname": model.firstname,
             "lastname": model.lastname,
             "isAdmin": model.is_admin
+        }
+
+    # ===== annotation =============================================================================
+    if isinstance(model, Annotation):
+        return {
+            "datamart_id": str(model.datamart_id.id),
+            "data_attribute": model.data_attribute,
+            "ontology_attribute": model.ontology_attribute,
+            "comment": model.comment
         }
 
     # ===== datamart status ========================================================================
@@ -97,12 +123,16 @@ def mapper(model):
     # ===== metadata ===============================================================================
     if isinstance(model, Metadata):
         heritage = []
-        for ancestor in model.heritage:
-            heritage.append(mapper(ancestor.fetch()))
+        try:
+            for ancestor in model.heritage:
+                heritage.append(mapper(ancestor.fetch()))
+        except Exception as e:
+            # If the any datamart from heritage is deleted, this will return except here
+            print ("Heritage datamart is not found")
+            heritage = []
 
         return {
             "createdAt": model.created_at.isoformat() if model.created_by else None,
-            "createdBy": mapper(model.created_by.fetch()),
             "heritage": heritage,
             "constructionCode": model.construction_code,
             "constructionQuery": model.construction_query,
@@ -116,9 +146,18 @@ def mapper(model):
         return {
             "uid": model.uid,
             "humanReadableName": model.human_readable_name,
+            "workspace_id": model.workspace_id,
             "comment": model.comment,
             "metadata": mapper(model.metadata),
             "status": mapper(model.status)
+        }
+
+    # ===== Ontology ===============================================================================
+    if isinstance(model, Ontology):
+        return {
+            "id": str(model.id),
+            "name": model.name,
+            "workspace_id": str(model.workspace.id)
         }
 
     else:

@@ -3,7 +3,6 @@ import Paper from "@material-ui/core/Paper";
 import {
   BodyGridItem,
   BodyTypography,
-  FooterButton,
   FooterGridItem,
   ItemContainer,
   ItemGrid,
@@ -13,6 +12,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Fade from "@material-ui/core/Fade";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Grid from "@material-ui/core/Grid";
+import ItemButton from "./button";
+import { red } from "@material-ui/core/colors";
 
 export interface ItemProps {
   title: string;
@@ -22,6 +24,7 @@ export interface ItemProps {
 const Item: React.FC<ItemProps & React.ComponentProps<typeof Paper>> = ({
   title,
   onDelete,
+  children,
   ...rest
 }) => {
   const [elevation, setElevation] = useState<number>(2);
@@ -46,12 +49,13 @@ const Item: React.FC<ItemProps & React.ComponentProps<typeof Paper>> = ({
               <BodyTypography variant="subtitle1">{title}</BodyTypography>
             </Tooltip>
           </BodyGridItem>
-          <FooterGridItem item>
+          <FooterGridItem item container spacing={1}>
             {onDelete && (
-              <FooterButton variant="outlined" onClick={onDelete}>
+              <ItemButton htmlColor={red[500]} onClick={onDelete}>
                 <DeleteIcon fontSize="small" />
-              </FooterButton>
+              </ItemButton>
             )}
+            {children}
           </FooterGridItem>
         </ItemGrid>
       </ItemContainer>

@@ -8,9 +8,23 @@ from database.data_access import user_data_access
 
 
 class Current(Resource):
-    @jwt_required
+
+    
     def post(self):
+        """
+        # ==================================================================================================
+        :return:
+        Try
+        (Check Parameter email
+        Check Parameter user )
+        :exception
+        :return exception
+
+        # ==================================================================================================
+
+        """
         try:
+
             email = get_jwt_identity()["email"]
             user = user_data_access.get_by_email(email)
             return jsonify(mapper(user))

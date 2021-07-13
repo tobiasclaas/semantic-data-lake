@@ -1,3 +1,5 @@
+
+from pyspark import SparkContext, SparkConf
 from pyspark.sql.dataframe import DataFrame
 from pyspark.sql.session import SparkSession
 
@@ -12,15 +14,14 @@ class SparkHelper:
     def __init__(self, app_name):
         self.settings = Settings()
         try:
+            conf = SparkConf().set("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.0," +
+                                                          "org.postgresql:postgresql:42.2.18,"+
+                                                          "com.databricks:spark-xml_2.12:0.10.0")
+            SparkContext(master="local", conf=conf) # For fixing "Failed to create pysparkSession" error        
             self.spark_session = SparkSession.builder \
                 .master(self.settings.spark_master) \
-                .appName(app_name) \
-                .config('spark.jars.packages',
-                        "org.mongodb.spark:mongo-spark-connector_2.12:3.0.0," +
-                        "org.postgresql:postgresql:42.2.18," +
-                        "com.databricks:spark-xml_2.12:0.10.0"
-                        ) \
-                .getOrCreate()
+                .appName(app_name).getOrCreate() \
+                
         except Exception as err:
             print(err)
             self.__raise("Failed to create SparkSession")
@@ -48,7 +49,7 @@ class SparkHelper:
                 .format("com.mongodb.spark.sql.DefaultSource") \
                 .option("spark.mongodb.input.uri", uri) \
                 .option("collection", f"{storage.collection}") \
-                .load()
+                .load().drop("_id")
         except Exception as err:
             print(err)
             self.__raise(f"Failed to read from mongodb ({uri} - {storage.collection})")
@@ -164,6 +165,7 @@ class SparkHelper:
             return self.spark_session.read \
                 .format("com.databricks.spark.xml") \
                 .option("rowTag", storage.row_tag) \
+                .option("rootTag", storage.root_tag) \
                 .load(uri)
         except Exception as err:
             print(err)
@@ -177,7 +179,6 @@ class SparkHelper:
         try:
             dataframe.write \
                 .format("com.databricks.spark.xml") \
-                .option("rowTag", target.row_tag) \
                 .mode("overwrite") \
                 .save(uri)
             return uri

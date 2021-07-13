@@ -1,49 +1,32 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import ViewModel from "./viewModel";
 import IViewProps from "../../../models/iViewProps";
 import { useTranslation } from "react-i18next";
-import workspacesStore from "../../../stores/workspaces.store";
 import Sidebar from "./sidebar";
-import { useLocalObservable } from "mobx-react-lite";
 import ReactFlow, {
   ReactFlowProvider,
-  addEdge,
-  removeElements,
   Controls,
   OnLoadParams,
-  Connection,
-  Edge,
-  FlowElement,
-  Node as FlowNode,
-  Elements,
-  XYPosition,
 } from "react-flow-renderer";
-import { v4 as uuidv4 } from "uuid";
+import nodes, { NodeType } from "./nodes";
+import PropertiesDialog from "./propertiesDialog";
+import Fab from "@material-ui/core/Fab";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import { green } from "@material-ui/core/colors";
+import routingStore from "../../../stores/routing.store";
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [elements, setElements] = useState<Elements<any>>([]);
-
-  const onConnect = (params: Edge<any> | Connection) =>
-    setElements((els) => addEdge(params, els));
-
-  const onElementsRemove = (elementsToRemove: Elements<any>) =>
-    setElements((els) => removeElements(elementsToRemove, els));
+  const { t } = useTranslation();
+  useEffect(() => {
+    viewModel.registerIntevals();
+    return () => viewModel.deregisterIntevals();
+  });
 
   const onLoad = (_reactFlowInstance: OnLoadParams<any>) =>
     setReactFlowInstance(_reactFlowInstance);
-
-  const generateNode = (type: string, position: XYPosition) => {
-    let node: FlowNode<any> = {
-      id: uuidv4(),
-      position,
-      data: { label: `${type} node` },
-    };
-
-    return node;
-  };
 
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -54,33 +37,62 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
     event.preventDefault();
     if (!reactFlowWrapper.current) return;
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData("application/reactflow");
+    const type = event.dataTransfer.getData(
+      "application/reactflow"
+    ) as NodeType;
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
 
-    setElements((es) => es.concat(generateNode(type, position)));
+    viewModel.addNode(type, position);
   };
 
   return (
-    <div style={{ flex: 1, display: "flex" }}>
-      <ReactFlowProvider>
-        <Sidebar viewModel={viewModel} />
-        <div style={{ flex: 1 }} ref={reactFlowWrapper}>
-          <ReactFlow
-            elements={elements}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            onLoad={onLoad}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-          >
-            <Controls />
-          </ReactFlow>
-        </div>
-      </ReactFlowProvider>
-    </div>
+    <React.Fragment>
+      <div style={{ flex: 1, display: "flex" }}>
+        <ReactFlowProvider>
+          <Sidebar viewModel={viewModel} />
+          <div style={{ flex: 1 }} ref={reactFlowWrapper}>
+            <ReactFlow
+              elements={viewModel.elements.slice()}
+              nodeTypes={nodes}
+              onElementsRemove={(e) => viewModel.removeElements(e)}
+              onConnect={(e) => viewModel.addEdge(e)}
+              onLoad={onLoad}
+              onNodeContextMenu={(e, node) => {
+                e.preventDefault();
+                viewModel.openPropertiesModal(node);
+              }}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+            >
+              <Controls />
+            </ReactFlow>
+          </div>
+        </ReactFlowProvider>
+      </div>
+      <PropertiesDialog viewModel={viewModel} />
+      <Fab
+        style={{
+          backgroundColor: green[500],
+          position: "absolute",
+          bottom: "1rem",
+          right: "1rem",
+          zIndex: 10000,
+        }}
+        variant="extended"
+        size="medium"
+        color="primary"
+        onClick={async () => {
+          await viewModel.submit();
+          routingStore.history.push("/dataset-management");
+        }}
+      >
+        <PlayArrowIcon style={{ marginRight: "0.4rem" }} />
+        {t("generic.execute")}
+      </Fab>
+    </React.Fragment>
   );
 });
 

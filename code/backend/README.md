@@ -33,4 +33,4 @@ To run the backend python 3.9 is required.
 
 ### With Docker
 
-- docker-compose up
+- (sudo) docker-compose up

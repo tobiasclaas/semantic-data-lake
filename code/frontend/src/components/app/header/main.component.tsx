@@ -26,7 +26,7 @@ const Header: React.FC = () => {
           <Button color="inherit" onClick={goto("/dashboard")}>
             {t("header.dashboard")}
           </Button>
-          <Button color="inherit" onClick={goto("/data-management")}>
+          <Button color="inherit" onClick={goto("/dataset-management")}>
             {t("header.data")}
           </Button>
           <Button color="inherit" onClick={goto("/ontology-management")}>
@@ -34,6 +34,9 @@ const Header: React.FC = () => {
           </Button>
           <Button color="inherit" onClick={goto("/workflow")}>
             {t("header.workflow")}
+          </Button>
+          <Button color="inherit" onClick={goto("/zeppelin")}>
+            {t("header.zeppelin")}
           </Button>
           <div style={{ flexGrow: 1 }} />
           <WorkspaceChanger />
