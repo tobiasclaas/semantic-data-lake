@@ -188,8 +188,7 @@ services:
         - 1234:8080
       user: root
       volumes:
-        - ../zeppelin/zeppelin-conf:/opt/zeppelin/conf
-        - ../zeppelin/notebook:/opt/zeppelin/notebook:rw
+        - ../zeppelin//zeppelin-site.xml:/opt/zeppelin/conf/zeppelin-site.xml
       environment:
         - "SPARK_MASTER=spark://master:7077"
       env_file:
