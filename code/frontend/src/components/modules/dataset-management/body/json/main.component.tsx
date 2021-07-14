@@ -19,7 +19,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
       /**
        * Return
        * Distinct file selection json
-       * Parameters Comment, targetstorage
+       * Parameters Comment, targetstorage.
        */
     <React.Fragment>
       <Grid item container xs>

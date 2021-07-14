@@ -14,7 +14,7 @@ class ViewModel extends BodyViewModel {
   /**
    *
    * @param formData
-   * param targetstorage, comment
+   * param targetstorage, comment.
    */
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
