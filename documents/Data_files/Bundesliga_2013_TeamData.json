@@ -1,0 +1,1525 @@
+{   
+    "season" : {
+        "Season" : "2013",
+        "TeamData" : [ 
+            {
+                "TeamName" : "vfl-wolfsburg",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Benaglio, Diego"
+                    }, 
+                    {
+                        "Player_Name" : "Grün, Max"
+                    }, 
+                    {
+                        "Player_Name" : "Hasebe, Makoto"
+                    }, 
+                    {
+                        "Player_Name" : "Klose, Timm"
+                    }, 
+                    {
+                        "Player_Name" : "Knoche, Robin"
+                    }, 
+                    {
+                        "Player_Name" : "Naldo"
+                    }, 
+                    {
+                        "Player_Name" : "Ochs, Patrick"
+                    }, 
+                    {
+                        "Player_Name" : "Rodriguez, Ricardo"
+                    }, 
+                    {
+                        "Player_Name" : "Schäfer, Marcel"
+                    }, 
+                    {
+                        "Player_Name" : "Träsch, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Arnold, Maximilian"
+                    }, 
+                    {
+                        "Player_Name" : "Caligiuri, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "De Bruyne, Kevin"
+                    }, 
+                    {
+                        "Player_Name" : "Diego"
+                    }, 
+                    {
+                        "Player_Name" : "Evseev, Willi"
+                    }, 
+                    {
+                        "Player_Name" : "Junior Malanda"
+                    }, 
+                    {
+                        "Player_Name" : "Koo, Ja-Cheol"
+                    }, 
+                    {
+                        "Player_Name" : "Luiz Gustavo"
+                    }, 
+                    {
+                        "Player_Name" : "Medojevic, Slobodan"
+                    }, 
+                    {
+                        "Player_Name" : "Polak, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Vieirinha"
+                    }, 
+                    {
+                        "Player_Name" : "Dost, Bas"
+                    }, 
+                    {
+                        "Player_Name" : "Kutschke, Stefan"
+                    }, 
+                    {
+                        "Player_Name" : "Olic, Ivica"
+                    }, 
+                    {
+                        "Player_Name" : "Perisic, Ivan"
+                    }, 
+                    {
+                        "Player_Name" : "Sio, Giovanni"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "vfb-stuttgart",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Kirschbaum, Thorsten"
+                    }, 
+                    {
+                        "Player_Name" : "Ulreich, Sven"
+                    }, 
+                    {
+                        "Player_Name" : "Boka, Arthur"
+                    }, 
+                    {
+                        "Player_Name" : "Haggui, Karim"
+                    }, 
+                    {
+                        "Player_Name" : "Molinaro, Cristian"
+                    }, 
+                    {
+                        "Player_Name" : "Niedermeier, Georg"
+                    }, 
+                    {
+                        "Player_Name" : "Röcker, Benedikt"
+                    }, 
+                    {
+                        "Player_Name" : "Rüdiger, Antonio"
+                    }, 
+                    {
+                        "Player_Name" : "Sakai, Gotoku"
+                    }, 
+                    {
+                        "Player_Name" : "Schwaab, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "Tasci, Serdar"
+                    }, 
+                    {
+                        "Player_Name" : "Didavi, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "Gentner, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Gruezo, Carlos"
+                    }, 
+                    {
+                        "Player_Name" : "Khedira, Rani"
+                    }, 
+                    {
+                        "Player_Name" : "Kvist, William"
+                    }, 
+                    {
+                        "Player_Name" : "Leitner, Moritz"
+                    }, 
+                    {
+                        "Player_Name" : "Maxim, Alexandru"
+                    }, 
+                    {
+                        "Player_Name" : "Rausch, Konstantin"
+                    }, 
+                    {
+                        "Player_Name" : "Sararer, Sercan"
+                    }, 
+                    {
+                        "Player_Name" : "Traoré, Ibrahima"
+                    }, 
+                    {
+                        "Player_Name" : "Yalcin, Robin"
+                    }, 
+                    {
+                        "Player_Name" : "Abdellaoue, Mohammed"
+                    }, 
+                    {
+                        "Player_Name" : "Cacau"
+                    }, 
+                    {
+                        "Player_Name" : "Harnik, Martin"
+                    }, 
+                    {
+                        "Player_Name" : "Ibisevic, Vedad"
+                    }, 
+                    {
+                        "Player_Name" : "Werner, Timo"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "fc-schalke",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Fährmann, Ralf"
+                    }, 
+                    {
+                        "Player_Name" : "Hildebrand, Timo"
+                    }, 
+                    {
+                        "Player_Name" : "Aogo, Dennis"
+                    }, 
+                    {
+                        "Player_Name" : "Felipe Santana"
+                    }, 
+                    {
+                        "Player_Name" : "Fuchs, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Höwedes, Benedikt"
+                    }, 
+                    {
+                        "Player_Name" : "Kolasinac, Sead"
+                    }, 
+                    {
+                        "Player_Name" : "Matip, Joel"
+                    }, 
+                    {
+                        "Player_Name" : "Max, Philipp"
+                    }, 
+                    {
+                        "Player_Name" : "Neustädter, Roman"
+                    }, 
+                    {
+                        "Player_Name" : "Papadopoulos, Kyriakos"
+                    }, 
+                    {
+                        "Player_Name" : "Uchida, Atsuto"
+                    }, 
+                    {
+                        "Player_Name" : "Annan, Anthony"
+                    }, 
+                    {
+                        "Player_Name" : "Ayhan, Kaan"
+                    }, 
+                    {
+                        "Player_Name" : "Barnetta, Tranquillo"
+                    }, 
+                    {
+                        "Player_Name" : "Boateng, Kevin-Prince"
+                    }, 
+                    {
+                        "Player_Name" : "Clemens, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Draxler, Julian"
+                    }, 
+                    {
+                        "Player_Name" : "Goretzka, Leon"
+                    }, 
+                    {
+                        "Player_Name" : "Höger, Marco"
+                    }, 
+                    {
+                        "Player_Name" : "Hoogland, Tim"
+                    }, 
+                    {
+                        "Player_Name" : "Jones, Jermaine"
+                    }, 
+                    {
+                        "Player_Name" : "Kirchhoff, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Meyer, Max"
+                    }, 
+                    {
+                        "Player_Name" : "Sané, Leroy"
+                    }, 
+                    {
+                        "Player_Name" : "Farfan, Jefferson"
+                    }, 
+                    {
+                        "Player_Name" : "Huntelaar, Klaas Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Obasi, Chinedu"
+                    }, 
+                    {
+                        "Player_Name" : "Pukki, Teemu"
+                    }, 
+                    {
+                        "Player_Name" : "Szalai, Adam"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "fc-nuernberg",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Rakovsky, Patrick"
+                    }, 
+                    {
+                        "Player_Name" : "Schäfer, Raphael"
+                    }, 
+                    {
+                        "Player_Name" : "Angha, Martin"
+                    }, 
+                    {
+                        "Player_Name" : "Chandler, Timothy"
+                    }, 
+                    {
+                        "Player_Name" : "Dabanli, Berkay"
+                    }, 
+                    {
+                        "Player_Name" : "Hasebe, Makoto"
+                    }, 
+                    {
+                        "Player_Name" : "Hlousek, Adam"
+                    }, 
+                    {
+                        "Player_Name" : "Nilsson, Per"
+                    }, 
+                    {
+                        "Player_Name" : "Pachonik, Tobias"
+                    }, 
+                    {
+                        "Player_Name" : "Pinola, Javier"
+                    }, 
+                    {
+                        "Player_Name" : "Plattenhardt, Marvin"
+                    }, 
+                    {
+                        "Player_Name" : "Pogatetz, Emanuel"
+                    }, 
+                    {
+                        "Player_Name" : "Stark, Niklas"
+                    }, 
+                    {
+                        "Player_Name" : "Balitsch, Hanno"
+                    }, 
+                    {
+                        "Player_Name" : "Campana, José"
+                    }, 
+                    {
+                        "Player_Name" : "Esswein, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Feulner, Markus"
+                    }, 
+                    {
+                        "Player_Name" : "Frantz, Mike"
+                    }, 
+                    {
+                        "Player_Name" : "Gebhart, Timo"
+                    }, 
+                    {
+                        "Player_Name" : "Kiyotake, Hiroshi"
+                    }, 
+                    {
+                        "Player_Name" : "Petrak, Ondrej"
+                    }, 
+                    {
+                        "Player_Name" : "Tekerci, Sinan"
+                    }, 
+                    {
+                        "Player_Name" : "Colak, Antonio-Mirko"
+                    }, 
+                    {
+                        "Player_Name" : "Drmic, Josip"
+                    }, 
+                    {
+                        "Player_Name" : "Ginczek, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "Mak, Robert"
+                    }, 
+                    {
+                        "Player_Name" : "Pekhart, Tomas"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "bayern-muenchen",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Neuer, Manuel"
+                    }, 
+                    {
+                        "Player_Name" : "Raeder, Lukas"
+                    }, 
+                    {
+                        "Player_Name" : "Starke, Tom"
+                    }, 
+                    {
+                        "Player_Name" : "Alaba, David"
+                    }, 
+                    {
+                        "Player_Name" : "Boateng, Jerome"
+                    }, 
+                    {
+                        "Player_Name" : "Contento, Diego"
+                    }, 
+                    {
+                        "Player_Name" : "Dante"
+                    }, 
+                    {
+                        "Player_Name" : "Javi Martinez"
+                    }, 
+                    {
+                        "Player_Name" : "Lahm, Philipp"
+                    }, 
+                    {
+                        "Player_Name" : "Rafinha"
+                    }, 
+                    {
+                        "Player_Name" : "van Buyten, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "Götze, Mario"
+                    }, 
+                    {
+                        "Player_Name" : "Höjbjerg, Pierre-Emile"
+                    }, 
+                    {
+                        "Player_Name" : "Kirchhoff, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Kroos, Toni"
+                    }, 
+                    {
+                        "Player_Name" : "Müller, Thomas"
+                    }, 
+                    {
+                        "Player_Name" : "Ribery, Franck"
+                    }, 
+                    {
+                        "Player_Name" : "Robben, Arjen"
+                    }, 
+                    {
+                        "Player_Name" : "Sallahi, Ylli"
+                    }, 
+                    {
+                        "Player_Name" : "Schweinsteiger, Bastian"
+                    }, 
+                    {
+                        "Player_Name" : "Shaqiri, Xherdan"
+                    }, 
+                    {
+                        "Player_Name" : "Thiago"
+                    }, 
+                    {
+                        "Player_Name" : "Weiser, Mitchell"
+                    }, 
+                    {
+                        "Player_Name" : "Mandzukic, Mario"
+                    }, 
+                    {
+                        "Player_Name" : "Pizarro, Claudio"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "borussia-mönchengladbach",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "ter Stegen, Marc-André"
+                    }, 
+                    {
+                        "Player_Name" : "Alvaro Dominguez"
+                    }, 
+                    {
+                        "Player_Name" : "Brouwers, Roel"
+                    }, 
+                    {
+                        "Player_Name" : "Daems, Filip"
+                    }, 
+                    {
+                        "Player_Name" : "Jantschke, Tony"
+                    }, 
+                    {
+                        "Player_Name" : "Korb, Julian"
+                    }, 
+                    {
+                        "Player_Name" : "Nordtveit, Havard"
+                    }, 
+                    {
+                        "Player_Name" : "Stranzl, Martin"
+                    }, 
+                    {
+                        "Player_Name" : "Wendt, Oscar"
+                    }, 
+                    {
+                        "Player_Name" : "Arango, Juan"
+                    }, 
+                    {
+                        "Player_Name" : "Herrmann, Patrick"
+                    }, 
+                    {
+                        "Player_Name" : "Kramer, Christoph"
+                    }, 
+                    {
+                        "Player_Name" : "Marx, Thorben"
+                    }, 
+                    {
+                        "Player_Name" : "Rupp, Lukas"
+                    }, 
+                    {
+                        "Player_Name" : "Xhaka, Granit"
+                    }, 
+                    {
+                        "Player_Name" : "de Jong, Luuk"
+                    }, 
+                    {
+                        "Player_Name" : "Hrgota, Branimir"
+                    }, 
+                    {
+                        "Player_Name" : "Kruse, Max"
+                    }, 
+                    {
+                        "Player_Name" : "Mlapa, Peniel"
+                    }, 
+                    {
+                        "Player_Name" : "Raffael"
+                    }, 
+                    {
+                        "Player_Name" : "Younes, Amin"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "fsv-mainz",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Karius, Loris"
+                    }, 
+                    {
+                        "Player_Name" : "Müller, Heinz"
+                    }, 
+                    {
+                        "Player_Name" : "Wetklo, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Bell, Stefan"
+                    }, 
+                    {
+                        "Player_Name" : "Bungert, Niko"
+                    }, 
+                    {
+                        "Player_Name" : "Fathi, Malik"
+                    }, 
+                    {
+                        "Player_Name" : "Junior Diaz"
+                    }, 
+                    {
+                        "Player_Name" : "Koch, Julian"
+                    }, 
+                    {
+                        "Player_Name" : "Noveski, Nikolce"
+                    }, 
+                    {
+                        "Player_Name" : "Park, Joo-Ho"
+                    }, 
+                    {
+                        "Player_Name" : "Pospech, Zdenek"
+                    }, 
+                    {
+                        "Player_Name" : "Svensson, Bo"
+                    }, 
+                    {
+                        "Player_Name" : "Baumgartlinger, Julian"
+                    }, 
+                    {
+                        "Player_Name" : "Geis, Johannes"
+                    }, 
+                    {
+                        "Player_Name" : "Koo, Ja-Cheol"
+                    }, 
+                    {
+                        "Player_Name" : "Malli, Yunus"
+                    }, 
+                    {
+                        "Player_Name" : "Moritz, Christoph"
+                    }, 
+                    {
+                        "Player_Name" : "Müller, Nicolai"
+                    }, 
+                    {
+                        "Player_Name" : "Nedelev, Todor"
+                    }, 
+                    {
+                        "Player_Name" : "Parker, Shawn"
+                    }, 
+                    {
+                        "Player_Name" : "Saller, Benedikt"
+                    }, 
+                    {
+                        "Player_Name" : "Soto, Elkin"
+                    }, 
+                    {
+                        "Player_Name" : "Zimling, Niki"
+                    }, 
+                    {
+                        "Player_Name" : "Choupo-Moting, Eric Maxim"
+                    }, 
+                    {
+                        "Player_Name" : "Okazaki, Shinji"
+                    }, 
+                    {
+                        "Player_Name" : "Polter, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Schahin, Dani"
+                    }, 
+                    {
+                        "Player_Name" : "Sliskovic, Petar"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "bayer-leverkusen",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Leno, Bernd"
+                    }, 
+                    {
+                        "Player_Name" : "Boenisch, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Donati, Giulio"
+                    }, 
+                    {
+                        "Player_Name" : "Hilbert, Roberto"
+                    }, 
+                    {
+                        "Player_Name" : "Spahic, Emir"
+                    }, 
+                    {
+                        "Player_Name" : "Stafylidis, Konstantinos"
+                    }, 
+                    {
+                        "Player_Name" : "Toprak, Ömer"
+                    }, 
+                    {
+                        "Player_Name" : "Wollscheid, Philipp"
+                    }, 
+                    {
+                        "Player_Name" : "Bender, Lars"
+                    }, 
+                    {
+                        "Player_Name" : "Brandt, Julian"
+                    }, 
+                    {
+                        "Player_Name" : "Can, Emre"
+                    }, 
+                    {
+                        "Player_Name" : "Castro, Gonzalo"
+                    }, 
+                    {
+                        "Player_Name" : "Guardado, Andres"
+                    }, 
+                    {
+                        "Player_Name" : "Hegeler, Jens"
+                    }, 
+                    {
+                        "Player_Name" : "Kohr, Dominik"
+                    }, 
+                    {
+                        "Player_Name" : "Öztunali, Levin"
+                    }, 
+                    {
+                        "Player_Name" : "Reinartz, Stefan"
+                    }, 
+                    {
+                        "Player_Name" : "Rolfes, Simon"
+                    }, 
+                    {
+                        "Player_Name" : "Ryu, Seung-Woo"
+                    }, 
+                    {
+                        "Player_Name" : "Sam, Sidney"
+                    }, 
+                    {
+                        "Player_Name" : "Derdiyok, Eren"
+                    }, 
+                    {
+                        "Player_Name" : "Kießling, Stefan"
+                    }, 
+                    {
+                        "Player_Name" : "Kruse, Robbie"
+                    }, 
+                    {
+                        "Player_Name" : "Son, Heung-Min"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "1899-hoffenheim",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Casteels, Koen"
+                    }, 
+                    {
+                        "Player_Name" : "Grahl, Jens"
+                    }, 
+                    {
+                        "Player_Name" : "Stolz, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Abraham, David"
+                    }, 
+                    {
+                        "Player_Name" : "Beck, Andreas"
+                    }, 
+                    {
+                        "Player_Name" : "Süle, Niklas"
+                    }, 
+                    {
+                        "Player_Name" : "Thesker, Stefan"
+                    }, 
+                    {
+                        "Player_Name" : "Toljan, Jeremy"
+                    }, 
+                    {
+                        "Player_Name" : "Vestergaard, Jannik"
+                    }, 
+                    {
+                        "Player_Name" : "Elyounoussi, Tarik"
+                    }, 
+                    {
+                        "Player_Name" : "Hamad, Jiloan"
+                    }, 
+                    {
+                        "Player_Name" : "Herdling, Kai"
+                    }, 
+                    {
+                        "Player_Name" : "Johnson, Fabian"
+                    }, 
+                    {
+                        "Player_Name" : "Karaman, Kenan"
+                    }, 
+                    {
+                        "Player_Name" : "Nazario, Bruno"
+                    }, 
+                    {
+                        "Player_Name" : "Polanski, Eugen"
+                    }, 
+                    {
+                        "Player_Name" : "Rudy, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Salihovic, Sejad"
+                    }, 
+                    {
+                        "Player_Name" : "Strobl, Tobias"
+                    }, 
+                    {
+                        "Player_Name" : "Szarka, Robin"
+                    }, 
+                    {
+                        "Player_Name" : "Gyau, Joseph-Claude"
+                    }, 
+                    {
+                        "Player_Name" : "Modeste, Anthony"
+                    }, 
+                    {
+                        "Player_Name" : "Roberto Firmino"
+                    }, 
+                    {
+                        "Player_Name" : "Schipplock, Sven"
+                    }, 
+                    {
+                        "Player_Name" : "Volland, Kevin"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "hertha-bsc",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Gersbeck, Marius"
+                    }, 
+                    {
+                        "Player_Name" : "Jarstein, Rune"
+                    }, 
+                    {
+                        "Player_Name" : "Kraft, Thomas"
+                    }, 
+                    {
+                        "Player_Name" : "Brooks, John Anthony"
+                    }, 
+                    {
+                        "Player_Name" : "Holland, Fabian"
+                    }, 
+                    {
+                        "Player_Name" : "Janker, Christoph"
+                    }, 
+                    {
+                        "Player_Name" : "Kobiashvili, Levan"
+                    }, 
+                    {
+                        "Player_Name" : "Langkamp, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Pekarik, Peter"
+                    }, 
+                    {
+                        "Player_Name" : "Schulz, Nico"
+                    }, 
+                    {
+                        "Player_Name" : "van den Bergh, Johannes"
+                    }, 
+                    {
+                        "Player_Name" : "Baumjohann, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Ben-Hatira, Änis"
+                    }, 
+                    {
+                        "Player_Name" : "Cigerci, Tolga"
+                    }, 
+                    {
+                        "Player_Name" : "Hosogai, Hajime"
+                    }, 
+                    {
+                        "Player_Name" : "Kluge, Peer"
+                    }, 
+                    {
+                        "Player_Name" : "Lustenberger, Fabian"
+                    }, 
+                    {
+                        "Player_Name" : "Mukhtar, Hany"
+                    }, 
+                    {
+                        "Player_Name" : "Ndjeng, Marcel"
+                    }, 
+                    {
+                        "Player_Name" : "Niemeyer, Peter"
+                    }, 
+                    {
+                        "Player_Name" : "Ronny"
+                    }, 
+                    {
+                        "Player_Name" : "Skjelbred, Per Ciljan"
+                    }, 
+                    {
+                        "Player_Name" : "Allagui, Sami"
+                    }, 
+                    {
+                        "Player_Name" : "Ramos, Adrian"
+                    }, 
+                    {
+                        "Player_Name" : "Wagner, Sandro"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "hannover-96",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Zieler, Ron-Robert"
+                    }, 
+                    {
+                        "Player_Name" : "Cherundolo, Steven"
+                    }, 
+                    {
+                        "Player_Name" : "Haggui, Karim"
+                    }, 
+                    {
+                        "Player_Name" : "Hoffmann, Andre"
+                    }, 
+                    {
+                        "Player_Name" : "Marcelo"
+                    }, 
+                    {
+                        "Player_Name" : "Pander, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Pocognoli, Sebastien"
+                    }, 
+                    {
+                        "Player_Name" : "Sakai, Hiroki"
+                    }, 
+                    {
+                        "Player_Name" : "Sané, Salif"
+                    }, 
+                    {
+                        "Player_Name" : "Schulz, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Andreasen, Leon"
+                    }, 
+                    {
+                        "Player_Name" : "Avevor, Christopher"
+                    }, 
+                    {
+                        "Player_Name" : "Bittencourt, Leonardo"
+                    }, 
+                    {
+                        "Player_Name" : "Dierßen, Tim"
+                    }, 
+                    {
+                        "Player_Name" : "Huszti, Szabolcs"
+                    }, 
+                    {
+                        "Player_Name" : "Prib, Edgar"
+                    }, 
+                    {
+                        "Player_Name" : "Rajtoral, Frantisek"
+                    }, 
+                    {
+                        "Player_Name" : "Schlaudraff, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Schmiedebach, Manuel"
+                    }, 
+                    {
+                        "Player_Name" : "Diouf, Mame Biram"
+                    }, 
+                    {
+                        "Player_Name" : "Kadah, Deniz"
+                    }, 
+                    {
+                        "Player_Name" : "Rudnevs, Artjoms"
+                    }, 
+                    {
+                        "Player_Name" : "Sobiech, Artur"
+                    }, 
+                    {
+                        "Player_Name" : "Stindl, Lars"
+                    }, 
+                    {
+                        "Player_Name" : "Sulejmani, Valmir"
+                    }, 
+                    {
+                        "Player_Name" : "Ya Konan, Didier"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "hamburger-sv",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Adler, René"
+                    }, 
+                    {
+                        "Player_Name" : "Drobny, Jaroslav"
+                    }, 
+                    {
+                        "Player_Name" : "Aogo, Dennis"
+                    }, 
+                    {
+                        "Player_Name" : "Diekmeier, Dennis"
+                    }, 
+                    {
+                        "Player_Name" : "Djourou, Johan"
+                    }, 
+                    {
+                        "Player_Name" : "Mancienne, Michael"
+                    }, 
+                    {
+                        "Player_Name" : "Rajkovic, Slobodan"
+                    }, 
+                    {
+                        "Player_Name" : "Sobiech, Lasse"
+                    }, 
+                    {
+                        "Player_Name" : "Tah, Jonathan"
+                    }, 
+                    {
+                        "Player_Name" : "Westermann, Heiko"
+                    }, 
+                    {
+                        "Player_Name" : "Arslan, Tolgay"
+                    }, 
+                    {
+                        "Player_Name" : "Badelj, Milan"
+                    }, 
+                    {
+                        "Player_Name" : "Beister, Maximilian"
+                    }, 
+                    {
+                        "Player_Name" : "Bouy, Ouasim"
+                    }, 
+                    {
+                        "Player_Name" : "Calhanoglu, Hakan"
+                    }, 
+                    {
+                        "Player_Name" : "Demirbay, Kerem"
+                    }, 
+                    {
+                        "Player_Name" : "Ilicevic, Ivo"
+                    }, 
+                    {
+                        "Player_Name" : "Jansen, Marcell"
+                    }, 
+                    {
+                        "Player_Name" : "Jiracek, Petr"
+                    }, 
+                    {
+                        "Player_Name" : "Lam, Zhi-Gin"
+                    }, 
+                    {
+                        "Player_Name" : "Rincon, Tomas"
+                    }, 
+                    {
+                        "Player_Name" : "Tesche, Robert"
+                    }, 
+                    {
+                        "Player_Name" : "van der Vaart, Rafael"
+                    }, 
+                    {
+                        "Player_Name" : "John, Ola"
+                    }, 
+                    {
+                        "Player_Name" : "Lasogga, Pierre-Michel"
+                    }, 
+                    {
+                        "Player_Name" : "Maggio, Mattia"
+                    }, 
+                    {
+                        "Player_Name" : "Rudnevs, Artjoms"
+                    }, 
+                    {
+                        "Player_Name" : "Zoua, Jacques"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "sc-freiburg",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Baumann, Oliver"
+                    }, 
+                    {
+                        "Player_Name" : "Schwolow, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Diagne, Fallou"
+                    }, 
+                    {
+                        "Player_Name" : "Ginter, Matthias"
+                    }, 
+                    {
+                        "Player_Name" : "Günter, Christian"
+                    }, 
+                    {
+                        "Player_Name" : "Höhn, Immanuel"
+                    }, 
+                    {
+                        "Player_Name" : "Krmas, Pavel"
+                    }, 
+                    {
+                        "Player_Name" : "Lorenzoni, Nicolai"
+                    }, 
+                    {
+                        "Player_Name" : "Mujdza, Mensur"
+                    }, 
+                    {
+                        "Player_Name" : "Schraml, Tim"
+                    }, 
+                    {
+                        "Player_Name" : "Sorg, Oliver"
+                    }, 
+                    {
+                        "Player_Name" : "Albutat, Tim"
+                    }, 
+                    {
+                        "Player_Name" : "Coquelin, Francis"
+                    }, 
+                    {
+                        "Player_Name" : "Darida, Vladimir"
+                    }, 
+                    {
+                        "Player_Name" : "Fernandes, Gelson"
+                    }, 
+                    {
+                        "Player_Name" : "Höfler, Nicolas"
+                    }, 
+                    {
+                        "Player_Name" : "Kerk, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Klaus, Felix"
+                    }, 
+                    {
+                        "Player_Name" : "Laprevotte, Charles-Elie"
+                    }, 
+                    {
+                        "Player_Name" : "Pilar, Vaclav"
+                    }, 
+                    {
+                        "Player_Name" : "Schmid, Jonathan"
+                    }, 
+                    {
+                        "Player_Name" : "Schuster, Julian"
+                    }, 
+                    {
+                        "Player_Name" : "Terrazzino, Marco"
+                    }, 
+                    {
+                        "Player_Name" : "Zuck, Hendrick"
+                    }, 
+                    {
+                        "Player_Name" : "Freis, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Guedé, Karim"
+                    }, 
+                    {
+                        "Player_Name" : "Hanke, Mike"
+                    }, 
+                    {
+                        "Player_Name" : "Mehmedi, Admir"
+                    }, 
+                    {
+                        "Player_Name" : "Philipp, Maximilian"
+                    }, 
+                    {
+                        "Player_Name" : "Zulechner, Philipp"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "eintracht-frankfurt",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Trapp, Kevin"
+                    }, 
+                    {
+                        "Player_Name" : "Wiedwald, Felix"
+                    }, 
+                    {
+                        "Player_Name" : "Anderson"
+                    }, 
+                    {
+                        "Player_Name" : "Celozzi, Stefano"
+                    }, 
+                    {
+                        "Player_Name" : "Djakpa, Constant"
+                    }, 
+                    {
+                        "Player_Name" : "Jung, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Kempf, Marc-Oliver"
+                    }, 
+                    {
+                        "Player_Name" : "Madlung, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Oczipka, Bastian"
+                    }, 
+                    {
+                        "Player_Name" : "Russ, Marco"
+                    }, 
+                    {
+                        "Player_Name" : "Schröck, Stephan"
+                    }, 
+                    {
+                        "Player_Name" : "Zambrano, Carlos"
+                    }, 
+                    {
+                        "Player_Name" : "Aigner, Stefan"
+                    }, 
+                    {
+                        "Player_Name" : "Bakalorz, Marvin"
+                    }, 
+                    {
+                        "Player_Name" : "Barnetta, Tranquillo"
+                    }, 
+                    {
+                        "Player_Name" : "Flum, Johannes"
+                    }, 
+                    {
+                        "Player_Name" : "Inui, Takashi"
+                    }, 
+                    {
+                        "Player_Name" : "Kadlec, Vaclav"
+                    }, 
+                    {
+                        "Player_Name" : "Lanig, Martin"
+                    }, 
+                    {
+                        "Player_Name" : "Rode, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Rosenthal, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Schwegler, Pirmin"
+                    }, 
+                    {
+                        "Player_Name" : "Stendera, Marc"
+                    }, 
+                    {
+                        "Player_Name" : "Weis, Tobias"
+                    }, 
+                    {
+                        "Player_Name" : "Joselu"
+                    }, 
+                    {
+                        "Player_Name" : "Lakic, Srdjan"
+                    }, 
+                    {
+                        "Player_Name" : "Meier, Alexander"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "borussia-dortmund",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Langerak, Mitchell"
+                    }, 
+                    {
+                        "Player_Name" : "Weidenfeller, Roman"
+                    }, 
+                    {
+                        "Player_Name" : "Bender, Sven"
+                    }, 
+                    {
+                        "Player_Name" : "Durm, Erik"
+                    }, 
+                    {
+                        "Player_Name" : "Friedrich, Manuel"
+                    }, 
+                    {
+                        "Player_Name" : "Hummels, Mats"
+                    }, 
+                    {
+                        "Player_Name" : "Koray"
+                    }, 
+                    {
+                        "Player_Name" : "Piszczek, Lukasz"
+                    }, 
+                    {
+                        "Player_Name" : "Sarr, Marian"
+                    }, 
+                    {
+                        "Player_Name" : "Schmelzer, Marcel"
+                    }, 
+                    {
+                        "Player_Name" : "Sokratis"
+                    }, 
+                    {
+                        "Player_Name" : "Subotic, Neven"
+                    }, 
+                    {
+                        "Player_Name" : "Blaszczykowski, Jakub"
+                    }, 
+                    {
+                        "Player_Name" : "Großkreutz, Kevin"
+                    }, 
+                    {
+                        "Player_Name" : "Gündogan, Ilkay"
+                    }, 
+                    {
+                        "Player_Name" : "Hofmann, Jonas"
+                    }, 
+                    {
+                        "Player_Name" : "Jojic, Milos"
+                    }, 
+                    {
+                        "Player_Name" : "Kehl, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Kirch, Oliver"
+                    }, 
+                    {
+                        "Player_Name" : "Mkhitaryan, Henrikh"
+                    }, 
+                    {
+                        "Player_Name" : "Reus, Marco"
+                    }, 
+                    {
+                        "Player_Name" : "Sahin, Nuri"
+                    }, 
+                    {
+                        "Player_Name" : "Aubameyang, Pierre-Emerick"
+                    }, 
+                    {
+                        "Player_Name" : "Ducksch, Marvin"
+                    }, 
+                    {
+                        "Player_Name" : "Lewandowski, Robert"
+                    }, 
+                    {
+                        "Player_Name" : "Schieber, Julian"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "werder-bremen",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Mielitz, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Wolf, Raphael"
+                    }, 
+                    {
+                        "Player_Name" : "Caldirola, Luca"
+                    }, 
+                    {
+                        "Player_Name" : "Garcia, Santiago"
+                    }, 
+                    {
+                        "Player_Name" : "Gebre Selassie, Theodor"
+                    }, 
+                    {
+                        "Player_Name" : "Ignjovski, Aleksandar"
+                    }, 
+                    {
+                        "Player_Name" : "Lukimya, Assani"
+                    }, 
+                    {
+                        "Player_Name" : "Prödl, Sebastian"
+                    }, 
+                    {
+                        "Player_Name" : "Schmitz, Lukas"
+                    }, 
+                    {
+                        "Player_Name" : "Aycicek, Levent"
+                    }, 
+                    {
+                        "Player_Name" : "Bargfrede, Philipp"
+                    }, 
+                    {
+                        "Player_Name" : "Ekici, Mehmet"
+                    }, 
+                    {
+                        "Player_Name" : "Elia, Eljero"
+                    }, 
+                    {
+                        "Player_Name" : "Fritz, Clemens"
+                    }, 
+                    {
+                        "Player_Name" : "Hunt, Aaron"
+                    }, 
+                    {
+                        "Player_Name" : "Junuzovic, Zlatko"
+                    }, 
+                    {
+                        "Player_Name" : "Kobylanski, Martin"
+                    }, 
+                    {
+                        "Player_Name" : "Kroos, Felix"
+                    }, 
+                    {
+                        "Player_Name" : "Makiadi, Cedrick"
+                    }, 
+                    {
+                        "Player_Name" : "Obraniak, Ludovic"
+                    }, 
+                    {
+                        "Player_Name" : "Trybull, Tom"
+                    }, 
+                    {
+                        "Player_Name" : "Yildirim, Özkan"
+                    }, 
+                    {
+                        "Player_Name" : "Arnautovic, Marko"
+                    }, 
+                    {
+                        "Player_Name" : "di Santo, Franco"
+                    }, 
+                    {
+                        "Player_Name" : "Lorenzen, Melvyn"
+                    }, 
+                    {
+                        "Player_Name" : "Petersen, Nils"
+                    }, 
+                    {
+                        "Player_Name" : "Selke, Davie"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "eintracht-braunschweig",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Davari, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "Petkovic, Marjan"
+                    }, 
+                    {
+                        "Player_Name" : "Bicakcic, Ermin"
+                    }, 
+                    {
+                        "Player_Name" : "Caligiuri, Marco"
+                    }, 
+                    {
+                        "Player_Name" : "Correia, Marcel"
+                    }, 
+                    {
+                        "Player_Name" : "Dogan, Deniz"
+                    }, 
+                    {
+                        "Player_Name" : "Elabdellaoui, Omar"
+                    }, 
+                    {
+                        "Player_Name" : "Henn, Matthias"
+                    }, 
+                    {
+                        "Player_Name" : "Kessel, Benjamin"
+                    }, 
+                    {
+                        "Player_Name" : "Perthel, Timo"
+                    }, 
+                    {
+                        "Player_Name" : "Reichel, Ken"
+                    }, 
+                    {
+                        "Player_Name" : "Bellarabi, Karim"
+                    }, 
+                    {
+                        "Player_Name" : "Boland, Mirko"
+                    }, 
+                    {
+                        "Player_Name" : "Hochscheidt, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Khelifi, Salim"
+                    }, 
+                    {
+                        "Player_Name" : "Korte, Gianluca"
+                    }, 
+                    {
+                        "Player_Name" : "Kratz, Kevin"
+                    }, 
+                    {
+                        "Player_Name" : "Pfitzner, Marc"
+                    }, 
+                    {
+                        "Player_Name" : "Theuerkauf, Norman"
+                    }, 
+                    {
+                        "Player_Name" : "Vrancic, Damir"
+                    }, 
+                    {
+                        "Player_Name" : "Washausen, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Ademi, Orhan"
+                    }, 
+                    {
+                        "Player_Name" : "Jackson, Simeon"
+                    }, 
+                    {
+                        "Player_Name" : "Kruppke, Dennis"
+                    }, 
+                    {
+                        "Player_Name" : "Kumbela, Domi"
+                    }, 
+                    {
+                        "Player_Name" : "Nielsen, Havard"
+                    }, 
+                    {
+                        "Player_Name" : "Oehrl, Torsten"
+                    }
+                ]
+            }, 
+            {
+                "TeamName" : "fc-augsburg",
+                "PlayerData" : [ 
+                    {
+                        "Player_Name" : "Amsif, Mohamed"
+                    }, 
+                    {
+                        "Player_Name" : "Hitz, Marwin"
+                    }, 
+                    {
+                        "Player_Name" : "Manninger, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Callsen-Bracker, Jan-Ingwer"
+                    }, 
+                    {
+                        "Player_Name" : "de Jong, Marcel"
+                    }, 
+                    {
+                        "Player_Name" : "Hong, Jeong-Ho"
+                    }, 
+                    {
+                        "Player_Name" : "Klavan, Ragnar"
+                    }, 
+                    {
+                        "Player_Name" : "Ostrzolek, Matthias"
+                    }, 
+                    {
+                        "Player_Name" : "Philp, Ronny"
+                    }, 
+                    {
+                        "Player_Name" : "Reinhardt, Dominik"
+                    }, 
+                    {
+                        "Player_Name" : "Verhaegh, Paul"
+                    }, 
+                    {
+                        "Player_Name" : "Vogt, Kevin"
+                    }, 
+                    {
+                        "Player_Name" : "Altintop, Halil"
+                    }, 
+                    {
+                        "Player_Name" : "Baier, Daniel"
+                    }, 
+                    {
+                        "Player_Name" : "Esswein, Alexander"
+                    }, 
+                    {
+                        "Player_Name" : "Holzhauser, Raphael"
+                    }, 
+                    {
+                        "Player_Name" : "Ji, Dong-Won"
+                    }, 
+                    {
+                        "Player_Name" : "Kohr, Dominik"
+                    }, 
+                    {
+                        "Player_Name" : "Moravek, Jan"
+                    }, 
+                    {
+                        "Player_Name" : "Thommy, Erik"
+                    }, 
+                    {
+                        "Player_Name" : "Werner, Tobias"
+                    }, 
+                    {
+                        "Player_Name" : "Bobadilla, Raul"
+                    }, 
+                    {
+                        "Player_Name" : "Fetsch, Mathias"
+                    }, 
+                    {
+                        "Player_Name" : "Hahn, André"
+                    }, 
+                    {
+                        "Player_Name" : "Milik, Arkadiusz"
+                    }, 
+                    {
+                        "Player_Name" : "Mölders, Sascha"
+                    }, 
+                    {
+                        "Player_Name" : "Vlachodimos, Panagiotis"
+                    }
+                ]
+            }
+        ]
+    }
+}

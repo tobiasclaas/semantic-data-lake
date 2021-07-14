@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import ViewModel from "./viewModel";
 import IViewProps from "../../../models/iViewProps";
 import { useTranslation } from "react-i18next";
 import TopRightFab from "../../common/topRightFab";
-import TopRightSecondFab from "../../common/topRightSecondFab";
 import AddIcon from "@material-ui/icons/Add";
-import RefreshIcon from '@material-ui/icons/Refresh';
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -16,7 +14,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { ContainerGrid } from "./styles";
-import FileInput from "../../common/FileInput";
 import Item from "../../common/item";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -28,14 +25,12 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import ItemButton from "../../common/item/button";
 import { blue, green } from "@material-ui/core/colors";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Close from "@material-ui/icons/Close";
 import Box from "@material-ui/core/Box";
 import { StyledToolbar } from "../../app/header/styles";
 import { SlideProps } from "@material-ui/core/Slide";
 import Slide from "@material-ui/core/Slide";
-import { useEffect } from "react";
 import Chip from "@material-ui/core/Chip";
 import { red } from "@material-ui/core/colors";
 
@@ -45,10 +40,10 @@ const Transition = React.forwardRef((props: SlideProps, ref) => (
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
-/*   useEffect(() => {
+  useEffect(() => {
     viewModel.registerIntevals();
     return () => viewModel.deregisterIntevals();
-  }); */
+  });
 
   return (
     <React.Fragment>
@@ -60,14 +55,6 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
         <AddIcon />
         {t("generic.add_new")}
       </TopRightFab>
-      <TopRightSecondFab
-        variant="extended"
-        color="primary"
-        onClick={() => viewModel.refreshDatamarts()}
-      >
-        <RefreshIcon />
-        {t("generic.refresh")}
-      </TopRightSecondFab>
       <Typography variant="h6">{t("dataset_management.title")}</Typography>
       <Typography variant="subtitle1">
         {t("dataset_management.description")}
