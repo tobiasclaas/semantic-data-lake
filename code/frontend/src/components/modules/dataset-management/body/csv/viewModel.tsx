@@ -10,7 +10,17 @@ import React from "react";
 import BodyViewModel from "../bodyViewModel";
 import View from "./main.component";
 
+/**
+ * Import main.component
+ * Import BodyViewModel from body
+ */
+
 class ViewModel extends BodyViewModel {
+  /**
+   *
+   * @param formData
+   * Param Delimiter, hasHeader, comment, target_storage.
+   */
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
     formData.append("delimiter", this.delimiter);
