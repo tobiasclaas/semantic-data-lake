@@ -11,6 +11,11 @@ import BodyViewModel from "../bodyViewModel";
 import View from "./main.component";
 
 class ViewModel extends BodyViewModel {
+  /**
+   *
+   * @param formData
+   * param targetstorage, comment
+   */
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
     formData.append("target_storage", this.target_storage);
