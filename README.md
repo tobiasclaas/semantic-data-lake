@@ -11,7 +11,7 @@
 * virtual environment
   * To run the program you need some modules with specific versions to ensure the correct behavior of the system.
   For that you may want to create a virtual environment such that there are no conflicts with other module versions.
-  * When you are ready to install the requirements, navigate to ".../team-2-data-lake/code/backend/src" and run:
+  * When you are ready to install the requirements, navigate to ".../team-2-data-lake/code/backend/src" and run:\
     `pip freeze > requirements.txt` \
     `pip install -r requirements.txt` \
     `pip list --format=freeze > requirements.txt`
