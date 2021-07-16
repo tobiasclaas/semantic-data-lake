@@ -11,10 +11,23 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
+
+
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
+
+
   return (
+      /**
+       *  Return
+       *  Distinct file selection csv
+       *  Check parameter Delimiter
+       *  Check parameter HasHeader
+       *  Check parameter Comment
+       *  Check parameter Target Storage
+       *
+       */
     <React.Fragment>
       <Grid item container xs>
         <FileInput
@@ -83,3 +96,5 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 });
 
 export default Main;
+
+
