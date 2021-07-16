@@ -4,7 +4,7 @@ from pyspark.sql import DataFrame, functions
 from werkzeug.exceptions import NotAcceptable
 from database.data_access import datamart_data_access as data_access
 
-from business_logic.spark import SparkHelper
+from Utils.spark import SparkHelper
 from database.models import (
     Datamart, MongodbStorage, PostgresqlStorage,
     CsvStorage, JsonStorage, XmlStorage, DatamartState

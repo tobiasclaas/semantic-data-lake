@@ -1,5 +1,5 @@
-from business_logic.services.create_datamart import create_datamart
-from business_logic.spark import SparkHelper
+from Utils.services.create_datamart import create_datamart
+from Utils.spark import SparkHelper
 import dash_html_components as html
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
