@@ -16,13 +16,13 @@ class Workspaces(Resource):
         return jsonify([mapper(item) for item in workspace_data_access.get_all()])
 
     @parse_params(
-        Argument("name", default=None, type=str, required=True),
+        Argument("name", default=None, type=str, required=True)
     )
     def post(self, name):
         return jsonify(mapper(workspace_data_access.create(name)))
 
     @parse_params(
-        Argument("workspace_id", default=None, type=str, required=True),
+        Argument("workspace_id", default=None, type=str, required=True)
     )
     def delete(self, workspace_id):
         try:

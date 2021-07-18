@@ -7,9 +7,11 @@ from database.models.workspace import Workspace
 from requests import post, delete as delete_request
 import settings
 
+
 def get_all(workspace_id) -> [Ontology]:
     """
     Get all ontologies in a specific workspace.
+
     :param workspace_id: id of workspace.
     :returns: all ontologies in the workspace.
     """
@@ -20,6 +22,7 @@ def get_all(workspace_id) -> [Ontology]:
 def add(name, file, workspace_id) -> Ontology:
     """
     Adds new ontology to Fuseki and adds an entry in MongoDB.
+
     :param name: name of the ontology.
     :param file: file that contains the ontology.
     :param workspace_id: the workspace the file is to be added in Fuseki.
@@ -54,6 +57,7 @@ def add(name, file, workspace_id) -> Ontology:
 def delete(workspace_id, graph_id):
     """
     Delete ontology in Fuseki and the entry in MongoDB.
+
     :param workspace_id: id of workspace in MongoDB and Fuseki.
     :param graph_id: name of named graph.
     :return:
@@ -71,6 +75,7 @@ def delete(workspace_id, graph_id):
 def create_query_string(graph_name: str, keyword: str):
     """
     This methods generates the query string for the keyword-search in put.
+
     :param graph_name: graph to be queried, default is "default graph",
         like "<http://localhost:3030/60d5c79a7d2c38ee678e87a8/60d5c79d7d2c38ee678e87a9>"
     :param keyword: keywords to search for or when search-bool is false the query itself
@@ -95,6 +100,7 @@ def get_suggestions(workspace_id, search_term):
     """
     This function provides multiple suggestions for a auto-completion of ontology-attributes in fuseki. The search_term
         can either be the rdf:label or the name of the class itself(after the #).
+
     :returns: a list of maximum 20 suggestions which fit the requirements ordered by the length of the label.
     """
     querystring = """
@@ -108,6 +114,8 @@ def get_suggestions(workspace_id, search_term):
         }
         ORDER BY strlen(?label)
         LIMIT 20 """
-    p = post('http://localhost:3030/' + workspace_id, auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password), data={'query': querystring})
+    p = post('http://localhost:3030/' + workspace_id,
+             auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
+             data={'query': querystring})
 
     return p.content
