@@ -14,7 +14,6 @@ class ViewModel extends BodyViewModel {
   /**
    *
    * @param formData
-   * param targetstorage, comment.
    */
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
@@ -23,26 +22,44 @@ class ViewModel extends BodyViewModel {
   }
 
   constructor() {
+    /**
+     * Param Comment, targetstorage.
+     */
     super();
     makeObservable(this);
   }
 
   @observable file: File | null = null;
+  /**
+   *
+   * @param value
+   */
   @action setFile(value: File | null) {
     this.file = value;
   }
 
   @observable target_storage: string = 'HDFS';
+  /**
+   *
+   * @param value
+   */
   @action setTargetStorage(value: string) {
     this.target_storage = value;
   }
 
   @observable comment: string = "";
+  /**
+   *
+   * @param value
+   */
   @action setComment(value: string) {
     this.comment = value;
   }
 
   canUpload(): boolean {
+    /**
+     * send upload request
+     */
     return this.file !== null;
   }
 
