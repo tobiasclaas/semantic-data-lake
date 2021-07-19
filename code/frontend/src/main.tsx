@@ -35,6 +35,7 @@ const bootstrap = async () => {
   configure({ enforceActions: "observed" });
   const browserHistory = createHashHistory() as any;
   const history = syncHistoryWithStore(browserHistory, routingStore);
+  history.push("/login");
 
   ReactDOM.render(
     <StylesProvider injectFirst>
