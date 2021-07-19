@@ -78,8 +78,8 @@ def perform_integrity_checks(workspace_id, datamart_id, data_attribute, ontology
     :return: None or raises error
     """
     # checks if data_attribute exists
-    if not check_data_attribute(datamart_id, data_attribute):
-        raise NotFound
+    # if not check_data_attribute(datamart_id, data_attribute):
+    #    raise NotFound
 
     # checks if ontology attribute exists
     query_res = ask_query_fuseki(workspace_id=workspace_id, subject_name=ontology_attribute)

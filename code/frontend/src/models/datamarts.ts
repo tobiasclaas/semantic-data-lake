@@ -27,7 +27,7 @@ export interface Schema {
 export interface Field {
   name: string;
   nullable: boolean;
-  type: "string" | "integer" | Struct | Array;
+  type: FieldType;
 }
 
 export interface Struct {
@@ -35,20 +35,19 @@ export interface Struct {
   fields: Field[];
 }
 
+type FieldType = "string" | "integer" | "boolean" | "long" | Struct | Array;
+
 export interface Array {
   type: "array";
-  elementType: ArrayElementType;
+  elementType: FieldType;
 }
 
-export interface ArrayElementType {
-  fields: Field[];
-}
-export function isStruct(item: Struct | Array): item is Struct {
-  return item.type == "struct";
+export function isStruct(item: FieldType): item is Struct {
+  return typeof item === "object" && item !== null && item.type == "struct";
 }
 
-export function isArray(item: Struct | Array): item is Array {
-  return item.type == "array";
+export function isArray(item: FieldType): item is Array {
+  return typeof item === "object" && item !== null && item.type == "array";
 }
 
 export interface IDatamartStatus {

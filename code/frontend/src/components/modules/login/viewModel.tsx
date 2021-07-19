@@ -8,13 +8,14 @@ import workspacesStore from "../../../stores/workspaces.store";
 import View from "./main.component";
 
 class ViewModel extends ContentStore {
-  @observable username: string = "";
-  @observable password: string = "";
+  @observable username: string = "admin";
+  @observable password: string = "admin";
 
   constructor() {
     super();
     appStore.setIsLoggedIn(false);
     makeObservable(this);
+    this.login();
   }
 
   @action setUsername(value: string) {
