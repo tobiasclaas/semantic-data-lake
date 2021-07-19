@@ -24,6 +24,15 @@ def initialize():
         )
         user.save()
 
+        user = User(
+            email="user",
+            password_hash=sha256.hash("user"),
+            firstname="Human Readable Name",
+            lastname="User",
+            is_admin=False
+        )
+        user.save()
+
     # ===== init postgresql ========================================================================
 #    postgresql = settings.postgresql_storage
 #    for item in workspace_data_access.get_all():
