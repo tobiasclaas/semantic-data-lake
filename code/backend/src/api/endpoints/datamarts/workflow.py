@@ -6,10 +6,10 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
 from database.data_access import datamart_data_access as data_access
-from Utils.spark import SparkHelper
+from utils.spark import SparkHelper
 
-from Utils.services.create_datamart import create_datamart
-from Utils.ingestion import ingest_spark_helper
+from utils.services.create_datamart import create_datamart
+from utils.ingestion import ingest_spark_helper
 from database.models import CsvStorage, DatamartState
 from apscheduler.schedulers.background import BackgroundScheduler
 

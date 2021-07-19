@@ -8,7 +8,7 @@ from passlib.hash import pbkdf2_sha256 as sha256
 from werkzeug.exceptions import Unauthorized
 
 from api.services.decorators import parse_params
-from business_logic.services.mapper import mapper
+from utils.services.mapper import mapper
 from database.data_access import user_data_access
 
 
@@ -30,10 +30,6 @@ class Login(Resource):
         user = user_data_access.get_by_email(email)
 
         if not sha256.verify(password, user.password_hash):
-            # ==================================================================================================
-            #If login Credential false then print this message
-            # ==================================================================================================
-
             raise Unauthorized(f"Wrong email or password")
 
         access_token = create_access_token(identity=mapper(user))
