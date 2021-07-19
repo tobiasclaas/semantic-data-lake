@@ -13,7 +13,7 @@ class WorkspacesStore {
     this.initialize();
   }
 
-  private async initialize() {
+  async initialize() {
     this.setStatus(StoreStatus.initializing);
     try {
       const configs = {

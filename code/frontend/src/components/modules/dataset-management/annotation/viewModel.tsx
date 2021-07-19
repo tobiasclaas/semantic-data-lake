@@ -17,7 +17,7 @@ class ViewModel extends ContentStore {
   }
 
   private async initialize(item: IDatamart) {
-    console.log(item);
+    const fields = item.metadata.schema.fields;
   }
 
   getView = () => <View viewModel={this} />;

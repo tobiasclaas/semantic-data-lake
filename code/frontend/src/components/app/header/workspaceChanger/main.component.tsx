@@ -18,12 +18,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import ViewModel from "./viewModel";
 import workspacesStore from "../../../../stores/workspaces.store";
+import appStore from "../../../../stores/app.store";
 
 const WorkspaceChanger: React.FC = observer(() => {
   const viewModel = useLocalObservable(() => new ViewModel());
   const theme = useTheme();
   const { t } = useTranslation();
 
+  if (!appStore.isLoggedIn) return null;
   return (
     <React.Fragment>
       <Button
