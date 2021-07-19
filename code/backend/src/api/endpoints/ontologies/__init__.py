@@ -10,8 +10,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 import settings
 from api.services.decorators import parse_params
 from utils.services.mapper import mapper
-from database.data_access import ontology_data_access
-from database.data_access import annotation_data_access
+from database.data_access import ontology_data_access, annotation_data_access
 
 
 class Ontologies(Resource):
