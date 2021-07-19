@@ -3,13 +3,12 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_restful import Resource
 from werkzeug.exceptions import InternalServerError
 
-from Utils.services.mapper import mapper
+from utils.services.mapper import mapper
 from database.data_access import user_data_access
 
 
 class Current(Resource):
 
-    
     def post(self):
         """
         # ==================================================================================================
@@ -24,7 +23,6 @@ class Current(Resource):
 
         """
         try:
-
             email = get_jwt_identity()["email"]
             user = user_data_access.get_by_email(email)
             return jsonify(mapper(user))
