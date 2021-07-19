@@ -9,13 +9,14 @@ from flask_jwt_extended import get_jwt_identity
 
 from utils.services.mapper import mapper
 from api.services.decorators import parse_params
-from database.data_access import workspace_data_access
+from database.data_access import workspace_data_access, user_data_access
 
 
 class Workspaces(Resource):
     @jwt_required
     def get(self):
-        return jsonify([mapper(item) for item in workspace_data_access.get_all(get_jwt_identity()["email"])])
+        email = get_jwt_identity()['email']
+        return jsonify([mapper(item) for item in workspace_data_access.get_all(user_data_access.get_by_email(email))])
 
     # @jwt_required
     @parse_params(
