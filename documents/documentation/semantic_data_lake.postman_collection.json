@@ -1,0 +1,1179 @@
+{
+	"info": {
+		"_postman_id": "7dc383a7-526a-40a0-9b8d-d3a3c755c847",
+		"name": "DataLake - Sayed",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin\",\n    \"password\":  \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "token_refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/auth/token_refresh",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"auth",
+								"token_refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ontologies",
+			"item": [
+				{
+					"name": "GET",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60d9f8ddbc2c0d240afbed78/ontologies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60d9f8ddbc2c0d240afbed78",
+								"ontologies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST File Upload Frontend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/tobias/Desktop/files/pizza.owl"
+								},
+								{
+									"key": "name",
+									"value": "pizza",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60d4791ea67cae89605f738d/ontologies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60d4791ea67cae89605f738d",
+								"ontologies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Query",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "querystring",
+									"value": "SELECT ?s ?p ?o WHERE { { Graph ?g  { ?s ?p ?o . FILTER (contains(?o, \"Property\")) } }}",
+									"type": "text"
+								},
+								{
+									"key": "graph_name",
+									"value": "Property or Attribute",
+									"description": "Not used here",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "is_query",
+									"value": "True",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60df1c56e0aa402383b3b998/ontologies/search",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60df1c56e0aa402383b3b998",
+								"ontologies",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60df1c56e0aa402383b3b998/ontologies/search?querystring=Property",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60df1c56e0aa402383b3b998",
+								"ontologies",
+								"search"
+							],
+							"query": [
+								{
+									"key": "querystring",
+									"value": "Property"
+								},
+								{
+									"key": "graph_name",
+									"value": "Property or Attribute",
+									"description": "Needs to be the id of the graph in Fuseki.",
+									"disabled": true
+								},
+								{
+									"key": "is_query",
+									"value": "",
+									"description": "Do not send here",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CSVIngest",
+			"item": [
+				{
+					"name": "ingestion/csv",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "delimiter",
+									"value": ";",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "has_header",
+									"value": "True",
+									"type": "text"
+								},
+								{
+									"key": "human_readable_name",
+									"value": "dept",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/nomi/Documents/Lab/team-2-data-lake/code/backend/Data_files/dept.csv"
+								},
+								{
+									"key": "comment",
+									"value": "This is a comment",
+									"type": "text"
+								},
+								{
+									"key": "target_storage",
+									"value": "MongoDB",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60d9f8ddbc2c0d240afbed78/datamarts/ingestion/csv",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60d9f8ddbc2c0d240afbed78",
+								"datamarts",
+								"ingestion",
+								"csv"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ingestion/csv",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "delimiter",
+											"value": ";",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "has_header",
+											"value": "True",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "human_readable_name",
+											"value": "Users",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/home/tobias/Downloads/username.csv"
+										},
+										{
+											"key": "comment",
+											"value": "This is a comment",
+											"type": "text"
+										},
+										{
+											"key": "target_storage",
+											"value": "PostgreSQL",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/workspaces/60cc6ce6e94cde206a476869/datamarts/ingestion/csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"workspaces",
+										"60cc6ce6e94cde206a476869",
+										"datamarts",
+										"ingestion",
+										"csv"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "ingestion/csv into postgres not working",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "delimiter",
+									"value": ";",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "has_header",
+									"value": "True",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "human_readable_name",
+									"value": "testcsv",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Sayed/Desktop/semantic-data-lake/plain_files/data/Bundesliga_2013_Matches.csv"
+								},
+								{
+									"key": "workspace",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "target_storage",
+									"value": "PostgreSQL",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60cc7c085a73ce36bc2f4beb/datamarts/ingestion/csv",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60cc7c085a73ce36bc2f4beb",
+								"datamarts",
+								"ingestion",
+								"csv"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "XMLIngest",
+			"item": [
+				{
+					"name": "ingestion/xml",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "human_readable_name",
+									"value": "testxml3",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/nomi/Documents/Lab/team-2-data-lake/code/backend/Data_files/Bundesliga_2013_MatchData.xml"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60db250b218c81c72ab6eaf2/datamarts/ingestion/xml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60db250b218c81c72ab6eaf2",
+								"datamarts",
+								"ingestion",
+								"xml"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JSONIngest",
+			"item": [
+				{
+					"name": "ingestion/json",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "human_readable_name",
+									"value": "testjson",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Sayed/Desktop/semantic-data-lake/plain_files/data/Bundesliga_2013_TeamData.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60cb55d0f1670184f67d6337/datamarts/ingestion/json",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60cb55d0f1670184f67d6337",
+								"datamarts",
+								"ingestion",
+								"json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ingestion/json into MongoDB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "human_readable_name",
+									"value": "testingjson7",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Sayed/Desktop/semantic-data-lake/plain_files/data/Bundesliga_2013_TeamData.json"
+								},
+								{
+									"key": "workspace",
+									"value": "testingjson7",
+									"type": "text"
+								},
+								{
+									"key": "target_storage",
+									"value": "MongoDB",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60cb55d0f1670184f67d6337/datamarts/ingestion/json",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60cb55d0f1670184f67d6337",
+								"datamarts",
+								"ingestion",
+								"json"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PostgresIngest",
+			"item": [
+				{
+					"name": "ingestion/postgres",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "host",
+									"value": "192.168.220.9",
+									"type": "text"
+								},
+								{
+									"key": "port",
+									"value": "5432",
+									"type": "text"
+								},
+								{
+									"key": "database",
+									"value": "chinook",
+									"type": "text"
+								},
+								{
+									"key": "table",
+									"value": "Album",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "postgres",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60cb55d0f1670184f67d6337/datamarts/ingestion/postgresql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60cb55d0f1670184f67d6337",
+								"datamarts",
+								"ingestion",
+								"postgresql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MongoDBIngest",
+			"item": [
+				{
+					"name": "ingestion/mongodb",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "host",
+									"value": "192.168.220.9",
+									"type": "text"
+								},
+								{
+									"key": "port",
+									"value": "27017",
+									"type": "text"
+								},
+								{
+									"key": "database",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "collection",
+									"value": "bundesliga",
+									"type": "text"
+								},
+								{
+									"key": "comment",
+									"value": "MongoDBIngestionTest10",
+									"type": "text"
+								},
+								{
+									"key": "human_readable_name",
+									"value": "MongoDBIngestionTest10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60cb55d0f1670184f67d6337/datamarts/ingestion/mongodb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60cb55d0f1670184f67d6337",
+								"datamarts",
+								"ingestion",
+								"mongodb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Workflow",
+			"item": [
+				{
+					"name": "workflow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "access_token_cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjI3MTY3NjgsIm5iZiI6MTYyMjcxNjc2OCwianRpIjoiNDRmMWI3YjMtMDZmMi00MjYzLTg0NmItNzQ1NGJjNWRhMTkxIiwiZXhwIjo5MTYyMjcxNjc2OCwiaWRlbnRpdHkiOnsiZW1haWwiOiJhZG1pbiIsImZpcnN0bmFtZSI6IkFkbWluIiwibGFzdG5hbWUiOiJVc2VyIiwiaXNBZG1pbiI6dHJ1ZX0sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.--C35AAfBOQCLxE3Wd-ygKAVoYn2lV5CExCKJQFD8kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n   {\n      \"type\":\"export\",\n      \"name\":\"exported\",\n      \"target\":\"HDFS\",\n      \"input\":[\n         {\n            \"type\":\"groupby\",\n            \"column\":[\n               \"dept_name\"\n            ],\n            \"aggregate\":{\n               \"dept_name\":\"count\"\n            },\n            \"input\":[\n               {\n                  \"type\":\"select\",\n                  \"columns\":[\n                     \"dept_name\",\n                     \"Department\"\n                  ],\n                  \"input\":[\n                     {\n                        \"type\":\"join\",\n                        \"input\":[\n                           {\n                              \"input\":[\n                                 {\n                                    \"type\":\"data_source\",\n                                    \"uid\":\"af3b7870-c30b-4bb4-be31-01bc82c07350\"\n                                 }\n                              ],\n                              \"column\":\"id\"\n                           },\n                           {\n                              \"input\":[\n                                 {\n                                    \"type\":\"data_source\",\n                                    \"uid\":\"6ee48779-b036-461d-a13c-e37dcb7e912d\"\n                                 }\n                              ],\n                              \"column\":\"Department\"\n                           }\n                        ]\n                     }\n                  ]\n               }\n            ]\n         }\n      ]\n   }\n]"
+						},
+						"url": {
+							"raw": "http://localhost:5000/workspaces/60e6fed6498fd2e3069d9303/workflow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60e6fed6498fd2e3069d9303",
+								"workflow"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "datamarts",
+			"item": [
+				{
+					"name": "GET ALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60e6fed6498fd2e3069d9303/datamarts",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60e6fed6498fd2e3069d9303",
+								"datamarts"
+							],
+							"query": [
+								{
+									"key": "uid",
+									"value": "0607c6df-92e6-47b4-9d4e-83bbe252086c",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uid",
+									"value": "aa48a496-2074-439a-b0ee-d103338cf8fe",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/datamarts",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"datamarts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uid",
+									"value": "c82f137c-c54f-4d8c-a701-af0de8d9a798",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60db250b218c81c72ab6eaf2/datamarts",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60db250b218c81c72ab6eaf2",
+								"datamarts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "workspaces",
+			"item": [
+				{
+					"name": "get all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uid",
+									"value": "b8157c4c-b2bb-4c38-9170-c760815c20b1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"my workspace222\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces?name=1231231231",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "1231231231"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "workspace_id",
+									"value": "60e30f0d82b3b29d7c13c2ae",
+									"description": "Ontologies have to be deleted first",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Annotation",
+			"item": [
+				{
+					"name": "Get Annotations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60df1c56e0aa402383b3b998/ontologies/annotation?datamart_id=d5489a3b-1636-4ff6-8829-459255c85fc7",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60df1c56e0aa402383b3b998",
+								"ontologies",
+								"annotation"
+							],
+							"query": [
+								{
+									"key": "datamart_id",
+									"value": "d5489a3b-1636-4ff6-8829-459255c85fc7"
+								},
+								{
+									"key": "data_attribute",
+									"value": "Username",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Annotation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60df1c56e0aa402383b3b998/ontologies/annotation?datamart_id=d5489a3b-1636-4ff6-8829-459255c85fc7&data_attribute=Username&property_description=Key&ontology_attribute=<http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl%23C46002>&comment=This is a comment",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60df1c56e0aa402383b3b998",
+								"ontologies",
+								"annotation"
+							],
+							"query": [
+								{
+									"key": "datamart_id",
+									"value": "d5489a3b-1636-4ff6-8829-459255c85fc7"
+								},
+								{
+									"key": "data_attribute",
+									"value": "Username"
+								},
+								{
+									"key": "property_description",
+									"value": "Key"
+								},
+								{
+									"key": "ontology_attribute",
+									"value": "<http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl%23C46002>"
+								},
+								{
+									"key": "comment",
+									"value": "This is a comment"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Annotation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60df056655aeaac89bc4989a/ontologies/annotation?datamart_id=4e348d5e-39cd-40df-ae92-db188d45d8b1&data_attribute=Username&ontology_attribute=<http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl%23C46002>",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60df056655aeaac89bc4989a",
+								"ontologies",
+								"annotation"
+							],
+							"query": [
+								{
+									"key": "datamart_id",
+									"value": "4e348d5e-39cd-40df-ae92-db188d45d8b1"
+								},
+								{
+									"key": "data_attribute",
+									"value": "Username"
+								},
+								{
+									"key": "ontology_attribute",
+									"value": "<http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl%23C46002>"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auto-Completion",
+			"item": [
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/workspaces/60f44432aade4cf3088e5fa1/ontologies/completion?search_term=Key",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"workspaces",
+								"60f44432aade4cf3088e5fa1",
+								"ontologies",
+								"completion"
+							],
+							"query": [
+								{
+									"key": "search_term",
+									"value": "Key"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

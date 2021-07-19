@@ -10,23 +10,23 @@ if __name__ == "__main__":
 
     g = Graph()
     g.parse(filename, format=rdflib.util.guess_format(filename))
-    qres = g.query("""
+    q_res = g.query("""
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX ncid: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
                     CONSTRUCT {
-                        ?poa ?a ?b .
+                        ?x ?a ?b .
                         ?a rdfs:label ?l1 .
                         ?b rdfs:label ?l2 .
                     } WHERE {
                         {
-                            ?poa (rdfs:subClassOf)* ?x ;
+                            ?x (rdfs:subClassOf)* ?poa ;
                                 ?a ?b .
                             OPTIONAL {?a rdfs:label ?l1 .}
                             OPTIONAL {?b rdfs:label ?l2 .}
-                            FILTER(?x = ncid:C20189)
+                            FILTER(?poa = ncid:C20189)
                         }
                     }""")
 
-    gnew = Graph()
-    gnew.parse(data=qres.serialize(format='xml'))
-    gnew.serialize(destination='file.n3', format='n3')
+    g_new = Graph()
+    g_new.parse(data=q_res.serialize(format='xml'))
+    g_new.serialize(destination='file.n3', format='n3')

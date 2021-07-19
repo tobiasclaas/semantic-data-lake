@@ -1,4 +1,5 @@
 # Api
+More requests can be found in a postman collection in the 'resources' folder.
 
 ## Auth
 | Path   | Method | Parameters | Description |
