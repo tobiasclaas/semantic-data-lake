@@ -1,14 +1,14 @@
 import os
 import psycopg2
 import pymongo
+from pywebhdfs.webhdfs import PyWebHdfsClient
+from requests import post, delete as delete_request
+from werkzeug.exceptions import NotFound, BadRequest
+from werkzeug.datastructures import FileStorage
 
 from database.models import Workspace, Ontology
-from werkzeug.exceptions import NotFound, BadRequest
-from requests import post, delete as delete_request
 from database.data_access import ontology_data_access
-from werkzeug.datastructures import FileStorage
 from settings import Settings
-from pywebhdfs.webhdfs import PyWebHdfsClient
 
 
 def get_all() -> [Workspace]:
@@ -22,9 +22,11 @@ def create(name):
     # create dataset in fuseki
     post('http://localhost:3030/$/datasets', auth=(settings.fuseki_storage.user, settings.fuseki_storage.password),
          data={'dbName': str(entity.id), 'dbType': 'tdb'})
-    # upload poa ontology
-    __location__ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-    file_location = os.path.join(__location__, "Resources", "propertyorattribute.n3")
+    # get path of resource folder
+    __location__ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.realpath(__file__)))))))
+    file_location = os.path.join(__location__, "resources", "propertyorattribute.n3")
+
     with open(file_location, 'rb') as fp:
         file = FileStorage(fp)
         ontology_data_access.add("Property or Attribute", file, entity.id)
