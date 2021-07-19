@@ -45,4 +45,3 @@ class Login(Resource):
         set_refresh_cookies(response, refresh_token)
 
         return response
-

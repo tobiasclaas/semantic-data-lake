@@ -7,6 +7,7 @@ import { IData as JoinData } from "../../components/modules/workflow/nodes/join/
 import { IData as FilterData } from "../../components/modules/workflow/nodes/filter/data";
 import { IData as SelectData } from "../../components/modules/workflow/nodes/select/data";
 import { IData as GroupbyData } from "../../components/modules/workflow/nodes/groupby/data";
+import { IData as FlattenData } from "../../components/modules/workflow/nodes/flatten/data";
 
 import { NodeData } from "../../models/workflow";
 
@@ -57,7 +58,6 @@ abstract class WorkflowHelper {
       }
 
       case NodeType.groupby: {
-        debugger
         const nodeData = node.data as GroupbyData;
         const aggregate_select = nodeData.aggregate_select;
         const aggregate_function = nodeData.aggregate_function;
@@ -67,6 +67,13 @@ abstract class WorkflowHelper {
         data.column = [nodeData.group_by];
         data.input = WorkflowHelper.getInputNodes(node, elements).map((n) =>
           WorkflowHelper.processNode(n.node, elements)
+        );
+        break;
+      }
+
+      case NodeType.flatten: {
+        data.input = WorkflowHelper.getInputNodes(node, elements).map((n) =>
+            WorkflowHelper.processNode(n.node, elements)
         );
         break;
       }
