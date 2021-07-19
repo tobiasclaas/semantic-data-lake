@@ -33,6 +33,9 @@ import { SlideProps } from "@material-ui/core/Slide";
 import Slide from "@material-ui/core/Slide";
 import Chip from "@material-ui/core/Chip";
 import { red } from "@material-ui/core/colors";
+import DataViewViewModel from "./data-view";
+import AnnotationViewModel from "./annotation";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const Transition = React.forwardRef((props: SlideProps, ref) => (
   <Slide direction="up" ref={ref} {...props} />
@@ -105,12 +108,24 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
               </div>
             )}
             {item.status.state == DatamartStatus.success && (
-              <ItemButton
-                htmlColor={blue[500]}
-                onClick={() => viewModel.beginAnnotation(item)}
-              >
-                <LocalOfferIcon fontSize="small" />
-              </ItemButton>
+              <React.Fragment>
+                <ItemButton
+                  htmlColor={blue[500]}
+                  onClick={() =>
+                    viewModel.setDialogViewModel(new DataViewViewModel(item))
+                  }
+                >
+                  <VisibilityIcon fontSize="small" />
+                </ItemButton>
+                <ItemButton
+                  htmlColor={green[500]}
+                  onClick={() =>
+                    viewModel.setDialogViewModel(new AnnotationViewModel(item))
+                  }
+                >
+                  <LocalOfferIcon fontSize="small" />
+                </ItemButton>
+              </React.Fragment>
             )}
           </Item>
         ))}
@@ -178,7 +193,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 
       <Dialog
         fullScreen
-        open={viewModel.isAnnotationModalOpen}
+        open={viewModel.isDialogOpen}
         TransitionComponent={Transition}
         keepMounted
       >
@@ -188,19 +203,16 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
               style={{ marginRight: "0.5rem" }}
               edge="start"
               color="inherit"
-              onClick={() => viewModel.endAnnotation()}
+              onClick={() => viewModel.closeDialog()}
             >
               <Close />
             </IconButton>
-            <Typography variant="h6">
-              {t("dataset_management.annotation.title")}
-            </Typography>
           </StyledToolbar>
         </AppBar>
         <Box display="flex" flexDirection="column" height="100%">
           <StyledToolbar />
           <Box flexGrow={1} overflow="auto">
-            {viewModel.annotationView}
+            {viewModel.dialogView}
           </Box>
         </Box>
       </Dialog>

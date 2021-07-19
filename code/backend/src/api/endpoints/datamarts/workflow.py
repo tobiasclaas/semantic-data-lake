@@ -6,10 +6,10 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
 from database.data_access import datamart_data_access as data_access
-from Utils.spark import SparkHelper
+from utils.spark import SparkHelper
 
-from Utils.services.create_datamart import create_datamart
-from Utils.ingestion import ingest_spark_helper
+from utils.services.create_datamart import create_datamart
+from utils.ingestion import ingest_spark_helper
 from database.models import CsvStorage, DatamartState
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -80,13 +80,14 @@ def process_input(spark_helper, data):
         df1 = process_input(spark_helper, data['input'][0])
         return df1.groupBy(*data['column']).agg(data["aggregate"])
 
+    elif data['type'] == 'flatten':
+        df1 = process_input(spark_helper, data['input'][0])
+        return flatten(df1)
+
     elif data['type'] == 'data_source':
         source_ids.append(data['uid'])
         datamart = data_access.get_by_uid(data['uid'])
-        dataframe = spark_helper.read_datamart(datamart)
-        if data['flatten']:
-            return flatten(dataframe)
-        return dataframe
+        return spark_helper.read_datamart(datamart)
 
 
 def __start__(spark_helper, dataframe, api_user, source, target_storage, workspace_id, hnr, comment):

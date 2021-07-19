@@ -1,3 +1,3 @@
-import groupbyNode from "./main";
+import GroupbyNode from "./main";
 export { default } from "./viewModel";
-export { groupbyNode };
+export { GroupbyNode };

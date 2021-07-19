@@ -17,7 +17,6 @@ import StoreStatus from "../../../models/storeStatus.enum";
 import routingStore from "../../../stores/routing.store";
 import workspacesStore from "../../../stores/workspaces.store";
 import BodyViewModel from "./body/bodyViewModel";
-import AnnotationViewModel from "./annotation";
 
 import View from "./main.component";
 
@@ -153,20 +152,20 @@ class ViewModel extends ContentStore {
     }
   }
 
-  @observable annotationViewModel: ContentStore | null = null;
-  @action beginAnnotation(item: IDatamart) {
-    this.annotationViewModel = new AnnotationViewModel(item);
+  @observable modalViewModel: ContentStore | null = null;
+  @action setDialogViewModel(item: ContentStore) {
+    this.modalViewModel = item;
   }
-  @action endAnnotation() {
-    this.annotationViewModel = null;
+  @action closeDialog() {
+    this.modalViewModel = null;
   }
-  @computed get isAnnotationModalOpen() {
-    return Boolean(this.annotationViewModel);
+  @computed get isDialogOpen() {
+    return Boolean(this.modalViewModel);
   }
 
-  @computed get annotationView() {
-    if (!this.annotationViewModel) return null;
-    return this.annotationViewModel.getView();
+  @computed get dialogView() {
+    if (!this.modalViewModel) return null;
+    return this.modalViewModel.getView();
   }
 
   async delete(item: IDatamart) {

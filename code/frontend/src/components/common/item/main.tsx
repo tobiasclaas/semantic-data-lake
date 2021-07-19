@@ -30,7 +30,7 @@ const Item: React.FC<ItemProps & React.ComponentProps<typeof Paper>> = ({
   const [elevation, setElevation] = useState<number>(2);
 
   return (
-    <ItemGridItem item xs={6} sm={4} md={3} lg={2}>
+    <ItemGridItem item xs={6} sm={4} md={3} lg={3}>
       <ItemContainer
         {...rest}
         elevation={elevation}

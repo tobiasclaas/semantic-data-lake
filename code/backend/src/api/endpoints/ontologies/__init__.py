@@ -1,3 +1,5 @@
+import json
+
 from flask import jsonify, Response
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
@@ -7,7 +9,7 @@ from requests import post
 
 import settings
 from api.services.decorators import parse_params
-from Utils.services.mapper import mapper
+from utils.services.mapper import mapper
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
 
@@ -57,6 +59,7 @@ class Ontologies(Resource):
 
 class OntologiesSearch(Resource):
     """ Provides requests to search or query ontologies in fuseki directly. """
+
     @parse_params(
         Argument("querystring", required=True, type=str),
         Argument("graph_name", default='?g', type=str),
@@ -167,21 +170,21 @@ class Annotation(Resource):
 
 class Completion(Resource):
     """
-    Class for search API requests.
+    Class for search and suggestion requests.
     """
     @parse_params(
         Argument('search_term', required=True, type=str)
     )
     def get(self, workspace_id, search_term=''):
         """
-        Api for auto completion feature.
+        Get API for auto completion feature.
 
         :param workspace_id: id of current workspace
         :param search_term: keyword to be auto completed.
         :returns: ontology-attribute with according label or failure http-code
         """
         try:
-            ret = jsonify(ontology_data_access.get_suggestions(workspace_id, search_term))
+            ret = json.loads(ontology_data_access.get_suggestions(workspace_id, search_term).decode('utf-8'))
             return ret if ret is not None else Response(status=404)
         except:
             return Response(status=500)

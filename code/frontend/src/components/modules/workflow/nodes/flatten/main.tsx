@@ -2,21 +2,13 @@ import React, { memo } from "react";
 
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import TrendingFlatSharpIcon from '@material-ui/icons/TrendingFlatSharp';
 import { Typography } from "@material-ui/core";
 import { IData } from "./data";
 
-export default memo(({ data }: { data: IData }) =>
-    /**
-     *
-     * @param data
-     */
-{
+export default memo(({ data }: { data: IData }) => {
   const { t } = useTranslation();
   return (
-      /**
-       * @param input styling
-       */
     <>
       <div
         style={{
@@ -27,9 +19,9 @@ export default memo(({ data }: { data: IData }) =>
           padding: 10,
         }}
       >
-        <GroupWorkIcon />
+        <TrendingFlatSharpIcon />
         <Typography style={{ margin: "0 0.5rem" }}>
-          {t("workflow.items.groupby")}
+          {t("workflow.items.flatten")}
         </Typography>
       </div>
       <Handle
