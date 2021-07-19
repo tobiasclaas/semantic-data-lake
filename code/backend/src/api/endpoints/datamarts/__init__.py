@@ -5,14 +5,14 @@ from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
-from Utils.spark import SparkHelper
+from utils.spark import SparkHelper
 from database.models import (
     MongodbStorage, PostgresqlStorage,
     CsvStorage, JsonStorage, XmlStorage, Datamart
 )
 import settings
 from api.services.decorators import parse_params
-from Utils.services.mapper import mapper
+from utils.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
 
 
@@ -22,7 +22,7 @@ def delete_from_hdfs(file_name):
     client.delete_file_dir(file_name, recursive=True)
 
 
-def Delete_data(storage):
+def delete_data(storage):
     if isinstance(storage, CsvStorage):
         # Checks if csv extension available in file name. Their is a special case
         # where CsvStorage object is created and file is not present in HDFS.
@@ -95,8 +95,8 @@ class Datamarts(Resource):
         if datamart.workspace_id == workspace_id:
             hnr = datamart.human_readable_name
             try:
-                Delete_data(datamart.metadata.source)
-                Delete_data(datamart.metadata.target)
+                delete_data(datamart.metadata.source)
+                delete_data(datamart.metadata.target)
             except Exception as e:
                 print (e)
 

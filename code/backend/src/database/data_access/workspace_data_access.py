@@ -11,17 +11,18 @@ from database.data_access import ontology_data_access
 from settings import Settings
 
 
-def get_all() -> [Workspace]:
-    return Workspace.objects.all()
+def get_all(user) -> [Workspace]:
+    return Workspace.objects(user=user).all()
 
 
-def create(name):
-    entity = Workspace(name=name)
+def create(name, user):
+    entity = Workspace(name=name, user=user)
     Workspace.objects.insert(entity)
     settings = Settings()
+
     # create dataset in fuseki
-    post('http://localhost:3030/$/datasets', auth=(settings.fuseki_storage.user, settings.fuseki_storage.password),
-         data={'dbName': str(entity.id), 'dbType': 'tdb'})
+    ontology_data_access.add_standard_ontology(entity)
+
     # get path of resource folder
     __location__ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
         os.path.realpath(__file__)))))))
