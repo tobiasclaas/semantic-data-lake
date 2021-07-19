@@ -10,16 +10,11 @@ import React from "react";
 import BodyViewModel from "../bodyViewModel";
 import View from "./main.component";
 
-/**
- * Import main.component
- * Import BodyViewModel from body
- */
 
 class ViewModel extends BodyViewModel {
   /**
    *
    * @param formData
-   * Param Delimiter, hasHeader, comment, target_storage.
    */
   fill(formData: FormData): void {
     if (this.file) formData.append("file", this.file);
@@ -30,36 +25,62 @@ class ViewModel extends BodyViewModel {
   }
 
   constructor() {
+    /**
+     * Param Delimiter, HasHeader, Comment, Target Storage.
+     */
     super();
     makeObservable(this);
   }
 
   @observable file: File | null = null;
+  /**
+   *
+   * @param value
+   */
   @action setFile(value: File | null) {
     this.file = value;
   }
 
   @observable delimiter: string = ",";
+  /**
+   *
+   * @param value
+   */
   @action setDelimiter(value: string) {
     this.delimiter = value;
   }
 
   @observable hasHeader: boolean = true;
+  /**
+   *
+   * @param value
+   */
   @action setHasHeader(value: boolean) {
     this.hasHeader = value;
   }
 
   @observable target_storage: string = 'HDFS';
+  /**
+   *
+   * @param value
+   */
   @action setTargetStorage(value: string) {
     this.target_storage = value;
   }
 
   @observable comment: string = "";
+  /**
+   *
+   * @param value
+   */
   @action setComment(value: string) {
     this.comment = value;
   }
 
   canUpload(): boolean {
+     /**
+     * send upload request
+     */
     return this.file !== null;
   }
 

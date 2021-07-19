@@ -6,9 +6,17 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { Typography } from "@material-ui/core";
 import { IData } from "./data";
 
-export default memo(({ data }: { data: IData }) => {
+export default memo(({ data }: { data: IData }) =>
+    /**
+     *
+     * @param data
+     */
+{
   const { t } = useTranslation();
   return (
+      /**
+       * @param input styling
+       */
     <>
       <div
         style={{

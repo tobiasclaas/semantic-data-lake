@@ -15,36 +15,43 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   return (
     <Card style={{ width: "20rem", margin: "0 auto" }}>
       <CardContent>
-        <Grid container direction="column" spacing={5}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              value={viewModel.username}
-              label={t("login.username")}
-              onChange={(e) => viewModel.setUsername(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              type="password"
-              label={t("login.password")}
-              value={viewModel.password}
-              onChange={(e) => viewModel.setPassword(e.target.value)}
-            />
-          </Grid>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            viewModel.login();
+          }}
+        >
+          <Grid container direction="column" spacing={5}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                value={viewModel.username}
+                label={t("login.username")}
+                onChange={(e) => viewModel.setUsername(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                type="password"
+                label={t("login.password")}
+                value={viewModel.password}
+                onChange={(e) => viewModel.setPassword(e.target.value)}
+              />
+            </Grid>
 
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              disabled={!viewModel.canLogin}
-              color="primary"
-              onClick={() => viewModel.login()}
-            >
-              {t("generic.login")}
-            </Button>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                type="submit"
+                disabled={!viewModel.canLogin}
+                color="primary"
+              >
+                {t("generic.login")}
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        </form>
       </CardContent>
     </Card>
   );

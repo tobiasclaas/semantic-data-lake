@@ -18,7 +18,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+    /**
+     *
+     * @param theme
+     */
+ createStyles({
     chipContainer: {
       display: "flex",
       justifyContent: "center",
@@ -33,11 +37,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
+    /**
+     *
+     * @param viewModel
+     */
+{
   const { t } = useTranslation();
   const classes = useStyles();
 
   return (
+      /**
+       * @return
+       * @param select column
+       */
     <Grid container direction="column">
       <Grid item sm>
         <FormControl fullWidth margin="dense">

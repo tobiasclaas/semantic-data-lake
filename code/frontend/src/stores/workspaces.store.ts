@@ -85,7 +85,7 @@ class WorkspacesStore {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ workspace_id: id }),
       };
       const response = await fetch("/workspaces", configs);
       if (!response.ok) throw new Error(response.statusText);

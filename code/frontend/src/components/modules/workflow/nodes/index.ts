@@ -7,6 +7,11 @@ import { GroupbyNode } from "./groupby";
 import { FlattenNode } from "./flatten";
 
 export enum NodeType {
+  /**
+   * @param functions
+   * Data join,
+   * @operation export, filter, select, groupby.
+   */
   data_source = "data_source",
   export = "export",
   select = "select",
@@ -17,6 +22,7 @@ export enum NodeType {
 }
 
 const nodes: { [key in NodeType]: any } = {
+
   [NodeType.data_source]: DataSourceNode,
   [NodeType.join]: JoinNode,
   [NodeType.export]: ExportNode,

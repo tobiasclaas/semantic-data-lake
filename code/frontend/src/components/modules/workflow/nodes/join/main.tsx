@@ -5,9 +5,17 @@ import { useTranslation } from "react-i18next";
 import MergeTypeIcon from "@material-ui/icons/MergeType";
 import { Typography } from "@material-ui/core";
 
-export default memo(({ data }: { data: any }) => {
+export default memo(({ data }: { data: any }) =>
+    /**
+     *
+     * @param data
+     */
+{
   const { t } = useTranslation();
   return (
+      /**
+       * @param input styling
+       */
     <>
       <div
         style={{

@@ -9,6 +9,12 @@ import { IData } from "./data";
 import WorkflowHelper from "../../../../../utils/helpers/workflowHelper";
 
 class ViewModel extends PropertiesViewModel<IData> {
+  /**
+   *
+   * @param workflowViewModel
+   * @param id
+   * @param data
+   */
   constructor(workflowViewModel: WorkflowViewModel, id: string, data: IData) {
     super(workflowViewModel, id, data);
     const node = workflowViewModel.getNode(id);

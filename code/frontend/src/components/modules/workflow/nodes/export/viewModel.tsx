@@ -8,6 +8,12 @@ import WorkflowViewModel from "../..";
 import { IData } from "./data";
 
 class ViewModel extends PropertiesViewModel<IData> {
+  /**
+   *
+   * @param workflowViewModel
+   * @param id
+   * @param data
+   */
   constructor(workflowViewModel: WorkflowViewModel, id: string, data: IData) {
     super(workflowViewModel, id, data);
     makeObservable(this);
