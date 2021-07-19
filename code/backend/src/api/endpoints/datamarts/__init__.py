@@ -5,14 +5,14 @@ from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
-from business_logic.spark import SparkHelper
+from Utils.spark import SparkHelper
 from database.models import (
     MongodbStorage, PostgresqlStorage,
     CsvStorage, JsonStorage, XmlStorage, Datamart
 )
 import settings
 from api.services.decorators import parse_params
-from business_logic.services.mapper import mapper
+from Utils.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
 
 
@@ -50,7 +50,7 @@ class Datamarts(Resource):
 
     @parse_params(
         Argument("page", default=1, type=int, required=False),
-        Argument("limit", default=10, type=int, required=False),
+        Argument("limit", default=100, type=int, required=False),
         Argument("field_to_order", default="created_at", type=str, required=False),
         Argument("asc", default=False, type=bool, required=False),
         Argument("search", default=None, type=str, required=False),
@@ -72,7 +72,8 @@ class Datamarts(Resource):
             if data_only:
                 try:
                     spark_helper = SparkHelper("Read Data")
-                    data = spark_helper.read_datamart(datamart).toPandas().to_json()
+                    # Showing only first 20 rows
+                    data = spark_helper.read_datamart(datamart).limit(20).toPandas().to_json()
                     spark_helper.spark_session.stop()
                     return data
                 except Exception as e:

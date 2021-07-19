@@ -2,16 +2,51 @@ import json
 import datetime
 from flask import request
 from flask_restful import Resource
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
 
 from database.data_access import datamart_data_access as data_access
-from business_logic.spark import SparkHelper
+from Utils.spark import SparkHelper
 
-from business_logic.services.create_datamart import create_datamart
-from business_logic.ingestion import ingest_spark_helper
+from Utils.services.create_datamart import create_datamart
+from Utils.ingestion import ingest_spark_helper
 from database.models import CsvStorage, DatamartState
 from apscheduler.schedulers.background import BackgroundScheduler
 
 source_ids = []
+
+
+def flatten(df):
+    """
+    This functions is given by: https://gist.github.com/nmukerje/e65cde41be85470e4b8dfd9a2d6aed50
+    Flattens a complex json/xml dataframe to tabular data
+    :param df: pyspark dataframe object
+    :return: pyspark dataframe object
+    """
+    # compute Complex Fields (Lists and Structs) in Schema
+    complex_fields = dict([(field.name, field.dataType)
+                           for field in df.schema.fields
+                           if type(field.dataType) == ArrayType or  type(field.dataType) == StructType])
+    while len(complex_fields)!=0:
+        col_name=list(complex_fields.keys())[0]
+        print ("Processing :"+col_name+" Type : "+str(type(complex_fields[col_name])))
+
+        # if StructType then convert all sub element to columns.
+        # i.e. flatten structs
+        if (type(complex_fields[col_name]) == StructType):
+            expanded = [col(col_name+'.'+k).alias(col_name+'_'+k) for k in [ n.name for n in  complex_fields[col_name]]]
+            df=df.select("*", *expanded).drop(col_name)
+
+        # if ArrayType then add the Array Elements as Rows using the explode function
+        # i.e. explode Arrays
+        elif (type(complex_fields[col_name]) == ArrayType):
+            df=df.withColumn(col_name,explode_outer(col_name))
+
+        # recompute remaining Complex Fields in Schema
+        complex_fields = dict([(field.name, field.dataType)
+                               for field in df.schema.fields
+                               if type(field.dataType) == ArrayType or  type(field.dataType) == StructType])
+    return df
 
 
 def process_input(spark_helper, data):
@@ -45,10 +80,13 @@ def process_input(spark_helper, data):
         df1 = process_input(spark_helper, data['input'][0])
         return df1.groupBy(*data['column']).agg(data["aggregate"])
 
-    if data['type'] == 'data_source':
+    elif data['type'] == 'data_source':
         source_ids.append(data['uid'])
         datamart = data_access.get_by_uid(data['uid'])
-        return spark_helper.read_datamart(datamart)
+        dataframe = spark_helper.read_datamart(datamart)
+        if data['flatten']:
+            return flatten(dataframe)
+        return dataframe
 
 
 def __start__(spark_helper, dataframe, api_user, source, target_storage, workspace_id, hnr, comment):

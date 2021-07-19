@@ -15,6 +15,11 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
   return (
+      /**
+       * Return @Params
+       * file type xml
+       * Param Row_Tag, Root_Tag, Comment, Target_Storage.
+       */
     <React.Fragment>
       <Grid item container xs>
         <FileInput
@@ -89,3 +94,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 });
 
 export default Main;
+
+/**
+ * Export Params to xml/viewModel
+ */

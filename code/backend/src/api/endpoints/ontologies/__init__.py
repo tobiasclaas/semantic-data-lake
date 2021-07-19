@@ -9,7 +9,7 @@ from requests import post
 
 import settings
 from api.services.decorators import parse_params
-from business_logic.services.mapper import mapper
+from Utils.services.mapper import mapper
 from database.data_access import ontology_data_access
 from database.data_access import annotation_data_access
 
