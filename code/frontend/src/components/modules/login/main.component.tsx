@@ -39,11 +39,11 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
                 onChange={(e) => viewModel.setPassword(e.target.value)}
               />
             </Grid>
-
             <Grid item xs={12}>
               <Button
                 fullWidth
                 type="submit"
+                variant="contained"
                 disabled={!viewModel.canLogin}
                 color="primary"
               >
