@@ -8,11 +8,11 @@ import { FlattenNode } from "./flatten";
 
 export enum NodeType {
   data_source = "data_source",
-  join = "join",
   export = "export",
-  filter = "filter",
   select = "select",
+  filter = "filter",
   groupby = "groupby",
+  join = "join",
   flatten = "flatten",
 }
 
