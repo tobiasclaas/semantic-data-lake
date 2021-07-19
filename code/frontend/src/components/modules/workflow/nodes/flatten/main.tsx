@@ -2,7 +2,7 @@ import React, { memo } from "react";
 
 import { Handle, Position } from "react-flow-renderer";
 import { useTranslation } from "react-i18next";
-import ViewColumnIcon from "@material-ui/icons/ViewColumn";
+import TrendingFlatSharpIcon from '@material-ui/icons/TrendingFlatSharp';
 import { Typography } from "@material-ui/core";
 import { IData } from "./data";
 
@@ -19,7 +19,7 @@ export default memo(({ data }: { data: IData }) => {
           padding: 10,
         }}
       >
-        <ViewColumnIcon />
+        <TrendingFlatSharpIcon />
         <Typography style={{ margin: "0 0.5rem" }}>
           {t("workflow.items.flatten")}
         </Typography>
