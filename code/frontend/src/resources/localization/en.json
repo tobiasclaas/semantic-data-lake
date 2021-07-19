@@ -35,6 +35,7 @@
   "workflow.items.export": "Export",
   "workflow.items.filter": "Filter",
   "workflow.items.select": "Select",
+  "workflow.items.flatten": "Flatten",
   "dataset_management.upload.title": "Add a New Dataset",
   "dataset_management.upload.type": "Type",
   "dataset_management.upload.description": "Please provide the new dataset details.",

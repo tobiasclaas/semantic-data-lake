@@ -3,7 +3,8 @@ import { JoinNode } from "./join";
 import { ExportNode } from "./export";
 import { FilterNode } from "./filter";
 import { SelectNode } from "./select";
-import { groupbyNode } from "./groupby";
+import { GroupbyNode } from "./groupby";
+import { FlattenNode } from "./flatten";
 
 export enum NodeType {
   data_source = "data_source",
@@ -12,6 +13,7 @@ export enum NodeType {
   filter = "filter",
   select = "select",
   groupby = "groupby",
+  flatten = "flatten",
 }
 
 const nodes: { [key in NodeType]: any } = {
@@ -20,7 +22,8 @@ const nodes: { [key in NodeType]: any } = {
   [NodeType.export]: ExportNode,
   [NodeType.filter]: FilterNode,
   [NodeType.select]: SelectNode,
-  [NodeType.groupby]: groupbyNode,
+  [NodeType.groupby]: GroupbyNode,
+  [NodeType.flatten]: FlattenNode,
 };
 
 export default nodes;
