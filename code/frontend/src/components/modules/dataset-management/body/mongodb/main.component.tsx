@@ -15,6 +15,10 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
   return (
+      /**
+       * Def @Params
+       * Param Host, Port, DataBase, setCollection, Target_Storage, User, Password, Comment.
+       */
     <React.Fragment>
       <Grid container spacing={2} item style={{ alignItems: "center" }}>
         <Grid item>
@@ -139,4 +143,9 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   );
 });
 
+
 export default Main;
+
+/**
+ * Export Params to mongodb/viewModel
+ */

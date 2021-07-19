@@ -6,7 +6,7 @@ from passlib.hash import pbkdf2_sha256 as sha256
 from werkzeug.exceptions import NotFound, Conflict
 
 from api.services.decorators import parse_params
-from business_logic.services.mapper import mapper
+from Utils.services.mapper import mapper
 from database.data_access import user_data_access
 from database.models import User
 from .current import Current

@@ -11,9 +11,9 @@ from werkzeug.datastructures import FileStorage
 
 import settings
 from api.services.decorators import parse_params
-from business_logic.services.create_datamart import create_datamart
-from business_logic.services.mapper import mapper
-from business_logic.ingestion import ingest
+from Utils.services.create_datamart import create_datamart
+from Utils.services.mapper import mapper
+from Utils.ingestion import ingest
 
 from database.data_access import user_data_access
 from database.models import (

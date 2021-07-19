@@ -10,12 +10,12 @@ from werkzeug.exceptions import NotFound, InternalServerError
 from flask import jsonify
 
 from api.services.decorators import parse_params
-from business_logic.services.create_datamart import create_datamart
-from business_logic.spark import SparkHelper
+from Utils.services.create_datamart import create_datamart
+from Utils.spark import SparkHelper
 from database.data_access import datamart_data_access, user_data_access
 from database.models import Datamart, DatamartState
 from settings import Settings
-from business_logic.services.mapper import mapper
+from Utils.services.mapper import mapper
 
 STATE_RUNNING = 1
 STATE_FINISHED = 2
