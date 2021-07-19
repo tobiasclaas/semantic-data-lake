@@ -6,6 +6,10 @@ class AppStore {
   @observable status: StoreStatus = StoreStatus.uninitialized;
   @observable errorMessage: string = "";
 
+  @observable isLoggedIn: boolean = false;
+  @action setIsLoggedIn(newValue: boolean) {
+    this.isLoggedIn = newValue;
+  }
   // content manipulation
   @observable contentViewModel: ContentStore | null = null;
   @computed get view() {

@@ -13,7 +13,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
   return (
-    <Card>
+    <Card style={{ width: "20rem", margin: "0 auto" }}>
       <CardContent>
         <Grid container direction="column" spacing={5}>
           <Grid item xs={12}>
