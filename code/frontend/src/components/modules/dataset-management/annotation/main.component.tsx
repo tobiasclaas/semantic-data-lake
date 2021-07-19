@@ -8,33 +8,41 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { TreeItem, TreeView } from "@material-ui/lab";
 import { Field } from "../../../../models/datamarts";
 
-
+const Item: React.FC<{ field: Field; path?: string }> = ({ field, path }) => {
+  const { t } = useTranslation();
+  if (!path) path = field.name;
+  else path = path + "." + name;
+  return <TreeItem nodeId={path} label={field.name}></TreeItem>;
+};
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
   return (
-    {viewModel.datamart?.}
     <TreeView
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      <TreeItem nodeId="1" label="Applications">
-        <TreeItem nodeId="2" label="Calendar" />
-        <TreeItem nodeId="3" label="Chrome" />
-        <TreeItem nodeId="4" label="Webstorm" />
-      </TreeItem>
-      <TreeItem nodeId="5" label="Documents">
-        <TreeItem nodeId="10" label="OSS" />
-        <TreeItem nodeId="6" label="Material-UI">
-          <TreeItem nodeId="7" label="src">
-            <TreeItem nodeId="8" label="index.js" />
-            <TreeItem nodeId="9" label="tree-view.js" />
-          </TreeItem>
-        </TreeItem>
-      </TreeItem>
+      {viewModel.datamart?.metadata.schema.fields.map((item, index) => (
+        <Item field={item} key={index} />
+      ))}
     </TreeView>
   );
 });
 
 export default Main;
+
+//   <TreeItem nodeId="1" label="Applications">
+//     <TreeItem nodeId="2" label="Calendar" />
+//     <TreeItem nodeId="3" label="Chrome" />
+//     <TreeItem nodeId="4" label="Webstorm" />
+//   </TreeItem>
+//   <TreeItem nodeId="5" label="Documents">
+//     <TreeItem nodeId="10" label="OSS" />
+//     <TreeItem nodeId="6" label="Material-UI">
+//       <TreeItem nodeId="7" label="src">
+//         <TreeItem nodeId="8" label="index.js" />
+//         <TreeItem nodeId="9" label="tree-view.js" />
+//       </TreeItem>
+//     </TreeItem>
+//   </TreeItem>
