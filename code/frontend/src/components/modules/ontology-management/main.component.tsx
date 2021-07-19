@@ -35,20 +35,15 @@ interface TabPanelProps {
   value: any;
 }
 
-function TabPanel(props: TabPanelProps)
-/**
- *
- * @param props
- * @constructor
- */
-{
+function TabPanel(props: TabPanelProps) {
+  /**
+   *
+   * @param props
+   * @constructor
+   */
   const { children, value, index, ...other } = props;
 
-  return
-  /**
-   * @return
-   */
-  (
+  return (
     <div
       role="tabpanel"
       hidden={value !== index}
@@ -65,24 +60,22 @@ function TabPanel(props: TabPanelProps)
   );
 }
 
-function a11yProps(index: any)
-/**
- *
- * @param index
- */
-{
+function a11yProps(index: any) {
+  /**
+   *
+   * @param index
+   */
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-function QueryTable(props)
-/**
- *
- * @param props
- * @constructor
- */
-{
+function QueryTable(props) {
+  /**
+   *
+   * @param props
+   * @constructor
+   */
   const Data = props.Data;
   const Querysent = props.Querysent;
   if (Querysent == true) {
@@ -120,141 +113,139 @@ function QueryTable(props)
 /* Sayeds Part End */
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
-    /**
-     *
-     * @param viewModel
-     */
-{
+  /**
+   *
+   * @param viewModel
+   */
+  {
+    const { t } = useTranslation();
 
+    const [value, setValue] = React.useState(0);
 
-  const { t } = useTranslation();
-
-  const
-      [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) =>
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) =>
       /**
-       * 
+       *
        * @param event
        * @param newValue
        */
-  {
-    setValue(newValue);
-  };
+      {
+        setValue(newValue);
+      };
 
-  return (
-    <React.Fragment>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="simple tabs example"
-      >
-        <Tab label=" Upload an Ontology-File " {...a11yProps(0)} />
-        <Tab label=" Query an Ontology " {...a11yProps(1)} />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <TopRightFab
-          variant="extended"
-          color="primary"
-          onClick={() => viewModel.openUploadDialog()}
+    return (
+      <React.Fragment>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
         >
-          <AddIcon />
-          {t("generic.add_new")}
-        </TopRightFab>
-        <Typography variant="h6">{t("ontology_management.title")}</Typography>
-        <Typography variant="subtitle1">
-          {t("ontology_management.description")}
-        </Typography>
-        <ContainerGrid container spacing={0}>
-          {viewModel.ontologies.map((item) => (
-            <Item
-              key={item.id}
-              title={item.name}
-              onDelete={() => viewModel.delete(item)}
-            />
-          ))}
-        </ContainerGrid>
-        <Dialog
-          open={viewModel.isUploadDialogOpen}
-          disableAutoFocus
-          onClose={() => viewModel.closeUploadDialog()}
-        >
-          <DialogTitle>{t("ontology_management.upload.title")}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              {t("ontology_management.upload.description")}
-            </DialogContentText>
+          <Tab label=" Upload an Ontology-File " {...a11yProps(0)} />
+          <Tab label=" Query an Ontology " {...a11yProps(1)} />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <TopRightFab
+            variant="extended"
+            color="primary"
+            onClick={() => viewModel.openUploadDialog()}
+          >
+            <AddIcon />
+            {t("generic.add_new")}
+          </TopRightFab>
+          <Typography variant="h6">{t("ontology_management.title")}</Typography>
+          <Typography variant="subtitle1">
+            {t("ontology_management.description")}
+          </Typography>
+          <ContainerGrid container spacing={0}>
+            {viewModel.ontologies.map((item) => (
+              <Item
+                key={item.id}
+                title={item.name}
+                onDelete={() => viewModel.delete(item)}
+              />
+            ))}
+          </ContainerGrid>
+          <Dialog
+            open={viewModel.isUploadDialogOpen}
+            disableAutoFocus
+            onClose={() => viewModel.closeUploadDialog()}
+          >
+            <DialogTitle>{t("ontology_management.upload.title")}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                {t("ontology_management.upload.description")}
+              </DialogContentText>
+              <TextField
+                autoFocus
+                onChange={(e) => viewModel.setUploadName(e.target.value)}
+                value={viewModel.uploadName}
+                margin="dense"
+                label={t("generic.name")}
+                fullWidth
+              />
+              <FileInput
+                label={t("generic.file")}
+                accept=".owl,.n3"
+                onChange={(v) => viewModel.setUploadFile(v)}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button
+                color="primary"
+                onClick={() => viewModel.closeUploadDialog()}
+              >
+                {t("generic.cancel")}
+              </Button>
+              <Button
+                color="primary"
+                disabled={!viewModel.canUpload}
+                onClick={() => viewModel.upload()}
+              >
+                {t("generic.upload")}
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Grid item sm>
             <TextField
               autoFocus
-              onChange={(e) => viewModel.setUploadName(e.target.value)}
-              value={viewModel.uploadName}
+              onChange={(e) => viewModel.setQueryString(e.target.value)}
+              value={viewModel.QueryString}
               margin="dense"
-              label={t("generic.name")}
+              label={"Query"}
               fullWidth
             />
-            <FileInput
-              label={t("generic.file")}
-              accept=".owl,.n3"
-              onChange={(v) => viewModel.setUploadFile(v)}
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label={t("Graph Name")}
+            >
+              <MenuItem>Graph 1</MenuItem>
+              <MenuItem>Graph 2</MenuItem>
+              label={t("Graph Name")}
+            </Select>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={viewModel.IsQuery}
+                  color="primary"
+                  onChange={(e) => viewModel.setIsQuery(e.target.checked)}
+                />
+              }
+              label={t("Is Query")}
             />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="primary"
-              onClick={() => viewModel.closeUploadDialog()}
-            >
-              {t("generic.cancel")}
+            <Button color="primary" onClick={() => viewModel.query()}>
+              {t("Send")}
             </Button>
-            <Button
-              color="primary"
-              disabled={!viewModel.canUpload}
-              onClick={() => viewModel.upload()}
-            >
-              {t("generic.upload")}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Grid item sm>
-          <TextField
-            autoFocus
-            onChange={(e) => viewModel.setQueryString(e.target.value)}
-            value={viewModel.QueryString}
-            margin="dense"
-            label={"Query"}
-            fullWidth
-          />
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label={t("Graph Name")}
-          >
-            <MenuItem>Graph 1</MenuItem>
-            <MenuItem>Graph 2</MenuItem>
-            label={t("Graph Name")}
-          </Select>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={viewModel.IsQuery}
-                color="primary"
-                onChange={(e) => viewModel.setIsQuery(e.target.checked)}
-              />
-            }
-            label={t("Is Query")}
-          />
-          <Button color="primary" onClick={() => viewModel.query()}>
-            {t("Send")}
-          </Button>
-        </Grid>
-        <div>
-          Here the Query should be displayed as a table, but how to do that ?!
-          <QueryTable Querysent={viewModel.Querysent} Data={viewModel.Data} />
-        </div>
-      </TabPanel>
-    </React.Fragment>
-  );
-});
+          </Grid>
+          <div>
+            Here the Query should be displayed as a table, but how to do that ?!
+            <QueryTable Querysent={viewModel.Querysent} Data={viewModel.Data} />
+          </div>
+        </TabPanel>
+      </React.Fragment>
+    );
+  }
+);
 
 export default Main;
