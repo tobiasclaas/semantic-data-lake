@@ -20,12 +20,9 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 
   return (
       /**
-       *  Return
+       *  Return @Params
        *  Distinct file selection csv
-       *  Check parameter Delimiter
-       *  Check parameter HasHeader
-       *  Check parameter Comment
-       *  Check parameter Target Storage
+       *  Check parameter Delimiter, HasHeader, Comment, Target Storage.
        *
        */
     <React.Fragment>
@@ -96,5 +93,9 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 });
 
 export default Main;
+
+/**
+ * Export Params to csv/viewModel
+ */
 
 

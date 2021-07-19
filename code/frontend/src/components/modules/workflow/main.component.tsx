@@ -16,7 +16,12 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { green } from "@material-ui/core/colors";
 import routingStore from "../../../stores/routing.store";
 
-const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
+    /**
+     *
+     * @param viewModel
+     */
+{
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const { t } = useTranslation();
@@ -26,14 +31,28 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   });
 
   const onLoad = (_reactFlowInstance: OnLoadParams<any>) =>
-    setReactFlowInstance(_reactFlowInstance);
+      /**
+       *
+       * @param _reactFlowInstance
+       */
+      setReactFlowInstance(_reactFlowInstance);
 
-  const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+  const onDragOver = (event: React.DragEvent<HTMLDivElement>) =>
+      /**
+       *
+       * @param event
+       */
+  {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   };
 
-  const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const onDrop = (event: React.DragEvent<HTMLDivElement>) =>
+      /**
+       *
+       * @param event
+       */
+  {
     event.preventDefault();
     if (!reactFlowWrapper.current) return;
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();

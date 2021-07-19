@@ -6,9 +6,18 @@ import { useTranslation } from "react-i18next";
 import StorageIcon from "@material-ui/icons/Storage";
 import { IData } from "./data";
 
-export default memo(({ data }: { data: IData }) => {
+export default memo(({ data }: { data: IData }) =>
+
+    /**
+     *
+     * @param data
+     */
+{
   const { t } = useTranslation();
   return (
+      /**
+       * @param data styling
+       */
     <>
       <div
         style={{

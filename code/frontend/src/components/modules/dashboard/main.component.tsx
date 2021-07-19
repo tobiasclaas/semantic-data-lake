@@ -9,6 +9,8 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
   return (
+
+
     <div>
       <div>
         {" "}
