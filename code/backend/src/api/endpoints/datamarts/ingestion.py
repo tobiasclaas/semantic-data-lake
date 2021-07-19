@@ -3,7 +3,7 @@ import uuid
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import get_jwt_identity
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
@@ -14,6 +14,7 @@ from api.services.decorators import parse_params
 from Utils.services.create_datamart import create_datamart
 from Utils.services.mapper import mapper
 from Utils.ingestion import ingest
+from Utils import login_required
 
 from database.data_access import user_data_access
 from database.models import (
@@ -23,7 +24,6 @@ from database.models import (
 
 def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
     """
-
     :param api_user: User object, currently passed a None object, since their is no user login functionality, but used
     for assgining to datamart.created_by field.
     :param source: Valid objects are {MongodbStorage, PostgresqlStorage, CsvStorage,
@@ -57,7 +57,7 @@ def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
 
 
 class MongodbIngestion(Resource):
-    
+    @login_required
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
