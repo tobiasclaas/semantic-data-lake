@@ -6,6 +6,11 @@ import { SelectNode } from "./select";
 import { groupbyNode } from "./groupby";
 
 export enum NodeType {
+  /**
+   * @param functions
+   * Data join,
+   * @operation export, filter, select, groupby.
+   */
   data_source = "data_source",
   join = "join",
   export = "export",
@@ -15,6 +20,7 @@ export enum NodeType {
 }
 
 const nodes: { [key in NodeType]: any } = {
+
   [NodeType.data_source]: DataSourceNode,
   [NodeType.join]: JoinNode,
   [NodeType.export]: ExportNode,

@@ -7,9 +7,18 @@ import Grid from "@material-ui/core/Grid";
 import { useTranslation } from "react-i18next";
 import FormControl from "@material-ui/core/FormControl";
 
-const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
+    /**
+     *
+     * @param viewModel
+     */
+{
   const { t } = useTranslation();
   return (
+      /**
+       * @return
+       * @param filter column
+       */
     <Grid container direction="column">
       <Grid item sm>
         <FormControl fullWidth margin="dense">

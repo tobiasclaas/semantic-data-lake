@@ -35,10 +35,20 @@ interface TabPanelProps {
   value: any;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: TabPanelProps)
+/**
+ *
+ * @param props
+ * @constructor
+ */
+{
   const { children, value, index, ...other } = props;
 
-  return (
+  return
+  /**
+   * @return
+   */
+  (
     <div
       role="tabpanel"
       hidden={value !== index}
@@ -55,13 +65,24 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: any) {
+function a11yProps(index: any)
+/**
+ *
+ * @param index
+ */
+{
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-function QueryTable(props) {
+function QueryTable(props)
+/**
+ *
+ * @param props
+ * @constructor
+ */
+{
   const Data = props.Data;
   const Querysent = props.Querysent;
   if (Querysent == true) {
@@ -91,14 +112,26 @@ function QueryTable(props) {
 
 /* Sayeds Part End */
 
-const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
+    /**
+     *
+     * @param viewModel
+     */
+{
 
 
   const { t } = useTranslation();
 
-  const [value, setValue] = React.useState(0);
+  const
+      [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) =>
+      /**
+       * 
+       * @param event
+       * @param newValue
+       */
+  {
     setValue(newValue);
   };
 

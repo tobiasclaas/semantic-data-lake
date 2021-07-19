@@ -16,6 +16,10 @@ import { Theme } from "@material-ui/core/styles";
 import { createStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
+    /**
+     *
+     * @param theme
+     */
   createStyles({
     chipContainer: {
       display: "flex",
@@ -31,11 +35,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
+    /**
+     *
+     * @param viewModel
+     */
+{
   const { t } = useTranslation();
   const classes = useStyles();
 
   return (
+      /**
+       * @return
+       * @param group column
+       */
     <Grid container direction="column">
       <Grid item sm>
         <FormControl fullWidth margin="dense">

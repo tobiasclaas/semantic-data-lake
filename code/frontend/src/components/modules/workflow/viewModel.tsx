@@ -173,7 +173,9 @@ class ViewModel extends ContentStore {
     }
   }
 
-  // Properties
+  /**
+   * Properties
+   */
   @observable propertiesViewModel: PropertiesViewModel<NodeData> | null = null;
 
   @computed get isPropertiesModalOpen() {
