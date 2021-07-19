@@ -12,7 +12,7 @@ from werkzeug.datastructures import FileStorage
 import settings
 from api.services.decorators import parse_params
 
-from Utils import login_required
+from utils import login_required
 from utils.services.create_datamart import create_datamart
 from utils.services.mapper import mapper
 from utils.ingestion import ingest
