@@ -24,12 +24,6 @@ def initialize():
         )
         user.save()
 
-    # ===== create default workspace if not exists ==============================================================
-    users = user_data_access.get_all()
-    for user in users:
-        if len(workspace_data_access.get_all(user)) == 0:
-            workspace_data_access.create("Default Workspace", user)
-
     # ===== init postgresql ========================================================================
 #    postgresql = settings.postgresql_storage
 #    for item in workspace_data_access.get_all():

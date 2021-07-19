@@ -1,11 +1,11 @@
 import json
-
 from flask import jsonify, Response
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from werkzeug.exceptions import HTTPException
 from werkzeug.datastructures import FileStorage
 from requests import post
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 import settings
 from api.services.decorators import parse_params
@@ -18,6 +18,8 @@ class Ontologies(Resource):
     """
     Class for managing ontologies.
     """
+
+    @jwt_required
     def get(self, workspace_id):
         """
         API get request for ontologies.
@@ -27,6 +29,7 @@ class Ontologies(Resource):
         """
         return jsonify([mapper(item) for item in ontology_data_access.get_all(workspace_id)])
 
+    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=False),
         Argument("name", default=None, type=str, required=False)
@@ -42,6 +45,7 @@ class Ontologies(Resource):
         """
         return jsonify(mapper(ontology_data_access.add(name, file, workspace_id)))
 
+    @jwt_required
     def delete(self, workspace_id, ontology_id):
         """
         API delete request for deleting an ontology from a workspace.
@@ -60,6 +64,7 @@ class Ontologies(Resource):
 class OntologiesSearch(Resource):
     """ Provides requests to search or query ontologies in fuseki directly. """
 
+    @jwt_required
     @parse_params(
         Argument("querystring", required=True, type=str),
         Argument("graph_name", default='?g', type=str),
@@ -93,6 +98,8 @@ class OntologiesSearch(Resource):
 
 class Annotation(Resource):
     """ API class to manage Annotations. """
+
+    @jwt_required
     @parse_params(
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', type=str, default=None)
@@ -118,6 +125,7 @@ class Annotation(Resource):
         except HTTPException as ex:
             return Response(status=ex.code)
 
+    @jwt_required
     @parse_params(
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', required=True, type=str),
@@ -146,6 +154,7 @@ class Annotation(Resource):
         except HTTPException as ex:
             return Response(status=ex.code)
 
+    @jwt_required
     @parse_params(
         Argument('datamart_id', type=str, required=True),
         Argument('data_attribute', type=str, required=True),
@@ -172,6 +181,7 @@ class Completion(Resource):
     """
     Class for search and suggestion requests.
     """
+    @jwt_required
     @parse_params(
         Argument('search_term', required=True, type=str)
     )

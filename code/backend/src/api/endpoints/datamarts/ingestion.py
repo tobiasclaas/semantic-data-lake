@@ -1,9 +1,8 @@
 import datetime
 import uuid
-
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import jsonify
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
@@ -11,17 +10,11 @@ from werkzeug.datastructures import FileStorage
 
 import settings
 from api.services.decorators import parse_params
-
-from utils import login_required
 from utils.services.create_datamart import create_datamart
 from utils.services.mapper import mapper
 from utils.ingestion import ingest
-
-
+from database.models import (MongodbStorage, PostgresqlStorage, DatamartState, CsvStorage, JsonStorage, XmlStorage)
 from database.data_access import user_data_access
-from database.models import (
-    MongodbStorage, PostgresqlStorage, DatamartState, CsvStorage, JsonStorage, XmlStorage
-)
 
 
 def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
@@ -59,7 +52,8 @@ def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
 
 
 class MongodbIngestion(Resource):
-    @login_required
+
+    @jwt_required
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
@@ -71,10 +65,8 @@ class MongodbIngestion(Resource):
         Argument("comment", default='', type=str, required=False),
         Argument("human_readable_name", default='', type=str, required=False)
     )
-    def post(
-            self, host, port, database, collection, workspace_id, target_storage, user, password, comment,
-            human_readable_name
-    ):
+    def post(self, host, port, database, collection, workspace_id, target_storage, user, password, comment,
+             human_readable_name):
         # api_user = user_data_access.get_by_email(get_jwt_identity()["email"])
 
         source = MongodbStorage(
@@ -90,7 +82,8 @@ class MongodbIngestion(Resource):
 
 
 class PostgresqlIngestion(Resource):
-    
+
+    @jwt_required
     @parse_params(
         Argument("host", default='', type=str, required=True),
         Argument("port", default='', type=str, required=True),
@@ -119,6 +112,8 @@ class PostgresqlIngestion(Resource):
 
 
 class CsvIngestion(Resource):
+
+    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("delimiter", default=';', type=str, required=False),
@@ -147,7 +142,8 @@ class CsvIngestion(Resource):
 
 
 class JsonIngestion(Resource):
-    
+
+    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("target_storage", default='HDFS', type=str, required=False),
@@ -169,7 +165,8 @@ class JsonIngestion(Resource):
 
 
 class XmlIngestion(Resource):
-    
+
+    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
         Argument("row_tag", default='', type=str, required=False),
@@ -185,7 +182,7 @@ class XmlIngestion(Resource):
         source = XmlStorage(
             file=f"{hdfs.ingestion_directory}/{workspace_id}/{uuid.uuid4()}.xml",
             row_tag=row_tag,
-            root_tag=root_tag,
+            root_tag=root_tag
         )
 
         # Used to first write input file to HDFS datalake_ingestion folder, and from their ingested

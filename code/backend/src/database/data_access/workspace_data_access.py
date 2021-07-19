@@ -12,7 +12,12 @@ from settings import Settings
 
 
 def get_all(user) -> [Workspace]:
-    return Workspace.objects(user=user).all()
+    workspaces = Workspace.objects(user=user).all()
+    if len(workspaces) == 0:
+        create("Default Workspace", user)
+        workspaces = Workspace.objects(user=user).all()
+
+    return workspaces
 
 
 def create(name, user):
@@ -56,28 +61,30 @@ def create(name, user):
     return entity
 
 
-def delete(workspace_id):
-    if len(get_all()) == 1:
+def delete(workspace_id, user):
+    if len(get_all(user)) == 1:
         raise BadRequest()
-    entity: Workspace = Workspace.objects(id__exact=workspace_id)
+
+    entity: Workspace = Workspace.objects(id__exact=workspace_id, user=user)
     if len(entity) == 0:
         raise NotFound()
-    entity = entity.get()
-    if entity.name == 'Default Workspace':
-        return None
+
     # delete workspace in fuseki
     delete_request('http://localhost:3030/$/datasets/{}'.format(workspace_id),
                    auth=(Settings().fuseki_storage.user, Settings().fuseki_storage.password))
+
     # delete workspace folder in hdfs based on workspace_id
     settings = Settings()
     client = PyWebHdfsClient(host=settings.hdfs_storage.namenode, port="9870")
     client.delete_file_dir("/datalake_storage/" + workspace_id, recursive=True)
     client.delete_file_dir("/datalake_ingestion/" + workspace_id, recursive=True)
+
     # delete database in MongoDB based on workspace_id
     # auth = f"{storage.user}:{storage.password}@"
     uri = f"mongodb://{settings.mongodb_storage.user}:{settings.mongodb_storage.password}@{settings.mongodb_storage.host}:{settings.mongodb_storage.port}/?authSource=admin"
     mongo_client = pymongo.MongoClient(uri)
     mongo_client.drop_database(workspace_id)
+
     # delete database in postgres based on workspace_id
     postgresql = settings.postgresql_storage
     connection = None
@@ -94,6 +101,7 @@ def delete(workspace_id):
         cur = connection.cursor()
         cur.execute("DROP DATABASE workspace_" + workspace_id + ";")
         connection.close()
+
     # delete ontology entries in MongoDB
     Ontology.objects(workspace=workspace_id).delete()
     Workspace.objects(id__exact=workspace_id).delete()

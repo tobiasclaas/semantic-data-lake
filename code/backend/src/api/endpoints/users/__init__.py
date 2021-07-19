@@ -9,22 +9,19 @@ from api.services.decorators import parse_params
 from utils.services.mapper import mapper
 from database.data_access import user_data_access
 from database.models import User
-from .current import Current
 
 
 class Users(Resource):
-    
+
     @parse_params(
         Argument("email", type=str)
     )
     def get(self, email=None):
         """
-        # ==================================================================================================
+
 
         :param email:
         :return:
-        # ==================================================================================================
-
         """
         if email:
             user = user_data_access.get_by_email(email)
@@ -35,6 +32,7 @@ class Users(Resource):
                 users.append(mapper(user))
             return jsonify(users)
 
+    @jwt_required
     @parse_params(
         Argument("email", required=True, type=str),
         Argument("firstname", required=True, type=str),
@@ -43,15 +41,13 @@ class Users(Resource):
     )
     def put(self, email, firstname, lastname, is_admin):
         """
-         # ==================================================================================================
+
 
         :param email:
         :param firstname:
         :param lastname:
         :param is_admin:
         :return:
-        # ==================================================================================================
-
         """
         user = user_data_access.get_by_email(email)
         user.firstname = firstname
@@ -60,6 +56,7 @@ class Users(Resource):
         user.save()
         return jsonify(mapper(user))
 
+    @jwt_required
     @parse_params(
         Argument("email", required=True, type=str),
         Argument("password", required=True, type=str),
@@ -69,14 +66,14 @@ class Users(Resource):
     )
     def post(self, email, password, firstname, lastname, is_admin):
         """
-    # ==================================================================================================
+
+
         :param email:
         :param password:
         :param firstname:
         :param lastname:
         :param is_admin:
         :return:
-        # ==================================================================================================
         """
         try:
             user_data_access.get_by_email(email)
@@ -91,16 +88,16 @@ class Users(Resource):
             )
             user.save()
             return jsonify(mapper(user))
-    
+
+    @jwt_required
     @parse_params(
         Argument("email", required=True, type=str)
     )
     def delete(self, email):
         """
-    # ==================================================================================================
+
         :param email:
         :return:
-    # ==================================================================================================
         """
         user = user_data_access.get_by_email(email)
         user.delete()

@@ -45,9 +45,9 @@ def delete_data(storage):
     #     dataframe = spark_helper.read_postrgesql(source)
 
 
-
 class Datamarts(Resource):
 
+    @jwt_required
     @parse_params(
         Argument("page", default=1, type=int, required=False),
         Argument("limit", default=100, type=int, required=False),
@@ -83,8 +83,9 @@ class Datamarts(Resource):
 
             return jsonify(mapper(datamart))
 
+    @jwt_required
     @parse_params(
-        Argument("uid", type=str, required=False),
+        Argument("uid", type=str, required=False)
     )
     def delete(self, workspace_id, uid):
         if uid is None:
@@ -105,10 +106,11 @@ class Datamarts(Resource):
         else:
             return "Permission not allowed"
 
+    @jwt_required
     @parse_params(
         Argument("comment", default='', type=str, required=False),
         Argument("annotated_schema", required=False),
-        Argument("human_readable_name", required=False),
+        Argument("human_readable_name", required=False)
     )
     def put(self, workspace_id, uid, comment, annotated_schema, human_readable_name):
         datamart = data_access.get_by_uid(uid)
