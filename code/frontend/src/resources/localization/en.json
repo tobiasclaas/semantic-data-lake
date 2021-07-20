@@ -81,5 +81,7 @@
   "workflow.properties_dialog.groupby.select": "Group By select",
   "workflow.properties_dialog.filter.condition": "Condition",
   "login.username": "Username",
-  "login.password": "Password"
+  "login.password": "Password",
+  "annotation.property_description": "Property description",
+  "annotation.ontology_property": "Ontology property"
 }

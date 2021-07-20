@@ -15,6 +15,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import AutocompleteComponent from "../../../common/autocomplete";
+import workspacesStore from "../../../../stores/workspaces.store";
 
 const Main: React.FC<{ field: Field; path: string; viewModel: ViewModel }> =
   observer(({ field, path, viewModel }) => {
@@ -107,6 +111,36 @@ const Main: React.FC<{ field: Field; path: string; viewModel: ViewModel }> =
             </List>
           </Grid>
         )}
+
+        <Grid item container xs spacing={1} alignItems="center">
+          <Grid item xs={5}>
+            <TextField
+              fullWidth
+              label={t("annotation.property_description")}
+              value={viewModel.annotationPropertyDescription}
+              onChange={(e) =>
+                viewModel.setAnnotationPropertyDescription(e.target.value)
+              }
+            />
+          </Grid>
+          <Grid item xs>
+            <AutocompleteComponent
+              value={viewModel.annotationOntologyProperty}
+              onChange={(value) =>
+                viewModel.setAnnotationOntologyProperty(value)
+              }
+              title={t("annotation.ontology_property")}
+              queryUrl={(term: string) =>
+                `/workspaces/${workspacesStore.currentWorkspace?.id}/ontologies/completion?search_term=${term}`
+              }
+            />
+          </Grid>
+          <Grid item>
+            <IconButton onClick={() => viewModel.addAnnotation()}>
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
       </Grid>
     );
   });

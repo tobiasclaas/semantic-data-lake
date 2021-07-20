@@ -1,11 +1,5 @@
-export type AutocompleteItemKeyValue = string | number;
-export type AutocompleteItemGroupKeyValue = string | number | null;
-
-export interface AutocompleteItem<
-  T extends AutocompleteItemKeyValue,
-  G extends AutocompleteItemGroupKeyValue | undefined = undefined
-> {
-  id: T;
+export interface AutocompleteItem {
+  value: string;
   text: string;
-  group: G;
+  description?: string;
 }

@@ -12,12 +12,16 @@ import StoreStatus from "../../../../models/storeStatus.enum";
 import workspacesStore from "../../../../stores/workspaces.store";
 import View from "./main.component";
 import FieldView from "./fieldView.component";
+import { AutocompleteItem } from "../../../../models/autocomplete";
 
 class ViewModel extends ContentStore {
   @observable datamart: IDatamart | null = null;
   @observable field: Field | null = null;
   @observable path: string = "";
   annotations: IObservableArray<Annotation>;
+
+  @observable annotationPropertyDescription: string = "";
+  @observable annotationOntologyProperty: AutocompleteItem | null = null;
 
   constructor(item: IDatamart) {
     super();
@@ -26,6 +30,14 @@ class ViewModel extends ContentStore {
     makeObservable(this);
 
     this.initialize(item);
+  }
+
+  @action setAnnotationPropertyDescription(newValue: string) {
+    this.annotationPropertyDescription = newValue;
+  }
+
+  @action setAnnotationOntologyProperty(newValue: AutocompleteItem | null) {
+    this.annotationOntologyProperty = newValue;
   }
 
   @action display(field: Field | null, path: string) {
@@ -90,6 +102,8 @@ class ViewModel extends ContentStore {
       this.setStatus(StoreStatus.failed);
     }
   }
+
+  async addAnnotation() {}
 
   @action deleteAnnotationInternal(
     data_attribute: string,
