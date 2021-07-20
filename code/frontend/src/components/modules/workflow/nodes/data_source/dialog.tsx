@@ -52,7 +52,6 @@ const Dialog: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) =>
                       )
                         data.schema.primary_key.push(i.data_attribute);
                     });
-                    console.log(data.schema.primary_key);
                   })
                 }
               >
