@@ -117,10 +117,8 @@ class Annotation(Resource):
 
             if len(ret) == 0:
                 return []
-            elif len(ret) == 1:
-                return mapper(ret.get())
-            if len(ret) > 1:
-                return jsonify([mapper(ret[i]) for i in range(0, len(ret))])
+            else:
+                return jsonify([mapper(i) for i in ret])
         except HTTPException as ex:
             return Response(status=ex.code)
 
