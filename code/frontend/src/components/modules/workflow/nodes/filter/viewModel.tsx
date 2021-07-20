@@ -22,8 +22,11 @@ class ViewModel extends PropertiesViewModel<IData> {
       node,
       workflowViewModel.elements
     );
-    if (input.length == 1)
+    if (input.length == 1) {
       this.data.schema.fields = input[0].node.data?.schema.fields ?? [];
+      this.data.schema.primary_key =
+        input[0].node.data?.schema.primary_key ?? [];
+    }
 
     makeObservable(this);
   }

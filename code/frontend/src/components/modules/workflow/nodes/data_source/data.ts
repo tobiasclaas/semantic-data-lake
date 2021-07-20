@@ -12,5 +12,6 @@ export default {
   uid: "",
   schema: {
     fields: [],
+    primary_key: [],
   },
 } as IData;
