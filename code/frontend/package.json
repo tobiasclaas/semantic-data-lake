@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "history": "^5.0.0",
     "i18next": "^20.2.1",
+    "loadsh": "^0.0.4",
     "mobx": "^6.2.0",
     "mobx-react": "^7.1.0",
     "mobx-react-router": "^4.1.0",
