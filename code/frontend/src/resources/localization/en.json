@@ -29,6 +29,8 @@
   "generic.path": "Path",
   "generic.item_type": "Item Type",
   "generic.type": "Type",
+  "generic.annotations": "Annotations",
+  "generic.none": "None",
   "settings.primary": "Primary",
   "settings.workspaces": "Workspaces",
   "settings.current_workspace": "Current workspace",

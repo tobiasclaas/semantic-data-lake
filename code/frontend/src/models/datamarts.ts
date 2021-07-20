@@ -67,3 +67,10 @@ export interface IDatamartStorage {
   comment: string;
   status: IDatamartStatus;
 }
+
+export interface Annotation {
+  comment: string;
+  data_attribute: string;
+  datamart_id: string;
+  ontology_attribute: [string, string][];
+}

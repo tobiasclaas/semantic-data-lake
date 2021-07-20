@@ -48,7 +48,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   const { t } = useTranslation();
 
   return (
-    <Grid style={{ marginTop: "1rem" }} container spacing={3}>
+    <Grid style={{ marginTop: "1rem", width: "100%" }} container spacing={3}>
       <Grid item xs>
         <TreeView
           defaultCollapseIcon={<ExpandMoreIcon />}
@@ -67,18 +67,3 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 });
 
 export default Main;
-
-//   <TreeItem nodeId="1" label="Applications">
-//     <TreeItem nodeId="2" label="Calendar" />
-//     <TreeItem nodeId="3" label="Chrome" />
-//     <TreeItem nodeId="4" label="Webstorm" />
-//   </TreeItem>
-//   <TreeItem nodeId="5" label="Documents">
-//     <TreeItem nodeId="10" label="OSS" />
-//     <TreeItem nodeId="6" label="Material-UI">
-//       <TreeItem nodeId="7" label="src">
-//         <TreeItem nodeId="8" label="index.js" />
-//         <TreeItem nodeId="9" label="tree-view.js" />
-//       </TreeItem>
-//     </TreeItem>
-//   </TreeItem>
