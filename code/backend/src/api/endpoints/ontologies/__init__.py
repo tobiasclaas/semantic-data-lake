@@ -194,6 +194,8 @@ class Completion(Resource):
         """
         try:
             ret = json.loads(ontology_data_access.get_suggestions(workspace_id, search_term).decode('utf-8'))
-            return ret if ret is not None else Response(status=404)
-        except:
-            return Response(status=500)
+            return [{"text": i['label']['value'], "description": i['desc']['value'] if 'desc' in i else None,
+                     "value": "<" + i['subject']['value'] + ">"} for i in
+                    ret['results']['bindings']] if ret is not None else Response(status=404)
+        except HTTPException as ex:
+            return Response(ex.code)

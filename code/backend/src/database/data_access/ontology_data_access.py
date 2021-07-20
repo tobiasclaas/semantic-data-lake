@@ -104,10 +104,12 @@ def get_suggestions(workspace_id, search_term):
     """
     querystring = """
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT ?subject ?label
+        PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+        SELECT ?subject ?label ?desc
         WHERE {
           ?subject a ?x ;
             rdfs:label ?label .
+          OPTIONAL {?subject ncit:P97 ?desc .}
           FILTER (regex(str(?subject), '#""" + search_term + """', 'i') || 
             regex(?label, '""" + search_term + """', 'i'))
         }
