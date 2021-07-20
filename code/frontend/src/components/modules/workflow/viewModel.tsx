@@ -2,7 +2,11 @@ import { extendObservable, IObservableArray, runInAction, toJS } from "mobx";
 import { action, makeObservable, observable } from "mobx";
 import React from "react";
 import ContentStore from "../../../models/contentStore";
-import { DatamartStatus, IDatamart } from "../../../models/datamarts";
+import {
+  Annotation,
+  DatamartStatus,
+  IDatamart,
+} from "../../../models/datamarts";
 import StoreStatus from "../../../models/storeStatus.enum";
 import appStore from "../../../stores/app.store";
 import View from "./main.component";
@@ -29,6 +33,7 @@ class ViewModel extends ContentStore {
     super();
     this.isFullscreen = true;
     this.datamarts = observable.array([] as IDatamart[]);
+    this.annotations = observable.array([] as Annotation[]);
     this.elements = observable.array([] as Elements<NodeData>);
 
     makeObservable(this);
@@ -90,6 +95,7 @@ class ViewModel extends ContentStore {
   }
 
   datamarts: IObservableArray<IDatamart>;
+  annotations: IObservableArray<Annotation>;
   elements: IObservableArray<FlowElement<NodeData>>;
 
   private refreshIntervalId: number | null = null;
@@ -139,6 +145,19 @@ class ViewModel extends ContentStore {
 
   @action setDatamarts(newValue: IDatamart[]) {
     this.datamarts.replace(newValue);
+    this.annotations.clear();
+    newValue.forEach(async (i) => {
+      if (!workspacesStore.currentWorkspace) return;
+      const configs = {
+        method: "GET",
+        headers: { Accept: "application/json" },
+      };
+      const response = await fetch(
+        `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/annotation?datamart_id=${i.uid}`,
+        configs
+      );
+      this.annotations.push(...(await response.json()));
+    });
   }
 
   getView = () => <View viewModel={this} />;
