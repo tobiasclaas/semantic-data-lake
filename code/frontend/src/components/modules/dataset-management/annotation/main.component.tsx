@@ -7,7 +7,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { TreeItem, TreeView } from "@material-ui/lab";
 import { Field, isArray, isStruct } from "../../../../models/datamarts";
-import { Grid } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 const Item: React.FC<{ field: Field; path?: string; viewModel: ViewModel }> = ({
   field,
@@ -45,8 +45,6 @@ const Item: React.FC<{ field: Field; path?: string; viewModel: ViewModel }> = ({
 };
 
 const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
-  const { t } = useTranslation();
-
   return (
     <Grid style={{ marginTop: "1rem", width: "100%" }} container spacing={3}>
       <Grid item xs>

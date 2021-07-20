@@ -29,7 +29,7 @@ class ViewModel extends ContentStore {
     this.annotations = observable.array([] as Annotation[]);
     makeObservable(this);
 
-    this.initialize(item);
+    this.initialize();
   }
 
   @action setAnnotationPropertyDescription(newValue: string) {
@@ -43,6 +43,8 @@ class ViewModel extends ContentStore {
   @action display(field: Field | null, path: string) {
     this.field = field;
     this.path = path;
+    this.setAnnotationOntologyProperty(null);
+    this.setAnnotationPropertyDescription("");
   }
 
   @computed get getFieldView() {
@@ -51,7 +53,12 @@ class ViewModel extends ContentStore {
     ) : null;
   }
 
-  private async initialize(item: IDatamart) {
+  @computed get canAddAnnotation() {
+    return this.annotationOntologyProperty != null;
+  }
+
+  private async initialize() {
+    if (!this.datamart) return;
     this.setStatus(StoreStatus.initializing);
     try {
       if (!workspacesStore.currentWorkspace)
@@ -62,7 +69,7 @@ class ViewModel extends ContentStore {
         headers: { Accept: "application/json" },
       };
       const response = await fetch(
-        `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/annotation?datamart_id=${item.uid}`,
+        `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/annotation?datamart_id=${this.datamart.uid}`,
         configs
       );
       if (!response.ok) throw new Error(response.statusText);
@@ -103,7 +110,46 @@ class ViewModel extends ContentStore {
     }
   }
 
-  async addAnnotation() {}
+  async addAnnotation() {
+    if (!this.datamart) return;
+    this.setStatus(StoreStatus.working);
+    try {
+      if (!workspacesStore.currentWorkspace)
+        throw new Error("Current workspace must be set.");
+
+      const formData = new FormData();
+      formData.append("datamart_id", this.datamart.uid);
+      formData.append("data_attribute", this.path);
+      formData.append(
+        "property_description",
+        this.annotationPropertyDescription
+      );
+      if (this.annotationOntologyProperty)
+        formData.append(
+          "ontology_attribute",
+          this.annotationOntologyProperty.value
+        );
+
+      const configs = {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData,
+      };
+
+      const response = await fetch(
+        `/workspaces/${workspacesStore.currentWorkspace.id}/ontologies/annotation`,
+        configs
+      );
+
+      if (!response.ok) throw new Error(response.statusText);
+      this.initialize();
+      this.setAnnotationOntologyProperty(null);
+      this.setAnnotationPropertyDescription("");
+      this.setStatus(StoreStatus.ready);
+    } catch (ex) {
+      this.setStatus(StoreStatus.failed);
+    }
+  }
 
   @action deleteAnnotationInternal(
     data_attribute: string,

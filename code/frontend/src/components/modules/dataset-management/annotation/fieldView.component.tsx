@@ -136,7 +136,11 @@ const Main: React.FC<{ field: Field; path: string; viewModel: ViewModel }> =
             />
           </Grid>
           <Grid item>
-            <IconButton onClick={() => viewModel.addAnnotation()}>
+            <IconButton
+              color="primary"
+              disabled={!viewModel.canAddAnnotation}
+              onClick={() => viewModel.addAnnotation()}
+            >
               <AddCircleOutlineIcon />
             </IconButton>
           </Grid>

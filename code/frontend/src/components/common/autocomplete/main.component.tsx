@@ -1,6 +1,8 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { PopperProps } from "@material-ui/core/Popper";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 import Autocomplete, {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
@@ -116,6 +118,15 @@ const AutocompleteComponent = (props: AutocompleteComponentProps) => {
         if (props.onChange) props.onChange(value);
       }}
       defaultValue={props.defaultValue}
+      renderOption={(option) => {
+        return (
+          <Tooltip title={option.description ?? ""}>
+            <Typography noWrap>
+              <React.Fragment>{option.text}</React.Fragment>
+            </Typography>
+          </Tooltip>
+        );
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
