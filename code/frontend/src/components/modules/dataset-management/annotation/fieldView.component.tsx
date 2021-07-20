@@ -19,6 +19,7 @@ import TextField from "@material-ui/core/TextField";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import AutocompleteComponent from "../../../common/autocomplete";
 import workspacesStore from "../../../../stores/workspaces.store";
+import {useLocalObservable} from "mobx-react";
 
 const Main: React.FC<{ field: Field; path: string; viewModel: ViewModel }> =
   observer(({ field, path, viewModel }) => {
@@ -28,9 +29,11 @@ const Main: React.FC<{ field: Field; path: string; viewModel: ViewModel }> =
       type = type.elementType;
     }
 
-    const annotations =
-      viewModel.annotations.find((i) => i.data_attribute == path)
-        ?.ontology_attribute ?? [];
+    const vm = useLocalObservable(() => viewModel)
+    const annotations = vm.annotations.find((i) => i.data_attribute == path) ?.ontology_attribute ?? [];
+    console.log(vm.annotations)
+          console.log(path)
+
     return (
       <Grid container direction="column">
         <Grid item container xs spacing={1} alignItems="center">
