@@ -63,8 +63,10 @@
   "workflow.properties_dialog.join.column": "Join column ({{name}})",
   "workflow.properties_dialog.select.column": "Add column",
   "workflow.properties_dialog.filter.condition": "Condition",
+    "workflow.properties_dialog.select.distinct": "Distinct",
   "workflow.properties_dialog.groupby.column": "Group By Column",
   "workflow.properties_dialog.groupby.function": "Group By Function",
-  "workflow.properties_dialog.groupby.select": "Group By Select"
-
+  "workflow.properties_dialog.groupby.select": "Group By Select",
+  "login.username": "Benutzername",
+  "login.password": "Passwort"
 }
