@@ -3,7 +3,10 @@
 Welcome to the Semantic Data Lake Project. Our Program can manage big datasets and allows for Annotation and Transformation
 of Big Data.
 
-## Installation and Configuration - Linux
+## Installation and Configuration
+We strongly recommend using Linux to run the System due to configuration issues with docker on other OS.
+
+###Linux
 * python version
   * The suggested Python version is 3.8.10 but later releases should also work.
 * docker
@@ -22,7 +25,8 @@ of Big Data.
   * On repeated Startup some containers might fail (especially fuseki)
     * deletion of data folder and docker container is necessary then
 
-## Run the Program - Linux
+## Run the Program
+### Linux
 * First go through the installation and configuration guide
 * Launch docker containers
   * Navigate to docker/full
@@ -30,6 +34,10 @@ of Big Data.
 * Start the app
   * Navigate to code/backend/src
   * and run `python3 server.py`
+* Authentication
+  * To be able to use the app you need to authenticate to the system. Either with credentials \
+    Username: admin, Password: admin or \
+    Username: user, Password: user.
 
 ## Structure of the Project
 The project has three main folders: code, docker and documents.
@@ -52,16 +60,15 @@ Here you can find presentation slides, organizational stuff and sample data for 
 ### PyDocs
 * We documented the code with PyDoc comments which are visible in the code itself or can be viewed in HTML format.
 * For the PyDocs in HTML format navigate to ".../team-2-data-lake/code/backend/src" and run: \
- `pydoc -p <port>` \
- and press `b` afterwards
+ `pydoc -p <port>`  and press `b` afterwards to open the documentation in the browser.
 
 ### Frontend
-* Until now, no documentation
+* Until now, no documentation.
 
 ### APIs
 * We decided to use RESTAPIs as APIs between frontend and backend. To enable easy testing and traceability we provide a
   postman JSON file with all methods, and their according routes which can can also find in the resouces folder 
-  and in the [Wiki](https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/wikis/home)
+  and in the [Wiki](https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/wikis/home).
 
 ### Components
 We provided a more detailed documentation see the [Github Wiki](https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/wikis/home)
