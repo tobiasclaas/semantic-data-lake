@@ -16,10 +16,22 @@ import { createStyles } from "@material-ui/core/styles";
 import { Container } from "./styles";
 import { NodeType } from "../nodes";
 
-const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
-  const { t } = useTranslation();
 
-  const onDragStart = (
+const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
+  const
+      { t } = useTranslation();
+  /**
+   *
+   * @param event
+   * @param nodeType
+   */
+
+  const
+      /**
+       *
+       * @param nodeType request
+       */
+      onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     nodeType: string
   ) => {
@@ -28,13 +40,20 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
   };
 
   return (
+      /**
+       *
+       */
     <Container>
+
       <List>
         {Object.keys(NodeType).map((type: string) => {
           const type_string = type;
           return (
+              /**
+               *@param event request
+               */
             <ListItem
-              key={type_string}
+           key={type_string}
               button
               onDragStart={(event) => onDragStart(event, type_string)}
               draggable

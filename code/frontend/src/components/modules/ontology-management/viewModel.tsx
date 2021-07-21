@@ -59,33 +59,65 @@ class ViewModel extends ContentStore {
     }
   }
 
-  @action setOntologies(newValue: IOntology[]) {
+  @action setOntologies(newValue: IOntology[])
+  /**
+   *
+   * @param newValue
+   */
+  {
     this.ontologies.clear();
     this.ontologies.push(...newValue);
   }
 
   /* Sayeds Part Start */
   @observable QueryString: string = "";
+  /**
+   *
+   * @param value
+   */
+
   @action setQueryString(value: string) {
     this.QueryString = value;
   }
 
   @observable GraphName: string = "";
+  /**
+   *
+   * @param value
+   */
   @action setGraphName(value: string) {
     this.GraphName = value;
   }
 
   @observable IsQuery: boolean = true;
+  /**
+   *
+   * @param value
+   */
   @action setIsQuery(value: boolean) {
     this.IsQuery = value;
   }
 
   @observable Querysent: boolean = false;
-  @action setQuerysent(value: boolean) {
+  /**
+   *
+   * @param value
+   */
+  @action setQuerysent(value: boolean)
+  /**
+   *
+   * @param value
+   */
+  {
     this.Querysent = value;
   }
 
-  @action setData(newValue: IData[]) {
+  @action setData(newValue: IData[])
+  /**
+   *
+   * @param newValue
+   */
+  {
     this.setData.clear();
     this.Data.push(...newValue);
   }
@@ -148,12 +180,30 @@ class ViewModel extends ContentStore {
   }
 
   @observable uploadName: string = "";
-  @action setUploadName(value: string) {
+  /**
+   *
+   * @param value
+   */
+  @action setUploadName(value: string)
+  /**
+   *
+   * @param value
+   */
+  {
     this.uploadName = value;
   }
 
   @observable uploadFile: File | null = null;
-  @action setUploadFile(value: File | null) {
+  /**
+   *
+   * @param value
+   */
+  @action setUploadFile(value: File | null)
+  /**
+   *
+   * @param value
+   */
+  {
     this.uploadFile = value;
   }
 

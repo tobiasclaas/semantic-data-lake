@@ -4,3 +4,4 @@
 **/.vscode
 **/data/
 /.vs/**
+/docker/zeppelin/notebook

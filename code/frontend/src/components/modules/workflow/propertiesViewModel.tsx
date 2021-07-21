@@ -9,7 +9,14 @@ abstract class PropertiesViewModel<T extends NodeData> extends ContentStore {
   public readonly id: string;
   @observable data: T;
 
-  constructor(workflowViewModel: ViewModel, id: string, data: T) {
+  constructor
+  /**
+   *
+   * @param workflowViewModel
+   * @param id
+   * @param data
+   */
+  (workflowViewModel: ViewModel, id: string, data: T) {
     super();
     this.workflowViewModel = workflowViewModel;
     this.id = id;

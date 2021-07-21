@@ -1,23 +1,24 @@
 import json
-
 from flask import jsonify, Response
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from werkzeug.exceptions import HTTPException
 from werkzeug.datastructures import FileStorage
 from requests import post
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 import settings
 from api.services.decorators import parse_params
-from Utils.services.mapper import mapper
-from database.data_access import ontology_data_access
-from database.data_access import annotation_data_access
+from utils.services.mapper import mapper
+from database.data_access import ontology_data_access, annotation_data_access
 
 
 class Ontologies(Resource):
     """
     Class for managing ontologies.
     """
+
+    @jwt_required
     def get(self, workspace_id):
         """
         API get request for ontologies.
@@ -27,6 +28,7 @@ class Ontologies(Resource):
         """
         return jsonify([mapper(item) for item in ontology_data_access.get_all(workspace_id)])
 
+    @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=False),
         Argument("name", default=None, type=str, required=False)
@@ -42,6 +44,7 @@ class Ontologies(Resource):
         """
         return jsonify(mapper(ontology_data_access.add(name, file, workspace_id)))
 
+    @jwt_required
     def delete(self, workspace_id, ontology_id):
         """
         API delete request for deleting an ontology from a workspace.
@@ -60,6 +63,7 @@ class Ontologies(Resource):
 class OntologiesSearch(Resource):
     """ Provides requests to search or query ontologies in fuseki directly. """
 
+    @jwt_required
     @parse_params(
         Argument("querystring", required=True, type=str),
         Argument("graph_name", default='?g', type=str),
@@ -93,6 +97,8 @@ class OntologiesSearch(Resource):
 
 class Annotation(Resource):
     """ API class to manage Annotations. """
+
+    @jwt_required
     @parse_params(
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', type=str, default=None)
@@ -111,13 +117,12 @@ class Annotation(Resource):
 
             if len(ret) == 0:
                 return []
-            elif len(ret) == 1:
-                return mapper(ret.get())
-            if len(ret) > 1:
-                return jsonify([mapper(ret[i]) for i in range(0, len(ret))])
+            else:
+                return jsonify([mapper(i) for i in ret])
         except HTTPException as ex:
             return Response(status=ex.code)
 
+    @jwt_required
     @parse_params(
         Argument('datamart_id', required=True, type=str),
         Argument('data_attribute', required=True, type=str),
@@ -146,6 +151,7 @@ class Annotation(Resource):
         except HTTPException as ex:
             return Response(status=ex.code)
 
+    @jwt_required
     @parse_params(
         Argument('datamart_id', type=str, required=True),
         Argument('data_attribute', type=str, required=True),
@@ -172,6 +178,7 @@ class Completion(Resource):
     """
     Class for search and suggestion requests.
     """
+    @jwt_required
     @parse_params(
         Argument('search_term', required=True, type=str)
     )
@@ -185,6 +192,8 @@ class Completion(Resource):
         """
         try:
             ret = json.loads(ontology_data_access.get_suggestions(workspace_id, search_term).decode('utf-8'))
-            return ret if ret is not None else Response(status=404)
-        except:
-            return Response(status=500)
+            return [{"text": i['label']['value'], "description": i['desc']['value'] if 'desc' in i else None,
+                     "value": "<" + i['subject']['value'] + ">"} for i in
+                    ret['results']['bindings']] if ret is not None else Response(status=404)
+        except HTTPException as ex:
+            return Response(ex.code)

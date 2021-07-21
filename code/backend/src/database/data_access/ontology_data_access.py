@@ -1,11 +1,10 @@
 import os
+from requests import post, delete as delete_request
 
+import settings
 from database.models import Ontology
 from werkzeug.exceptions import NotFound, BadRequest
-
 from database.models.workspace import Workspace
-from requests import post, delete as delete_request
-import settings
 
 
 def get_all(workspace_id) -> [Ontology]:
@@ -105,10 +104,12 @@ def get_suggestions(workspace_id, search_term):
     """
     querystring = """
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT ?subject ?label
+        PREFIX ncit: <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#>
+        SELECT ?subject ?label ?desc
         WHERE {
           ?subject a ?x ;
             rdfs:label ?label .
+          OPTIONAL {?subject ncit:P97 ?desc .}
           FILTER (regex(str(?subject), '#""" + search_term + """', 'i') || 
             regex(?label, '""" + search_term + """', 'i'))
         }
@@ -119,3 +120,9 @@ def get_suggestions(workspace_id, search_term):
              data={'query': querystring})
 
     return p.content
+
+
+def add_standard_ontology(entity):
+    post('http://localhost:3030/$/datasets',
+         auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
+         data={'dbName': str(entity.id), 'dbType': 'tdb'})

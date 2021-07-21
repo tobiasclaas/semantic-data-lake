@@ -11,6 +11,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import { red } from "@material-ui/core/colors";
 
 const PropertiesDialog: React.FC<IViewProps<ViewModel>> = observer(
+    /**
+     *
+     * @param viewModel
+     */
+
   ({ viewModel }) => {
     const { t } = useTranslation();
     return (

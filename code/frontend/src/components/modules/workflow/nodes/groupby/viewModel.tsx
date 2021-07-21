@@ -9,6 +9,13 @@ import { IData } from "./data";
 import WorkflowHelper from "../../../../../utils/helpers/workflowHelper";
 
 class ViewModel extends PropertiesViewModel<IData> {
+  /**
+   *
+   * @param workflowViewModel
+   * @param id
+   * @param data
+   * @param id type
+   */
   constructor(workflowViewModel: WorkflowViewModel, id: string, data: IData) {
     super(workflowViewModel, id, data);
 
@@ -32,12 +39,18 @@ class ViewModel extends PropertiesViewModel<IData> {
   }
 
   @computed get currentFields() {
+    /**
+     * input workflowViewModel
+     */
     const node = this.workflowViewModel.getNode(this.id);
     const inputs = WorkflowHelper.getInputNodes(
       node,
       this.workflowViewModel.elements
     );
     return (
+        /**
+         * @return NodeData
+         */
       inputs.find((i) => i.name == "input")?.node?.data?.schema?.fields ?? []
     );
   }

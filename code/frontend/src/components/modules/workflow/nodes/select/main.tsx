@@ -6,9 +6,17 @@ import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import { Typography } from "@material-ui/core";
 import { IData } from "./data";
 
-export default memo(({ data }: { data: IData }) => {
+export default memo(({ data }: { data: IData }) =>
+    /**
+     *
+     * @param data
+     */
+{
   const { t } = useTranslation();
   return (
+      /**
+       * @param input styling
+       */
     <>
       <div
         style={{

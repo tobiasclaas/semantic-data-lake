@@ -5,14 +5,14 @@ from flask_restful import Resource
 from flask_restful.reqparse import Argument
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
-from Utils.spark import SparkHelper
+from utils.spark import SparkHelper
 from database.models import (
     MongodbStorage, PostgresqlStorage,
     CsvStorage, JsonStorage, XmlStorage, Datamart
 )
 import settings
 from api.services.decorators import parse_params
-from Utils.services.mapper import mapper
+from utils.services.mapper import mapper
 from database.data_access import datamart_data_access as data_access
 
 
@@ -22,7 +22,7 @@ def delete_from_hdfs(file_name):
     client.delete_file_dir(file_name, recursive=True)
 
 
-def Delete_data(storage):
+def delete_data(storage):
     if isinstance(storage, CsvStorage):
         # Checks if csv extension available in file name. Their is a special case
         # where CsvStorage object is created and file is not present in HDFS.
@@ -45,9 +45,9 @@ def Delete_data(storage):
     #     dataframe = spark_helper.read_postrgesql(source)
 
 
-
 class Datamarts(Resource):
 
+    @jwt_required
     @parse_params(
         Argument("page", default=1, type=int, required=False),
         Argument("limit", default=100, type=int, required=False),
@@ -83,8 +83,9 @@ class Datamarts(Resource):
 
             return jsonify(mapper(datamart))
 
+    @jwt_required
     @parse_params(
-        Argument("uid", type=str, required=False),
+        Argument("uid", type=str, required=False)
     )
     def delete(self, workspace_id, uid):
         if uid is None:
@@ -95,8 +96,8 @@ class Datamarts(Resource):
         if datamart.workspace_id == workspace_id:
             hnr = datamart.human_readable_name
             try:
-                Delete_data(datamart.metadata.source)
-                Delete_data(datamart.metadata.target)
+                delete_data(datamart.metadata.source)
+                delete_data(datamart.metadata.target)
             except Exception as e:
                 print (e)
 
@@ -105,10 +106,11 @@ class Datamarts(Resource):
         else:
             return "Permission not allowed"
 
+    @jwt_required
     @parse_params(
         Argument("comment", default='', type=str, required=False),
         Argument("annotated_schema", required=False),
-        Argument("human_readable_name", required=False),
+        Argument("human_readable_name", required=False)
     )
     def put(self, workspace_id, uid, comment, annotated_schema, human_readable_name):
         datamart = data_access.get_by_uid(uid)

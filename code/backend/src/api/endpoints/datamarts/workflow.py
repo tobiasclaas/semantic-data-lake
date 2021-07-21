@@ -1,15 +1,15 @@
 import json
 import datetime
-from flask import request
-from flask_restful import Resource
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
+from flask import request
+from flask_restful import Resource
+from flask_jwt_extended import jwt_required
 
 from database.data_access import datamart_data_access as data_access
-from Utils.spark import SparkHelper
-
-from Utils.services.create_datamart import create_datamart
-from Utils.ingestion import ingest_spark_helper
+from utils.spark import SparkHelper
+from utils.services.create_datamart import create_datamart
+from utils.ingestion import ingest_spark_helper
 from database.models import CsvStorage, DatamartState
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -26,26 +26,27 @@ def flatten(df):
     # compute Complex Fields (Lists and Structs) in Schema
     complex_fields = dict([(field.name, field.dataType)
                            for field in df.schema.fields
-                           if type(field.dataType) == ArrayType or  type(field.dataType) == StructType])
-    while len(complex_fields)!=0:
-        col_name=list(complex_fields.keys())[0]
-        print ("Processing :"+col_name+" Type : "+str(type(complex_fields[col_name])))
+                           if type(field.dataType) == ArrayType or type(field.dataType) == StructType])
+    while len(complex_fields) != 0:
+        col_name = list(complex_fields.keys())[0]
+        print("Processing :" + col_name + " Type : " + str(type(complex_fields[col_name])))
 
         # if StructType then convert all sub element to columns.
         # i.e. flatten structs
-        if (type(complex_fields[col_name]) == StructType):
-            expanded = [col(col_name+'.'+k).alias(col_name+'_'+k) for k in [ n.name for n in  complex_fields[col_name]]]
-            df=df.select("*", *expanded).drop(col_name)
+        if type(complex_fields[col_name]) == StructType:
+            expanded = [col(col_name + '.' + k).alias(col_name + '_' + k) for k in
+                        [n.name for n in complex_fields[col_name]]]
+            df = df.select("*", *expanded).drop(col_name)
 
         # if ArrayType then add the Array Elements as Rows using the explode function
         # i.e. explode Arrays
-        elif (type(complex_fields[col_name]) == ArrayType):
-            df=df.withColumn(col_name,explode_outer(col_name))
+        elif type(complex_fields[col_name]) == ArrayType:
+            df = df.withColumn(col_name, explode_outer(col_name))
 
         # recompute remaining Complex Fields in Schema
         complex_fields = dict([(field.name, field.dataType)
                                for field in df.schema.fields
-                               if type(field.dataType) == ArrayType or  type(field.dataType) == StructType])
+                               if type(field.dataType) == ArrayType or type(field.dataType) == StructType])
     return df
 
 
@@ -80,13 +81,14 @@ def process_input(spark_helper, data):
         df1 = process_input(spark_helper, data['input'][0])
         return df1.groupBy(*data['column']).agg(data["aggregate"])
 
+    elif data['type'] == 'flatten':
+        df1 = process_input(spark_helper, data['input'][0])
+        return flatten(df1)
+
     elif data['type'] == 'data_source':
         source_ids.append(data['uid'])
         datamart = data_access.get_by_uid(data['uid'])
-        dataframe = spark_helper.read_datamart(datamart)
-        if data['flatten']:
-            return flatten(dataframe)
-        return dataframe
+        return spark_helper.read_datamart(datamart)
 
 
 def __start__(spark_helper, dataframe, api_user, source, target_storage, workspace_id, hnr, comment):
@@ -114,6 +116,7 @@ def __start__(spark_helper, dataframe, api_user, source, target_storage, workspa
 
 class WorkFlow(Resource):
 
+    @jwt_required
     def post(self, workspace_id):
         """
         Data is fetched using request.data method. Data is a array of json(dictionary) objects.
@@ -132,7 +135,7 @@ class WorkFlow(Resource):
 
                 source = CsvStorage(
                     file=f"{','.join(source_ids)}",
-                    has_header = True
+                    has_header=True
                 )
 
                 # data_input['target'] is just a string with possible values: 'HDFS', 'MongoDB', 'Postgres'
@@ -140,7 +143,7 @@ class WorkFlow(Resource):
                           human_readable_name, "")
 
         except Exception as e:
-            if (spark_helper):
+            if spark_helper:
                 spark_helper.spark_session.stop()
 
             print(e)

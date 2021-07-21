@@ -17,7 +17,7 @@ const Main: React.FC<IViewProps<ViewModel>> = observer(({ viewModel }) => {
 
   return (
       /**
-       * Return
+       * Return @params
        * Distinct file selection json
        * Parameters Comment, targetstorage.
        */

@@ -128,7 +128,7 @@ def mapper(model):
                 heritage.append(mapper(ancestor.fetch()))
         except Exception as e:
             # If the any datamart from heritage is deleted, this will return except here
-            print ("Heritage datamart is not found")
+            print("Heritage datamart is not found")
             heritage = []
 
         return {

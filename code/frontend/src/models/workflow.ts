@@ -3,5 +3,6 @@ export interface NodeData {
     fields: {
       name: string;
     }[];
+    primary_key: string[];
   };
 }

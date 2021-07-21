@@ -10,12 +10,12 @@ from werkzeug.exceptions import NotFound, InternalServerError
 from flask import jsonify
 
 from api.services.decorators import parse_params
-from Utils.services.create_datamart import create_datamart
-from Utils.spark import SparkHelper
+from utils.services.create_datamart import create_datamart
+from utils.spark import SparkHelper
 from database.data_access import datamart_data_access, user_data_access
 from database.models import Datamart, DatamartState
 from settings import Settings
-from Utils.services.mapper import mapper
+from utils.services.mapper import mapper
 
 STATE_RUNNING = 1
 STATE_FINISHED = 2
@@ -88,6 +88,7 @@ class DatamartPreviewApi(Resource):
             session_state.error = err
             session_state.state = STATE_FAILED
 
+    @jwt_required
     @parse_params(
         Argument("preview_row_count", type=int, default=10),
     )
@@ -118,7 +119,7 @@ class DatamartPreviewApi(Resource):
             }
             return response, status.HTTP_201_CREATED
 
-    
+    @jwt_required
     @parse_params(
         Argument("datamarts", type=dict, required=True),
         Argument("pyspark", type=str),
@@ -147,7 +148,8 @@ class DatamartPreviewApi(Resource):
 # save api
 # ==================================================================================================
 class DatamartSaveApi(Resource):
-    
+
+    @jwt_required
     @parse_params(
         Argument("datamarts", required=True, action="append"),
         Argument("human_readable_name", type=str, required=True),
