@@ -179,7 +179,7 @@ def delete(datamart_id, data_attribute, ontology_attribute):
             return None
         else:
             Annotation.objects(datamart_id=datamart_id,
-                               data_attribute=data_attribute).update(ontology_attribute=attribute_annotation)
+                               data_attribute=data_attribute).update(ontology_attribute=new_attribute_annotation)
             return Annotation.objects(datamart_id=datamart_id,
                                       data_attribute=data_attribute).all()
     except:

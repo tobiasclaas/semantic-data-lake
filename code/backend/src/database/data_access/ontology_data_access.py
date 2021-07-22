@@ -1,5 +1,6 @@
 import os
 from requests import post, delete as delete_request
+from werkzeug.exceptions import NotFound, BadRequest
 
 import settings
 from database.models import Ontology
@@ -122,7 +123,14 @@ def get_suggestions(workspace_id, search_term):
     return p.content
 
 
-def add_standard_ontology(entity):
-    post('http://localhost:3030/$/datasets',
+def create_workspace_fuseki(entity):
+    """
+    Creates a new workspace in Fuseki.
+
+    :param entity: The workspace for which a new workspace shall be added
+    :return: The status code of the post request to fuseki
+    """
+    p = post('http://localhost:3030/$/datasets',
          auth=(settings.Settings().fuseki_storage.user, settings.Settings().fuseki_storage.password),
          data={'dbName': str(entity.id), 'dbType': 'tdb'})
+    return p.status_code

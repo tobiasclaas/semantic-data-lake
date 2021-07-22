@@ -26,7 +26,7 @@ def create(name, user):
     settings = Settings()
 
     # create dataset in fuseki
-    ontology_data_access.add_standard_ontology(entity)
+    ontology_data_access.create_workspace_fuseki(entity)
 
     # get path of resource folder
     __location__ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
