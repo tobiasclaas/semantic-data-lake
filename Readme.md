@@ -72,7 +72,7 @@ We provided a more detailed documentation see the [Github Wiki](https://git.rwth
 
 * Possible Problems during Setup:
   * Sometimes, especially when working on remote machines, on needs to set static ip adresses. The relevant lines are commented: https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/blob/master/docker/dev/docker-compose.yml#L173
-  * The Thing where you need to add the table for the ?port forwarding?
+  * On some machines we faced issues with the network reachability of the hadoop cluster. Put the namenode and datanodes to the /etc/hosts file      pointing to localhost ip adress.
   * On repeated Startup some containers might fail (especially fuseki)
   * deletion of data folder in directory docker/dev and/or docker/full is necessary. Also remove the containers via docker rm -f fuseki.
 
