@@ -12,6 +12,12 @@ from settings import Settings
 
 
 def get_all(user) -> [Workspace]:
+    """
+    Get all workspaces for a specific user.
+
+    :param user: user.
+    :returns: all workspace for a specific user.
+    """
     workspaces = Workspace.objects(user=user).all()
     if len(workspaces) == 0:
         create("Default Workspace", user)
@@ -21,6 +27,14 @@ def get_all(user) -> [Workspace]:
 
 
 def create(name, user):
+    """
+    Create a new workspaces for a specific user. This will create a new postgres database
+    and add a the standard ontology. 
+
+    :param user: user.
+    :param name: name of the new workspace.
+    :returns: Workspace object.
+    """
     entity = Workspace(name=name, user=user)
     Workspace.objects.insert(entity)
     settings = Settings()
@@ -62,6 +76,15 @@ def create(name, user):
 
 
 def delete(workspace_id, user):
+    """
+    Delete a given workspaces for a specific user. This will delete the associated 
+    Postgres Fuseki MongoDB databases and the HDFS folder as well as the metadata entries
+    in MongoDB.
+
+    :param workspace_id: id of the workspace.
+    :param user: user.
+    :returns: Workspace object.
+    """
     if len(get_all(user)) == 1:
         raise BadRequest()
 

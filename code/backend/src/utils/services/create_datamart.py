@@ -11,6 +11,13 @@ settings = Settings()
 
 
 def __get_target__(source, target_storage, workspace_id, uid):
+    """
+    Helper function to set model values
+    
+    :param source: source object
+    :param target_storage: where to store the DataMart, possible values MongoDB, Postgres, HDFS
+    :returns: corresponding Storage Object.
+    """
     if target_storage == "MongoDB":
         return MongodbStorage(
             host=settings.mongodb_storage.host,
@@ -59,6 +66,17 @@ def __get_target__(source, target_storage, workspace_id, uid):
 
 
 def create_datamart(user: User, source, target_storage, workspace_id, human_readable_name, comment):
+    """
+    Helper function to create DataMart entry with metadata
+
+    :param user: user
+    :param source: source object
+    :param target_storage: where to store the DataMart, possible values MongoDB, Postgres, HDFS
+    :param workspace_id: workspace_id for the datamart
+    :param human_readable_name: name for the datamart
+    :param comment: a comment for the DataMart
+    :returns: Datamart Object.
+    """
     uid = str(uuid.uuid4())
     datamart = Datamart(
         uid=uid,

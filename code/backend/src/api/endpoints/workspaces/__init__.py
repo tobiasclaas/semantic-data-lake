@@ -12,8 +12,17 @@ from database.data_access import workspace_data_access, user_data_access
 
 
 class Workspaces(Resource):
+    """
+    Class to manageworkspace.
+    """
+
     @jwt_required
     def get(self):
+        """
+        API get request for workspaces.
+
+        :returns: workspaces associated to a user.
+        """    
         email = get_jwt_identity()['email']
         return jsonify([mapper(item) for item in workspace_data_access.get_all(user_data_access.get_by_email(email))])
 
@@ -22,6 +31,12 @@ class Workspaces(Resource):
         Argument("name", default=None, type=str, required=True)
     )
     def post(self, name):
+        """
+        API post request for workspaces. Creates a new workspace for a given user
+
+        :param name: name of the user
+        :returns: workspaces associated to a user.
+        """   
         email = get_jwt_identity()['email']
         return jsonify(mapper(workspace_data_access.create(name, user_data_access.get_by_email(email))))
 
@@ -30,6 +45,12 @@ class Workspaces(Resource):
         Argument("workspace_id", default=None, type=str, required=True)
     )
     def delete(self, workspace_id):
+        """
+        API delete request for workspaces. Deletes a given workspace by workspace_id.
+
+        :param workspace_id: workspace_id of a workspace
+        :returns: Respone of the request.
+        """ 
         try:
             email = get_jwt_identity()['email']
             workspace_data_access.delete(workspace_id, user_data_access.get_by_email(email))
