@@ -6,8 +6,18 @@ from database.models import *
 
 
 class UnknownModel(Exception):
+    """
+    Class to display unknown model message.
+    """
 
     def __init__(self, message, model=None):
+        """
+        Function to display unknown model message.
+
+        :param message: message to be displayed
+        :param model: model object
+        :return: Unknown model message
+        """
         classname = ""
 
         if model:
@@ -17,6 +27,12 @@ class UnknownModel(Exception):
 
 
 def __state_to_string__(state: DatamartState):
+    """
+    Function to print DataMart status
+
+    :param DatamartState: State of the DataMart Object (Flask Document)
+    :return: status
+    """
     if state == DatamartState.RUNNING:
         return "running"
     elif state == DatamartState.SUCCESS:
@@ -27,8 +43,11 @@ def __state_to_string__(state: DatamartState):
 
 def mapper(model):
     """
-    Maps input model to desired dictionary object, to be shown in frontend.
-    :param model:
+    Function to map models to data.
+    Maps input model to desired dictionary object to allow acces of the stored data.
+    All models can be found in data_access.models.
+
+    :param model: Flask Document to be mapped to dictionary
     :return: dictionary object
     """
     if model is None:

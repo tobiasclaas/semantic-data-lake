@@ -13,6 +13,9 @@ from database.data_access import user_data_access
 
 
 class Login(Resource):
+    """
+    Class for managing ontologies.
+    """
 
     @parse_params(
         Argument("email", required=True, type=str),
@@ -20,12 +23,11 @@ class Login(Resource):
     )
     def post(self, email, password):
         """
-        # ==================================================================================================
-        #Login Page Enter credential
+        API to login a user
+
         :param email:
         :param password:
         :return:
-        # ==================================================================================================
         """
         user = user_data_access.get_by_email(email)
 

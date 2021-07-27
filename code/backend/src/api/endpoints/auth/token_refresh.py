@@ -5,18 +5,17 @@ from werkzeug.exceptions import InternalServerError
 
 
 class TokenRefresh(Resource):
-    #refresh required
+    """
+    Class for managing ontologies.
+    """
     #@jwt_refresh_token_required
     def post(self):
         """
-        # ==================================================================================================
-        :return:
-        # ==================================================================================================
+        API to refresh a users token.
+
+        :return: The response of the request
         """
         try:
-            # ==================================================================================================
-            #refersh token done Successfully
-            # ==================================================================================================
             user = get_jwt_identity()
             token = create_access_token(identity=user)
             response = jsonify({
@@ -27,7 +26,4 @@ class TokenRefresh(Resource):
 
             return response
         except Exception as err:
-            # ==================================================================================================
-            #error while refershing token
-            # ==================================================================================================
             raise InternalServerError(f"Exception while refreshing token: \n\t {err}")
