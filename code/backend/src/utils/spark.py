@@ -11,6 +11,9 @@ from settings import Settings
 
 
 class SparkHelper:
+    """
+    Pyspark class for creation of pyspark session
+    """
     def __init__(self, app_name):
         self.settings = Settings()
         try:
@@ -36,6 +39,11 @@ class SparkHelper:
 
     # read from any mongodb source with optional authentication
     def read_mongodb(self, storage: MongodbStorage) -> DataFrame:
+        """
+        Read from mongodb based on storage object
+        :param storage:
+        :return: Pyspark Dataframe
+        """
         auth = ""
         user = storage.user
         password = storage.password
@@ -57,6 +65,11 @@ class SparkHelper:
 
     # write to internal mongodb storage database
     def write_mongodb(self, dataframe: DataFrame, target: MongodbStorage):
+        """
+        Write from mongo to a dataframe
+        :param storage:
+        :return: none
+        """
         user = target.user
         password = target.password
         auth = ""
@@ -84,6 +97,11 @@ class SparkHelper:
 
     # read from any postgresql
     def read_postrgesql(self, storage: PostgresqlStorage) -> DataFrame:
+        """
+        Read from postgres based on storage object
+        :param storage:
+        :return: Pyspark Dataframe
+        """
         uri = f"jdbc:postgresql://{storage.host}:{storage.port}/{storage.database}"
         try:
             return self.spark_session.read.jdbc(
@@ -101,6 +119,11 @@ class SparkHelper:
 
     # write to internal postgresql storage database
     def write_postgresql(self, dataframe: DataFrame, target: PostgresqlStorage) -> str:
+        """
+        Write from postgres to a dataframe
+        :param storage:
+        :return: none
+        """
         uri = f"jdbc:postgresql://{target.host}:{target.port}/{target.database}"
 
         try:
@@ -125,6 +148,11 @@ class SparkHelper:
 
     # read csv file from hdfs
     def read_csv(self, storage: CsvStorage) -> DataFrame:
+        """
+        Reads CSV based on storage object
+        :param storage:
+        :return: Pyspark Dataframe
+        """
         hdfs = self.settings.hdfs_storage
         uri = f"hdfs://{hdfs.namenode}:{hdfs.port}/{storage.file}"
 
@@ -138,6 +166,11 @@ class SparkHelper:
 
     # write as csv file to internal hdfs
     def write_csv(self, dataframe: DataFrame, target: CsvStorage) -> str:
+        """
+        Write a CSV to a dataframe
+        :param storage:
+        :return: none
+        """
         hdfs = self.settings.hdfs_storage
         uri = f"hdfs://{hdfs.namenode}:{hdfs.port}/{target.file}"
 
@@ -159,6 +192,11 @@ class SparkHelper:
 
     # read xml file from hdfs
     def read_xml(self, storage: XmlStorage) -> DataFrame:
+        """
+        Read XML based on storage object
+        :param storage:
+        :return: Pyspark Dataframe
+        """
         hdfs = self.settings.hdfs_storage
         uri = f"hdfs://{hdfs.namenode}:{hdfs.port}/{storage.file}"
 
@@ -174,6 +212,11 @@ class SparkHelper:
 
     # write as xml file to internal hdfs
     def write_xml(self, dataframe: DataFrame, target: XmlStorage) -> str:
+        """
+        Write a XML to a dataframe
+        :param storage:
+        :return: none
+        """
         hdfs = self.settings.hdfs_storage
         uri = f"hdfs://{hdfs.namenode}:{hdfs.port}/{target.file}"
 
@@ -193,6 +236,11 @@ class SparkHelper:
 
     # read json file from  hdfs
     def read_json(self, storage: JsonStorage) -> DataFrame:
+        """
+        Read JSON based on storage object
+        :param storage:
+        :return: Pyspark Dataframe
+        """
         hdfs = self.settings.hdfs_storage
         uri = f"hdfs://{hdfs.namenode}:{hdfs.port}/{storage.file}"
 
@@ -204,6 +252,11 @@ class SparkHelper:
 
     # write as json file to internal hdfs
     def write_json(self, dataframe: DataFrame, target: JsonStorage) -> str:
+        """
+        Write a JSON to a dataframe
+        :param storage:
+        :return: none
+        """
         hdfs = self.settings.hdfs_storage
         uri = f"hdfs://{hdfs.namenode}:{hdfs.port}/{target.file}"
 
@@ -220,6 +273,11 @@ class SparkHelper:
 
     # read data from internal storage by metadata information
     def read_datamart(self, datamart: Datamart) -> DataFrame:
+        """
+        Read datamart and output pyspark dataframe
+        :param storage:
+        :return: Pyspark Dataframe
+        """
         target = datamart.metadata.target
 
         try:
@@ -243,6 +301,11 @@ class SparkHelper:
             self.__raise(f"Failed to read by metadata")
 
     def write_datamart(self, datamart: Datamart, dataframe: DataFrame):
+        """
+        Write dataframe to datamart.metadata.target
+        :param storage:
+        :return: none
+        """
         target = datamart.metadata.target
 
         try:
