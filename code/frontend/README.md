@@ -1,13 +1,5 @@
-## Starting the App
+## Starting the frontend in development Mode
 
-### Production Mode
+install npm on your system first, then run _npm install_ followed by _yarn run dev_
 
-Just run the `launch.bat` file.
 
-### Development Mode
-
-Execute the `launch.bat` file with the `dev` parameter, i.e. `launch dev`
-
----
-
-After starting the application, it should be accessible at `http://localhost:8080`

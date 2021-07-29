@@ -1,6 +1,6 @@
 # Semantic Data Lake
 
-Welcome to the Semantic Data Lake Project. Our Program can manage big datasets and allows for Annotation and Transformation
+Welcome to the Semantic Data Lake Project. Our Program manages big datasets and allows for Ingestion, Storage, Annotation and Transformation
 of Big Data.
 
 ## Installation and Configuration
@@ -19,19 +19,16 @@ We strongly recommend using Linux to run the System due to configuration issues 
     `pip install -r requirements.txt` \
     `pip list --format=freeze > requirements.txt`
 
-* Possible Problems during Setup:
-  * TODO add more
-  * The Thing where you need to add the table for the ?port forwarding?
-  * On repeated Startup some containers might fail (especially fuseki)
-    * deletion of data folder and docker container is necessary then
-
 ## Run the Program
 ### Linux
 * First go through the installation and configuration guide
-* Launch docker containers
+* Launch in production mode:
+  * Login to our docker hub account to have access to the repo. Credentials: user:semanticdatalake21 and password:DataLake2021
   * Navigate to docker/full
   * and run `(sudo) docker-compose up`
-* Start the app
+  * this command will download a bunch of docker containers (15 in total, approx. 15 GB Disk space)
+* Launch in development mode:
+  * Navigate to docker/dev and run `(sudo) docker-compose up`, make sure to delete the ./data folder beforehand if present
   * Navigate to code/backend/src
   * and run `python3 server.py`
 * Authentication
@@ -50,7 +47,7 @@ in directory workspace is called to provide a good degree of abstraction. The re
 with the default ontology we are providing by default.
 
 ### Docker
-Here the docker container configurations are stored.
+Here the docker container configurations are stored. full differs from dev only by our application container, that contains the projects code and launches the back- and frontend. 
 
 ### Documents
 Here you can find presentation slides, organizational stuff and sample data for testing.
@@ -66,13 +63,17 @@ Here you can find presentation slides, organizational stuff and sample data for 
 * Until now, no documentation.
 
 ### APIs
-* We decided to use RESTAPIs as APIs between frontend and backend. To enable easy testing and traceability we provide a
+* RESTAPIs are used for the communication between frontend and backend. To enable easy testing and traceability we provide a
   postman JSON file with all methods, and their according routes which can can also find in the resouces folder 
   and in the [Wiki](https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/wikis/home).
 
 ### Components
 We provided a more detailed documentation see the [Github Wiki](https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/wikis/home)
 
-
+* Possible Problems during Setup:
+  * Sometimes, especially when working on remote machines, on needs to set static ip adresses. The relevant lines are commented: https://git.rwth-aachen.de/lab-semantic-data-integration-2021/team-2-data-lake/-/blob/master/docker/dev/docker-compose.yml#L173
+  * On some machines we faced issues with the network reachability of the hadoop cluster. Put the namenode and datanodes to the /etc/hosts file      pointing to localhost ip adress.
+  * On repeated Startup some containers might fail (especially fuseki)
+  * deletion of data folder in directory docker/dev and/or docker/full is necessary. Also remove the containers via docker rm -f fuseki.
 
 ###### BY Sayed Hoseini, Muhammad Noman, Tobias Claas, Maher Fallouh & Zaid Abdullah @2021

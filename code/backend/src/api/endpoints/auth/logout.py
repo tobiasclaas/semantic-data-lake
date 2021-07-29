@@ -5,25 +5,21 @@ from werkzeug.exceptions import InternalServerError
 
 
 class Logout(Resource):
+    """
+    Class to log out a user.
+    """
 
     def post(self):
         """
-        # ==================================================================================================
-        Main return function in logout page.
-        :return:
-        # ==================================================================================================
+        API to logout a user.
+
+        :return: The resposne of the request
         """
         try:
-            # ==================================================================================================
-            #Successfully logout
-            # ==================================================================================================
             response = jsonify({
                 "logged out": True
             })
             unset_jwt_cookies(response)
             return response
         except Exception as err:
-            # ==================================================================================================
-            #error while logging out
-            # ==================================================================================================
             raise InternalServerError(f"Exception while logging out: \n\t {err}")
