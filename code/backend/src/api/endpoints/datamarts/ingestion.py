@@ -14,7 +14,6 @@ from utils.services.create_datamart import create_datamart
 from utils.services.mapper import mapper
 from utils.ingestion import ingest
 from database.models import (MongodbStorage, PostgresqlStorage, DatamartState, CsvStorage, JsonStorage, XmlStorage)
-from database.data_access import user_data_access
 
 
 def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
@@ -52,7 +51,9 @@ def __start__(api_user, source, target_storage, workspace_id, hnr, comment):
 
 
 class MongodbIngestion(Resource):
-
+    """
+    Class for MongodbIngestion API, Valid methods: [post]
+    """
     @jwt_required
     @parse_params(
         Argument("host", default='', type=str, required=True),
@@ -82,7 +83,9 @@ class MongodbIngestion(Resource):
 
 
 class PostgresqlIngestion(Resource):
-
+    """
+    Class for PostgresqlIngestion API, Valid methods: [post]
+    """
     @jwt_required
     @parse_params(
         Argument("host", default='', type=str, required=True),
@@ -112,7 +115,9 @@ class PostgresqlIngestion(Resource):
 
 
 class CsvIngestion(Resource):
-
+    """
+    Class for CsvIngestion API, Valid methods: [post]
+    """
     @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
@@ -142,7 +147,9 @@ class CsvIngestion(Resource):
 
 
 class JsonIngestion(Resource):
-
+    """
+    Class for JsonIngestion API, Valid methods: [post]
+    """
     @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),
@@ -165,7 +172,9 @@ class JsonIngestion(Resource):
 
 
 class XmlIngestion(Resource):
-
+    """
+    Class for XmlIngestion API, Valid methods: [post]
+    """
     @jwt_required
     @parse_params(
         Argument("file", type=FileStorage, location='files', required=True),

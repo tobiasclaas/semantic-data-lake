@@ -17,12 +17,22 @@ from database.data_access import datamart_data_access as data_access
 
 
 def delete_from_hdfs(file_name):
+    """
+    Deletes from HDFS
+    :param file_name:
+    :return: none
+    """
     hdfs = settings.Settings().hdfs_storage
     client = PyWebHdfsClient(host=hdfs.namenode, port="9870")
     client.delete_file_dir(file_name, recursive=True)
 
 
 def delete_data(storage):
+    """
+    Extracts source from the storage object and deletes it
+    :param storage:
+    :return: none
+    """
     if isinstance(storage, CsvStorage):
         # Checks if csv extension available in file name. Their is a special case
         # where CsvStorage object is created and file is not present in HDFS.
@@ -46,7 +56,9 @@ def delete_data(storage):
 
 
 class Datamarts(Resource):
-
+    """
+    Class for Datamart API, Valid methods [get, delete, put]
+    """
     @jwt_required
     @parse_params(
         Argument("page", default=1, type=int, required=False),
