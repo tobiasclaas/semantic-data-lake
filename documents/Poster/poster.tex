@@ -22,23 +22,11 @@ giveninits=true
 ]
 {biblatex}
 
-%\addbibresource{bib/dice1945measures}
-%\addbibresource{bib/frangi1998multiscale}
-
-\title{Semantic Data Integration 2021 \\ Data Lake Team 2}
-\author{\hspace{0.5em}{\vphantom{Wy}Abdullah Zaid, Maher Fallou, Tobias Claas, Muhammad Noman, Sayed Hoseini \\ Supervised by Prof. Dr. Quix and Dr. Lange-Bever}} % you can underline the primary author
-
-
-
-
+\title{Semantic Data Lake - Semantic Data Integration}
+\author{\hspace{0.5em}{\vphantom{Wy}A. Zaid, M. Fallou, T. Claas, M. Noman, S. Hoseini \\ Supervised by Prof. Dr. Quix and Dr. Lange-Bever}}
 \posterdate{Abdullah Zaid, Maher Fallou, Tobias Claas, Muhammad Noman, Sayed Hoseini}
 \posterconference{Semantic Data Lake}
 \posterlocation{Aachen, Germany}
-
-
-%
-
-
 \posterlogotopleft{\includegraphics[width=1\linewidth]{rwth.png}}
 \posterlogotopright{\includegraphics[width=1\linewidth]{fraunhofer.jpeg}}
 
@@ -57,26 +45,22 @@ giveninits=true
 			
 			\item The variety of data poses a huge difficulty to efficiently integrate, access, and query the large volume of diverse data in information silos with traditional ‘schema-on-write’ approaches such as data warehouses. Data lakes have been proposed as a solution to this problem. "A data lake is a flexible, scalable data storage and management system, which ingests and stores raw data from heterogeneous sources in their original format, and provides query processing and data analytics in an on-the-fly manner." \cite{1}
 			\begin{figure}[H]
-				\includegraphics[width=0.73\linewidth]{data_lake_architecture.PNG}
+				\includegraphics[width=0.8\linewidth]{data_lake_architecture.PNG}
 				\caption{Four-layered Data Lake Architecture \cite{2}} \label{Figure 1}
 			\end{figure}
-			For data reasoning, query processing, and data quality management metadata management is crucial, because without it, the data lake is hardly usable as the structure and semantics of the data are not known, which turns a data lake quickly into a ‘data swamp’. If sufficient metadata cannot be extracted from the sources automatically, a human expert has to provide additional information about the data source. \cite{1} One of the two major additions of this lab aimed to solve the aforementioned problem and provides functionality to interlink datasets with instances of a user-defined ontology to enrich the available metadata using Apache Jena-Fuseki as a triple-store. The second major addition is a Workflow diagram to enable the user to define end-to-end data transformation pipelines graphically. In the next section we list all of this labs additions to the project, which can associated mostly to the interaction and transformation layer (see Figure 1).
+			For data reasoning, query processing, and data quality management metadata management is crucial, because without it, the data lake is hardly usable as the structure and semantics of the data are not known, which turns a data lake quickly into a ‘data swamp’. If sufficient metadata cannot be extracted from the sources automatically, a human expert has to provide additional information about the data source. \cite{1} One of the two major additions of this lab aimed to solve the aforementioned problem and provides functionality to interlink datasets with instances of a user-defined ontology to enrich the available metadata using Apache Jena-Fuseki as a triple-store. The second major addition is a Workflow diagram to enable the user to define end-to-end data transformation pipelines graphically. In the following we list all of this labs additions to the project, which can mostly be associated  to the interaction and transformation layer (see Figure 1): \\
 		\end{block}
 		
-		\begin{block}{Added Functionality}
-			\begin{enumerate}
-				\item Annotate Data with Semantic information
-				\item Graphical WorkFlow for Data Transformations written with ReactFlow
-				\item Integrated Apache Zeppelin to the System
-				\item Workspace Abstraction
-				\item Datamart Deletion
-				\item Complete refactoring of the projects code
-				\item ER-Diagram and backend Documentation using PyDocs
-			\end{enumerate}
-			
-			\vspace{0.5\baselineskip}
-			
-		\end{block}
+		\begin{enumerate}
+			\item Annotate Data with Semantic information
+			\item Graphical WorkFlow for Data Transformations written with ReactFlow
+			\item Integrated Apache Zeppelin to the System
+			\item Workspace Abstraction
+			\item Datamart Deletion
+			\item Complete refactoring of the projects code
+			\item ER-Diagram and backend Documentation using PyDocs
+		\end{enumerate}
+		
 		
 		
 	\end{textblock}
@@ -122,8 +106,6 @@ giveninits=true
 			
 		\end{block}
 		
-		% the bibliography
-		\vfill\vspace{7.5mm} % at the bottom, but at least some spacing
 		\begin{block}{References}
 			\item{[1] R. Hai, C. Quix, M. Jarke, "Data lake concept and systems: a survey"}
 			\item{[2] M. Jarke and C. Quix. “On warehouses, lakes, and spaces – the changing role of conceptual modeling for data integration.”}
@@ -132,21 +114,3 @@ giveninits=true
 	\end{textblock}
 	
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-%\colorbox{blue!45}{
-%\begin{minipage}{\textwidth}
-%\color{Blue} 
-%The final line.
-%\end{minipage}
-%}
