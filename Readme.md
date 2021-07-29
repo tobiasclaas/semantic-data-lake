@@ -6,7 +6,7 @@ of Big Data.
 ## Installation and Configuration
 We strongly recommend using Linux to run the System due to configuration issues with docker on other OS.
 
-###Linux
+### Linux
 * python version
   * The suggested Python version is 3.8.10 but later releases should also work.
 * docker
